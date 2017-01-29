@@ -1,25 +1,71 @@
 
 /**
  * Module to get data out of proto file for an API Adapter
+ * @author spethso
  */
+// Load proto file and grpc module
 var PROTO_PATH = __dirname + '/webshop.proto';
 var grpc = require('grpc');
 var parent = grpc.load(PROTO_PATH);
-var package = Object.keys(parent)[0];
-var webshop_proto = parent[package];
+// Name of proto package
+var package = initPackage(parent);
+package = package.slice(0, package.length - 1); // Delete last '.'
+// Object of proto messages and services
+var proto = initProto(parent)
+// Useful additional modules
 var fs = require('fs');
 var HashMap = require('hashmap');
 var HashSet = require('hashset');
 
 // Proto data
-var protoElements = Object.keys(webshop_proto);
+var protoElements = Object.keys(proto);
 var serviceName = protoElements[protoElements.length - 1];
 // Array of methods
-var methods = webshop_proto[serviceName].service.children;
+var methods = proto[serviceName].service.children;
 // Array with all rpc function data
 var functions = [];
 // HashMap containing all message types as JSON
 var messageTypes = new HashMap();
+
+/**
+ * Export relevant data
+ */
+exports.getData = function () {
+    getMessagesData();
+    getMethodData();
+    var data = {
+        package: package,
+        operations: functions,
+        messages: messageTypes
+    };
+    return data;
+}
+
+/**
+ * Initialize package variable
+ */
+function initPackage(obj) {
+    var keys = Object.keys(obj);
+    var localPackage = keys[0];
+    if (keys.length == 1) {
+        return localPackage + '.' + initPackage(obj[keys[0]]);
+    } else {
+        return '';
+    }
+}
+
+/**
+ * Initialize proto variable
+ */
+function initProto(obj) {
+    var keys = Object.keys(obj)
+    if (keys.length == 1) {
+        proto = obj[keys[0]];
+        return initProto(proto);
+    } else {
+        return obj;
+    }
+}
 
 /**
  * Method to fill functions with data
@@ -124,14 +170,4 @@ function getMessages(message, messageName, limit) {
         fields: fields
     };
     messageTypes.set(messageName, specificMessage);
-
 }
-
-
-function main() {
-    getMethodData();
-    getMessagesData();
-    console.log(messageTypes.get('ListProductsParams.Products'));
-
-}
-main();
