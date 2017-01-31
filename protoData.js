@@ -26,6 +26,10 @@ var methods = proto[serviceName].service.children;
 var functions = [];
 // HashMap containing all message types as JSON
 var messageTypes = new HashMap();
+// HashSet for JSON type Number
+var numberTypes = getNumberTypes();
+// HashSet for JSON type String
+var stringTypes = getStringTypes();
 
 /**
  * Export relevant data
@@ -65,6 +69,30 @@ function initProto(obj) {
     } else {
         return obj;
     }
+}
+
+/**
+ * Initialize numberTypes hashset
+ */
+function getNumberTypes() {
+    var set = new HashSet();
+    var types = ['int23', 'fixed32', 'uint32', 'float', 'double'];
+    types.forEach(function (type) {
+        set.add(type);
+    })
+    return set;
+}
+
+/**
+ * Initialize stringTypes hashset
+ */
+function getStringTypes() {
+    var set = new HashSet();
+    var types = ['string', 'bytes', 'int64', 'fixed64', 'uint64', 'Timestamp', 'Duration', 'FieldMask'];
+    types.forEach(function (type) {
+        set.add(type);
+    })
+    return set;
 }
 
 /**
@@ -147,8 +175,16 @@ function getMessages(message, messageName, limit) {
                 isEnum = true;
             } else {
                 // In this case, the field is of primitive datatype,
+                var fType = field.type.name;
+                if (numberTypes.contains(fType)) {
+                    fType = 'number';
+                } else if (stringTypes.contains(fType)) {
+                    fType = 'string';
+                } else if (fType == 'boolean') {
+                    fType = 'boolean';
+                }
                 // set fieldType to this datatype
-                fieldType = field.type.name; // ToDo: Change to JSON Mapping!!!
+                fieldType = fType; // TODO: Change other types
             }
             // Create field data
             var specificField = {
