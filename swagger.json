@@ -1,0 +1,2421 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "REST API",
+    "description": "Generated from gRPC API",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/webshop/listProducts": {
+      "post": {
+        "summary": "listProducts",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ListProductsParams"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/listProducts/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/listProducts/instances/{id}/in/fields/limit": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/listProducts/instances/{id}/in/fields/products": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "ListProductsParams_Products"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/listProducts/instances/{id}/out/stream": {
+      "get": {
+        "summary": "Stream of output messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output stream",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/checkAvailability": {
+      "post": {
+        "summary": "checkAvailability",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ProductId"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/checkAvailability/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "excludeOutput",
+            "in": "query",
+            "description": "Omit instance output in response",
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Instance"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "out": {
+                      "$ref": "#/definitions/Availability"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/webshop/checkAvailability/instances/{id}/in/fields/id": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/checkAvailability/instances/{id}/out/fields/available": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/checkAvailability/instances/{id}/out": {
+      "get": {
+        "summary": "Get output message",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output message",
+            "schema": {
+              "$ref": "#/definitions/Availability"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/storeOrderDetails": {
+      "post": {
+        "summary": "storeOrderDetails",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/storeOrderDetails/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "excludeOutput",
+            "in": "query",
+            "description": "Omit instance output in response",
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Instance"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "out": {
+                      "$ref": "#/definitions/OrderId"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/webshop/storeOrderDetails/instances/{id}/in/fields/id": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/storeOrderDetails/instances/{id}/in/fields/products": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "ProductId"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/storeOrderDetails/instances/{id}/in/fields/customer": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "Customer"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/storeOrderDetails/instances/{id}/in/fields/status": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "Status"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/storeOrderDetails/instances/{id}/out/fields/id": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/storeOrderDetails/instances/{id}/out": {
+      "get": {
+        "summary": "Get output message",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output message",
+            "schema": {
+              "$ref": "#/definitions/OrderId"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/getOrderDetails": {
+      "post": {
+        "summary": "getOrderDetails",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderId"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/getOrderDetails/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "excludeOutput",
+            "in": "query",
+            "description": "Omit instance output in response",
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Instance"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "out": {
+                      "$ref": "#/definitions/Order"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/webshop/getOrderDetails/instances/{id}/in/fields/id": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/getOrderDetails/instances/{id}/out/fields/id": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/getOrderDetails/instances/{id}/out/fields/products": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "ProductId"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/getOrderDetails/instances/{id}/out/fields/customer": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "Customer"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/getOrderDetails/instances/{id}/out/fields/status": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "Status"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/getOrderDetails/instances/{id}/out": {
+      "get": {
+        "summary": "Get output message",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output message",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/cancelOrder": {
+      "post": {
+        "summary": "cancelOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderId"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/cancelOrder/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "excludeOutput",
+            "in": "query",
+            "description": "Omit instance output in response",
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Instance"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "out": {
+                      "$ref": "#/definitions/Order"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/webshop/cancelOrder/instances/{id}/in/fields/id": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/cancelOrder/instances/{id}/out/fields/id": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/cancelOrder/instances/{id}/out/fields/products": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "ProductId"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/cancelOrder/instances/{id}/out/fields/customer": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "Customer"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/cancelOrder/instances/{id}/out/fields/status": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "Status"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/cancelOrder/instances/{id}/out": {
+      "get": {
+        "summary": "Get output message",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output message",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/calcTransactionCosts": {
+      "post": {
+        "summary": "calcTransactionCosts",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderId"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/calcTransactionCosts/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "excludeOutput",
+            "in": "query",
+            "description": "Omit instance output in response",
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Instance"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "out": {
+                      "$ref": "#/definitions/Costs"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/webshop/calcTransactionCosts/instances/{id}/in/fields/id": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/calcTransactionCosts/instances/{id}/out/fields/costs": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/calcTransactionCosts/instances/{id}/out": {
+      "get": {
+        "summary": "Get output message",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output message",
+            "schema": {
+              "$ref": "#/definitions/Costs"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/conductPayment": {
+      "post": {
+        "summary": "conductPayment",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Payment"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/conductPayment/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "excludeOutput",
+            "in": "query",
+            "description": "Omit instance output in response",
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Instance"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "out": {
+                      "$ref": "#/definitions/Order"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/webshop/conductPayment/instances/{id}/in/fields/id": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "OrderId"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/conductPayment/instances/{id}/in/fields/amount": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/conductPayment/instances/{id}/out/fields/id": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/conductPayment/instances/{id}/out/fields/products": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "ProductId"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/conductPayment/instances/{id}/out/fields/customer": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "Customer"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/conductPayment/instances/{id}/out/fields/status": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "Status"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/conductPayment/instances/{id}/out": {
+      "get": {
+        "summary": "Get output message",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output message",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/calcShipmentCosts": {
+      "post": {
+        "summary": "calcShipmentCosts",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderId"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/calcShipmentCosts/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "excludeOutput",
+            "in": "query",
+            "description": "Omit instance output in response",
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Instance"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "out": {
+                      "$ref": "#/definitions/Costs"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/webshop/calcShipmentCosts/instances/{id}/in/fields/id": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/calcShipmentCosts/instances/{id}/out/fields/costs": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/calcShipmentCosts/instances/{id}/out": {
+      "get": {
+        "summary": "Get output message",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output message",
+            "schema": {
+              "$ref": "#/definitions/Costs"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/shipProducts": {
+      "post": {
+        "summary": "shipProducts",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/OrderId"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/shipProducts/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "excludeOutput",
+            "in": "query",
+            "description": "Omit instance output in response",
+            "type": "boolean",
+            "default": false
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "type": "object",
+              "allOf": [
+                {
+                  "$ref": "#/definitions/Instance"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "out": {
+                      "$ref": "#/definitions/Order"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "/webshop/shipProducts/instances/{id}/in/fields/id": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/shipProducts/instances/{id}/out/fields/id": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/shipProducts/instances/{id}/out/fields/products": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "ProductId"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/shipProducts/instances/{id}/out/fields/customer": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "Customer"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/shipProducts/instances/{id}/out/fields/status": {
+      "get": {
+        "summary": "Get output field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Field value",
+            "schema": {
+              "type": "Status"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/shipProducts/instances/{id}/out": {
+      "get": {
+        "summary": "Get output message",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output message",
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Instance": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of instance"
+        },
+        "started": {
+          "type": "boolean"
+        },
+        "done": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "startedAt": {
+          "type": "string"
+        },
+        "doneAt": {
+          "type": "string"
+        },
+        "error": {
+          "type": "string",
+          "description": "Error message if instance failed"
+        },
+        "links": {
+          "type": "object",
+          "description": "Links to relevant resources such as output"
+        }
+      }
+    },
+    "InstanceWritable": {
+      "type": "object",
+      "properties": {
+        "started": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ListProductsParams_Products_Product": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "ListProductsParams_Products": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "p": {
+          "type": "ListProductsParams_Products_Product"
+        }
+      }
+    },
+    "ListProductsParams": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "number"
+        },
+        "products": {
+          "type": "ListProductsParams_Products"
+        }
+      }
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "producer": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "number"
+        },
+        "price": {
+          "type": "number"
+        }
+      }
+    },
+    "ProductId": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "Availability": {
+      "type": "object",
+      "properties": {
+        "available": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "shippingAddress": {
+          "type": "string"
+        },
+        "paymentDetails": {
+          "type": "string"
+        }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "products": {
+          "type": "ProductId"
+        },
+        "customer": {
+          "type": "Customer"
+        },
+        "status": {
+          "type": "Status"
+        }
+      }
+    },
+    "OrderId": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "Costs": {
+      "type": "object",
+      "properties": {
+        "costs": {
+          "type": "number"
+        }
+      }
+    },
+    "Payment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "OrderId"
+        },
+        "amount": {
+          "type": "number"
+        }
+      }
+    }
+  }
+}
