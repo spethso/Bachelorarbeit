@@ -76,7 +76,7 @@ function initProto(obj) {
  */
 function getNumberTypes() {
     var set = new HashSet();
-    var types = ['int23', 'fixed32', 'uint32', 'float', 'double'];
+    var types = ['fixed32', 'uint32', 'float', 'double'];
     types.forEach(function (type) {
         set.add(type);
     })
@@ -88,7 +88,7 @@ function getNumberTypes() {
  */
 function getStringTypes() {
     var set = new HashSet();
-    var types = ['string', 'bytes', 'int64', 'fixed64', 'uint64', 'Timestamp', 'Duration', 'FieldMask'];
+    var types = ['string', 'bytes', 'fixed64', 'uint64', 'Timestamp', 'Duration', 'FieldMask'];
     types.forEach(function (type) {
         set.add(type);
     })
@@ -149,27 +149,31 @@ function getMessages(message, messageName, limit) {
     message.children.forEach(function (field) {
         if (field.className == 'Message') {
             nestedMessages.add(field.name);
-            var nestedName = messageName + '.' + field.name;
+            var nestedName = messageName + '_' + field.name;
             getMessages(field, nestedName, ++limit);
         }
     });
     // Iterate through all fields of message
     message.children.forEach(function (field) {
         if (field.className == 'Message.Field') {
+            // Placeholder for field kind, e.g. object or string
+            var fieldKind;
             // Placeholder for fieldtype
             var fieldType;
             // if field is of message type, pay attention
             if (field.type.name == 'message') {
+                fieldKind = 'object';
                 // Set fieldType to field message data type
                 fieldType = field.resolvedType.name;
                 if (nestedMessages.contains(fieldType)) {
                     // Set fieldType to local message type
-                    fieldType = messageName + '.' + fieldType;
+                    fieldType = messageName + '_' + fieldType;
                 } else {
                     // Call method recursively with field message datatype and limit + 1
                     getMessages(field.resolvedType, fieldType, ++limit);
                 }
             } else if (field.type.name == 'enum') {
+                fieldKind = 'enum';
                 // Set fieldType to enum name
                 fieldType = field.resolvedType.name;
                 isEnum = true;
@@ -177,11 +181,13 @@ function getMessages(message, messageName, limit) {
                 // In this case, the field is of primitive datatype,
                 var fType = field.type.name;
                 if (numberTypes.contains(fType)) {
-                    fType = 'number';
+                    fieldKind = 'number';
                 } else if (stringTypes.contains(fType)) {
-                    fType = 'string';
-                } else if (fType == 'boolean') {
-                    fType = 'boolean';
+                    fieldKind = 'string';
+                } else if (fType == 'bool') {
+                    fieldKind = 'boolean';
+                } else if (fType == 'int32' || fType == 'int64') {
+                    fieldKind = 'integer';
                 }
                 // set fieldType to this datatype
                 fieldType = fType; // TODO: Change other types
@@ -190,6 +196,7 @@ function getMessages(message, messageName, limit) {
             var specificField = {
                 name: field.name,
                 type: fieldType,
+                kind: fieldKind,
                 isRepeated: field.repeated,
                 id: field.id
             };

@@ -5,6 +5,7 @@
  */
 var fs = require('fs');
 var proto = require('./protoData.js');
+var HashSet = require('hashset');
 var protoData = proto.getData();
 // Proto package
 var package = protoData.package;
@@ -14,6 +15,17 @@ var operations = protoData.operations;
 var messages = protoData.messages;
 // Utility package to inspect json objects
 const util = require('util');
+// Allowed primitive swagger types
+var primitiveTypes = setPrimitiveTypes();
+
+function setPrimitiveTypes() {
+    var pt = new HashSet();
+    var ptArray = ['integer', 'number', 'string', 'boolean', 'enum'];
+    ptArray.forEach(function (t) {
+        pt.add(t);
+    })
+    return pt;
+}
 
 // Standard param
 var stdParam = {
@@ -87,32 +99,14 @@ function getPaths() {
         // Add path to paths with specific name and path object
         swagger.paths[pathName] = pathObject;
 
-        // Operation path with form
-        pathName += '/form';
-        pathObject = {
-            post: {
-                summary: operation.name,
-                consumes: ['multipart/form-data'],
-                parameters: [
-                    stdParam,
-                    {
-                        name: 'TODO', // TODO: PLACEHOLDER_FIELD_NAME
-                        in: 'formData',
-                        type: 'TODO' // TODO derive from proto
-                    }
-                ],
-                responses: response_202
-            }
-        };
-        // Add path to paths with specific name and path object
-        swagger.paths[pathName] = pathObject;
-
         // Operation on instances
         pathName += '/instances/{id}';
         var paramArray = [instanceIDParam];
         var res = {
-            '200': 'Instance resource',
-            schema: { $ref: '#/definitions/Instance' }
+            '200': {
+                description: 'Instance resource',
+                schema: { $ref: '#/definitions/Instance' }
+            }
         };
         if (operation.response.isStream == false) {
             // Add second param if operation does NOT have out stream
@@ -125,18 +119,20 @@ function getPaths() {
             });
             // Set response to normal instance resource without stream
             res = {
-                '200': 'Instance resource',
-                schema: {
-                    type: 'object',
-                    allOf: [
-                        { $ref: '#/definitions/Instance' },
-                        {
-                            type: 'object',
-                            properties: {
-                                out: { $ref: '#/definitions/' + operation.response.name }
+                '200': {
+                    description: 'Instance resource',
+                    schema: {
+                        type: 'object',
+                        allOf: [
+                            { $ref: '#/definitions/Instance' },
+                            {
+                                type: 'object',
+                                properties: {
+                                    out: { $ref: '#/definitions/' + operation.response.name }
+                                }
                             }
-                        }
-                    ]
+                        ]
+                    }
                 }
             };
         }
@@ -228,8 +224,28 @@ function getDefinitions() {
         };
         // Add properties to message
         message.fields.forEach(function (field) {
-            var f = { type: field.type }; // TODO: If type is message than change to object with schema reference
-            m.properties[field.name] = f;
+            var fieldKind = field.kind;
+            if (!primitiveTypes.contains(fieldKind)) {
+                var f = {
+                    $ref: '#/definitions/' + field.type
+                };
+                m.properties[field.name] = f;
+            } else if (fieldKind == 'enum') {
+                var enumValues = [];
+                for (var enumValue in field.enum) {
+                    enumValues.push(enumValue);
+                }
+                // TODO: correct enum definitions
+                var f = {
+                    type: 'string',
+                    enum: enumValues
+                };
+                m.properties[field.name] = f;
+            } else {
+                var f = { type: fieldKind };
+                m.properties[field.name] = f;
+            }
+
         });
         // Add message to definitions part
         definitions[message.name] = m;
@@ -326,22 +342,51 @@ function requestStreamSwaggerPart(operation, pathName) {
  * that NO NOT have a stream of response messages 
  */
 function noResponseStreamSwaggerPart(operation, pathName) {
-    var localPathName = pathName + '/out/fields/PLACEHOLDER_FIELD_NAME'; // TODO: Change PLACEHOLDER_FIELD_NAME
-    var pathObject = {
-        get: {
-            summary: 'Get output field',
-            parameters: [instanceIDParam],
-            tags: ['Instances', 'Fields'],
-            responses: {
-                '200': {
-                    description: 'Field value',
-                    schema: { type: 'TODO' } // TODO: field type: string, object
+    var responseObjectFields = messages.get(operation.response.name).fields;
+    responseObjectFields.forEach(function (field) {
+        var localPathName = pathName + '/out/fields/' + field.name;
+        // Kind of field, e.g. object or number
+        var fieldKind = field.kind;
+        // Specific type of field, e.g. Example, float or int32
+        var fieldType = field.type;
+        // Schema part of path object
+        var schema = {};
+        // Fill in schema part
+        if (fieldKind == 'object') {
+            // Reference on definitions object
+            schema = { $ref: '#/definitions/' + fieldType };
+        } else if (fieldKind == 'enum') {
+            // Get field enum values
+            var enumValues = [];
+            for (var enumValue in field.enum) {
+                enumValues.push(enumValue);
+            }
+            // Set enum values
+            schema = {
+                type: 'string',
+                enum: enumValues,
+                //required: true
+            };
+        } else {
+            // Set to primitive type
+            schema = { type: fieldKind }; // TODO: add format
+        }
+        var pathObject = {
+            get: {
+                summary: 'Get output field',
+                parameters: [instanceIDParam],
+                tags: ['Instances', 'Fields'],
+                responses: {
+                    '200': {
+                        description: 'Field value',
+                        schema: schema
+                    }
                 }
             }
-        }
-    };
-    // Add path to paths with specific name and path object
-    swagger.paths[localPathName] = pathObject;
+        };
+        // Add path to paths with specific name and path object
+        swagger.paths[localPathName] = pathObject;
+    });
 
     // New local path name
     localPathName = pathName + '/out';
@@ -367,34 +412,85 @@ function noResponseStreamSwaggerPart(operation, pathName) {
  * that NO NOT have a stream of request messages 
  */
 function noRequestStreamSwaggerPart(operation, pathName) {
-    var localPathName = pathName + '/in/fields/PLACEHOLDER_FIELD_NAME'; // TODO: Change PLACEHOLDER_FIELD_NAME
-    var pathObject = {
-        put: {
-            summary: 'Set input field',
-            parameters: [
-                instanceIDParam,
-                {
-                    name: 'value',
-                    in: 'body',
-                    description: 'Field value',
-                    required: true,
-                    schema: { type: 'TODO' } // TODO: field type: string, object, ...
-                }
-            ],
-            tags: ['Instances', 'Fields'],
-            responses: response_200_empty
+    var requestObjectFields = messages.get(operation.request.name).fields;
+    requestObjectFields.forEach(function (field) {
+        var localPathName = pathName + '/in/fields/' + field.name;
+        // Kind of field, e.g. object or number
+        var fieldKind = field.kind;
+        // Specific type of field, e.g. Example, float or int32
+        var fieldType = field.type;
+        // Schema part of path object
+        var schema = {};
+        // Fill in schema part
+        if (fieldKind == 'object') {
+            // Reference on definitions object
+            schema = { $ref: '#/definitions/' + fieldType };
+        } else if (fieldKind == 'enum') {
+            // Get field enum values
+            var enumValues = [];
+            for (var enumValue in field.enum) {
+                enumValues.push(enumValue);
+            }
+            // Set enum values
+            schema = {
+                type: 'string',
+                enum: enumValues,
+                //required: true
+            };
+        } else {
+            // Set to primitive type
+            schema = { type: fieldKind }; // TODO: add format
         }
-    };
-    // Add path to paths with specific name and path object
-    swagger.paths[localPathName] = pathObject;
+        var pathObject = {
+            put: {
+                summary: 'Set input field',
+                parameters: [
+                    instanceIDParam,
+                    {
+                        name: 'value',
+                        in: 'body',
+                        description: 'Field value',
+                        required: true,
+                        schema: schema
+                    }
+                ],
+                tags: ['Instances', 'Fields'],
+                responses: response_200_empty
+            }
+        };
+        // Add path to paths with specific name and path object
+        swagger.paths[localPathName] = pathObject;
+    });
 }
 
 function main() {
     // console.log(operations[0].request.name)
     getPaths();
     getDefinitions();
-    console.log(util.inspect(swagger, { depth: 10, colors: true }));
-    //fs.writeFile(__dirname + '/swagger.json', JSON.stringify(swagger));
+    //console.log(util.inspect(swagger, { depth: 10, colors: true }));
+    fs.writeFile(__dirname + '/swagger.json', JSON.stringify(swagger, null, 2));
 }
 
 main();
+
+function formPath(operation, pathName) {
+    // Operation path with form
+    localPathName = pathName + '/form';
+    var pathObject = {
+        post: {
+            summary: operation.name,
+            consumes: ['multipart/form-data'],
+            parameters: [
+                stdParam,
+                {
+                    name: 'TODO', // TODO: PLACEHOLDER_FIELD_NAME
+                    in: 'formData',
+                    type: 'TODO' // TODO derive from proto
+                }
+            ],
+            responses: response_202
+        }
+    };
+    // Add path to paths with specific name and path object
+    swagger.paths[localPathName] = pathObject;
+}

@@ -121,7 +121,7 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "type": "number"
+              "type": "integer"
             }
           }
         ],
@@ -153,7 +153,7 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "type": "ListProductsParams_Products"
+              "$ref": "#/definitions/ListProductsParams_Products"
             }
           }
         ],
@@ -561,7 +561,7 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "type": "ProductId"
+              "$ref": "#/definitions/ProductId"
             }
           }
         ],
@@ -593,7 +593,7 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "type": "Customer"
+              "$ref": "#/definitions/Customer"
             }
           }
         ],
@@ -625,7 +625,13 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "type": "Status"
+              "type": "string",
+              "enum": [
+                "NEW",
+                "PAYED",
+                "SHIPPED",
+                "CANCELED"
+              ]
             }
           }
         ],
@@ -887,7 +893,7 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "ProductId"
+              "$ref": "#/definitions/ProductId"
             }
           }
         }
@@ -913,7 +919,7 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "Customer"
+              "$ref": "#/definitions/Customer"
             }
           }
         }
@@ -939,7 +945,13 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "Status"
+              "type": "string",
+              "enum": [
+                "NEW",
+                "PAYED",
+                "SHIPPED",
+                "CANCELED"
+              ]
             }
           }
         }
@@ -1166,7 +1178,7 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "ProductId"
+              "$ref": "#/definitions/ProductId"
             }
           }
         }
@@ -1192,7 +1204,7 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "Customer"
+              "$ref": "#/definitions/Customer"
             }
           }
         }
@@ -1218,7 +1230,13 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "Status"
+              "type": "string",
+              "enum": [
+                "NEW",
+                "PAYED",
+                "SHIPPED",
+                "CANCELED"
+              ]
             }
           }
         }
@@ -1585,7 +1603,7 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "type": "OrderId"
+              "$ref": "#/definitions/OrderId"
             }
           }
         ],
@@ -1678,7 +1696,7 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "ProductId"
+              "$ref": "#/definitions/ProductId"
             }
           }
         }
@@ -1704,7 +1722,7 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "Customer"
+              "$ref": "#/definitions/Customer"
             }
           }
         }
@@ -1730,7 +1748,13 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "Status"
+              "type": "string",
+              "enum": [
+                "NEW",
+                "PAYED",
+                "SHIPPED",
+                "CANCELED"
+              ]
             }
           }
         }
@@ -2158,7 +2182,7 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "ProductId"
+              "$ref": "#/definitions/ProductId"
             }
           }
         }
@@ -2184,7 +2208,7 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "Customer"
+              "$ref": "#/definitions/Customer"
             }
           }
         }
@@ -2210,7 +2234,13 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "Status"
+              "type": "string",
+              "enum": [
+                "NEW",
+                "PAYED",
+                "SHIPPED",
+                "CANCELED"
+              ]
             }
           }
         }
@@ -2299,7 +2329,7 @@
           "type": "string"
         },
         "p": {
-          "type": "ListProductsParams_Products_Product"
+          "$ref": "#/definitions/ListProductsParams_Products_Product"
         }
       }
     },
@@ -2307,10 +2337,10 @@
       "type": "object",
       "properties": {
         "limit": {
-          "type": "number"
+          "type": "integer"
         },
         "products": {
-          "type": "ListProductsParams_Products"
+          "$ref": "#/definitions/ListProductsParams_Products"
         }
       }
     },
@@ -2380,13 +2410,19 @@
           "type": "string"
         },
         "products": {
-          "type": "ProductId"
+          "$ref": "#/definitions/ProductId"
         },
         "customer": {
-          "type": "Customer"
+          "$ref": "#/definitions/Customer"
         },
         "status": {
-          "type": "Status"
+          "type": "string",
+          "enum": [
+            "NEW",
+            "PAYED",
+            "SHIPPED",
+            "CANCELED"
+          ]
         }
       }
     },
@@ -2410,7 +2446,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "OrderId"
+          "$ref": "#/definitions/OrderId"
         },
         "amount": {
           "type": "number"
