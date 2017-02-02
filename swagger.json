@@ -126,7 +126,8 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -1502,7 +1503,8 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "number"
+              "type": "number",
+              "format": "float"
             }
           }
         }
@@ -1707,7 +1709,8 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "type": "number"
+              "type": "number",
+              "format": "float"
             }
           }
         ],
@@ -2043,7 +2046,8 @@
           "200": {
             "description": "Field value",
             "schema": {
-              "type": "number"
+              "type": "number",
+              "format": "float"
             }
           }
         }
@@ -2440,7 +2444,8 @@
       "type": "object",
       "properties": {
         "limit": {
-          "type": "integer"
+          "type": "integer",
+          "format": "int32"
         },
         "products": {
           "$ref": "#/definitions/ListProductsParams_Products"
@@ -2463,10 +2468,12 @@
           "type": "string"
         },
         "weight": {
-          "type": "number"
+          "type": "number",
+          "format": "float"
         },
         "price": {
-          "type": "number"
+          "type": "number",
+          "format": "float"
         }
       }
     },
@@ -2544,7 +2551,8 @@
       "type": "object",
       "properties": {
         "costs": {
-          "type": "number"
+          "type": "number",
+          "format": "float"
         }
       }
     },
@@ -2555,7 +2563,8 @@
           "$ref": "#/definitions/OrderId"
         },
         "amount": {
-          "type": "number"
+          "type": "number",
+          "format": "float"
         }
       }
     }

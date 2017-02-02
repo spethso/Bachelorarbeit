@@ -19,6 +19,17 @@ var messages = protoData.messages;
 const util = require('util');
 // Allowed primitive swagger types
 var primitiveTypes = setPrimitiveTypes();
+// Allowed primitive format types
+var formatTypes = setFormatTypes();
+
+function setFormatTypes() {
+    var ft = new HashSet();
+    var ftArray = ['int32', 'int64', 'float', 'double', 'byte', 'binary', 'date', 'date-time', 'password'];
+    ftArray.forEach(function (t) {
+        ft.add(t);
+    });
+    return ft;
+}
 
 function setPrimitiveTypes() {
     var pt = new HashSet();
@@ -262,6 +273,9 @@ function getDefinitions() {
                         type: 'array',
                         items: { type: fieldKind }
                     };
+                    if (formatTypes.contains(field.type)) {
+                        f.items['format'] = field.type;
+                    }
                     m.properties[field.name] = f;
                 }
             }
@@ -283,6 +297,9 @@ function getDefinitions() {
                 m.properties[field.name] = f;
             } else {
                 var f = { type: fieldKind };
+                if (formatTypes.contains(field.type)) {
+                    f['format'] = field.type;
+                }
                 m.properties[field.name] = f;
             }
 
@@ -413,7 +430,10 @@ function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
             };
         } else {
             // Set to primitive type
-            schema = { type: fieldKind }; // TODO: add format
+            schema = { type: fieldKind };
+            if (formatTypes.contains(fieldType)) {
+                schema['format'] = fieldType;
+            }
         }
         var pathObject = {
             get: {
@@ -487,7 +507,10 @@ function noRequestStreamSwaggerPart(operation, pathName, serviceName) {
             };
         } else {
             // Set to primitive type
-            schema = { type: fieldKind }; // TODO: add format
+            schema = { type: fieldKind };
+            if (formatTypes.contains(fieldType)) {
+                schema['format'] = fieldType;
+            }
         }
         var pathObject = {
             put: {
@@ -541,6 +564,9 @@ function getArraySchema(field, fieldKind, fieldType) {
             type: 'array',
             items: { type: fieldKind }
         };
+        if (formatTypes.contains(fieldType)) {
+            schema.items['format'] = fieldType;
+        }
     }
     return schema;
 }

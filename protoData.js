@@ -210,6 +210,8 @@ function getMessages(message, messageName, limit) {
                     fieldKind = 'boolean';
                 } else if (fType == 'int32' || fType == 'int64') {
                     fieldKind = 'integer';
+                } else if (fType == 'Any' || fType == 'Struct') {
+                    fieldKind = 'object' // Maybe additional reference field
                 }
                 // set fieldType to this datatype
                 fieldType = fType; // TODO: Change other types
