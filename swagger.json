@@ -7,7 +7,7 @@
   },
   "basePath": "/",
   "paths": {
-    "/webshop/listProducts": {
+    "/webshop/TestShop/listProducts": {
       "post": {
         "summary": "listProducts",
         "consumes": [
@@ -44,7 +44,7 @@
         }
       }
     },
-    "/webshop/listProducts/instances/{id}": {
+    "/webshop/TestShop/listProducts/instances/{id}": {
       "patch": {
         "summary": "Update instance resource",
         "consumes": [
@@ -104,7 +104,7 @@
         }
       }
     },
-    "/webshop/listProducts/instances/{id}/in/fields/limit": {
+    "/webshop/TestShop/listProducts/instances/{id}/in/fields/limit": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -136,7 +136,7 @@
         }
       }
     },
-    "/webshop/listProducts/instances/{id}/in/fields/products": {
+    "/webshop/TestShop/listProducts/instances/{id}/in/fields/products": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -168,7 +168,7 @@
         }
       }
     },
-    "/webshop/listProducts/instances/{id}/out/stream": {
+    "/webshop/TestShop/listProducts/instances/{id}/out/stream": {
       "get": {
         "summary": "Stream of output messages as newline-delimited JSON, see http://jsonlines.org",
         "parameters": [
@@ -194,7 +194,194 @@
         }
       }
     },
-    "/webshop/checkAvailability": {
+    "/webshop/WebShop/listProducts": {
+      "post": {
+        "summary": "listProducts",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/ListProductsParams"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/WebShop/listProducts/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/WebShop/listProducts/instances/{id}/in/fields/limit": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/WebShop/listProducts/instances/{id}/in/fields/products": {
+      "put": {
+        "summary": "Set input field",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "body",
+            "description": "Field value",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ListProductsParams_Products"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Fields"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/webshop/WebShop/listProducts/instances/{id}/out/stream": {
+      "get": {
+        "summary": "Stream of output messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output stream",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          }
+        }
+      }
+    },
+    "/webshop/WebShop/checkAvailability": {
       "post": {
         "summary": "checkAvailability",
         "consumes": [
@@ -231,7 +418,7 @@
         }
       }
     },
-    "/webshop/checkAvailability/instances/{id}": {
+    "/webshop/WebShop/checkAvailability/instances/{id}": {
       "patch": {
         "summary": "Update instance resource",
         "consumes": [
@@ -311,7 +498,7 @@
         }
       }
     },
-    "/webshop/checkAvailability/instances/{id}/in/fields/id": {
+    "/webshop/WebShop/checkAvailability/instances/{id}/in/fields/id": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -343,7 +530,7 @@
         }
       }
     },
-    "/webshop/checkAvailability/instances/{id}/out/fields/available": {
+    "/webshop/WebShop/checkAvailability/instances/{id}/out/fields/available": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -369,7 +556,7 @@
         }
       }
     },
-    "/webshop/checkAvailability/instances/{id}/out": {
+    "/webshop/WebShop/checkAvailability/instances/{id}/out": {
       "get": {
         "summary": "Get output message",
         "parameters": [
@@ -395,7 +582,7 @@
         }
       }
     },
-    "/webshop/storeOrderDetails": {
+    "/webshop/WebShop/storeOrderDetails": {
       "post": {
         "summary": "storeOrderDetails",
         "consumes": [
@@ -432,7 +619,7 @@
         }
       }
     },
-    "/webshop/storeOrderDetails/instances/{id}": {
+    "/webshop/WebShop/storeOrderDetails/instances/{id}": {
       "patch": {
         "summary": "Update instance resource",
         "consumes": [
@@ -512,7 +699,7 @@
         }
       }
     },
-    "/webshop/storeOrderDetails/instances/{id}/in/fields/id": {
+    "/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/id": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -544,7 +731,7 @@
         }
       }
     },
-    "/webshop/storeOrderDetails/instances/{id}/in/fields/products": {
+    "/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/products": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -576,7 +763,7 @@
         }
       }
     },
-    "/webshop/storeOrderDetails/instances/{id}/in/fields/customer": {
+    "/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/customer": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -608,7 +795,7 @@
         }
       }
     },
-    "/webshop/storeOrderDetails/instances/{id}/in/fields/status": {
+    "/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/status": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -646,7 +833,7 @@
         }
       }
     },
-    "/webshop/storeOrderDetails/instances/{id}/out/fields/id": {
+    "/webshop/WebShop/storeOrderDetails/instances/{id}/out/fields/id": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -672,7 +859,7 @@
         }
       }
     },
-    "/webshop/storeOrderDetails/instances/{id}/out": {
+    "/webshop/WebShop/storeOrderDetails/instances/{id}/out": {
       "get": {
         "summary": "Get output message",
         "parameters": [
@@ -698,7 +885,7 @@
         }
       }
     },
-    "/webshop/getOrderDetails": {
+    "/webshop/WebShop/getOrderDetails": {
       "post": {
         "summary": "getOrderDetails",
         "consumes": [
@@ -735,7 +922,7 @@
         }
       }
     },
-    "/webshop/getOrderDetails/instances/{id}": {
+    "/webshop/WebShop/getOrderDetails/instances/{id}": {
       "patch": {
         "summary": "Update instance resource",
         "consumes": [
@@ -815,7 +1002,7 @@
         }
       }
     },
-    "/webshop/getOrderDetails/instances/{id}/in/fields/id": {
+    "/webshop/WebShop/getOrderDetails/instances/{id}/in/fields/id": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -847,7 +1034,7 @@
         }
       }
     },
-    "/webshop/getOrderDetails/instances/{id}/out/fields/id": {
+    "/webshop/WebShop/getOrderDetails/instances/{id}/out/fields/id": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -873,7 +1060,7 @@
         }
       }
     },
-    "/webshop/getOrderDetails/instances/{id}/out/fields/products": {
+    "/webshop/WebShop/getOrderDetails/instances/{id}/out/fields/products": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -899,7 +1086,7 @@
         }
       }
     },
-    "/webshop/getOrderDetails/instances/{id}/out/fields/customer": {
+    "/webshop/WebShop/getOrderDetails/instances/{id}/out/fields/customer": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -925,7 +1112,7 @@
         }
       }
     },
-    "/webshop/getOrderDetails/instances/{id}/out/fields/status": {
+    "/webshop/WebShop/getOrderDetails/instances/{id}/out/fields/status": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -957,7 +1144,7 @@
         }
       }
     },
-    "/webshop/getOrderDetails/instances/{id}/out": {
+    "/webshop/WebShop/getOrderDetails/instances/{id}/out": {
       "get": {
         "summary": "Get output message",
         "parameters": [
@@ -983,7 +1170,7 @@
         }
       }
     },
-    "/webshop/cancelOrder": {
+    "/webshop/WebShop/cancelOrder": {
       "post": {
         "summary": "cancelOrder",
         "consumes": [
@@ -1020,7 +1207,7 @@
         }
       }
     },
-    "/webshop/cancelOrder/instances/{id}": {
+    "/webshop/WebShop/cancelOrder/instances/{id}": {
       "patch": {
         "summary": "Update instance resource",
         "consumes": [
@@ -1100,7 +1287,7 @@
         }
       }
     },
-    "/webshop/cancelOrder/instances/{id}/in/fields/id": {
+    "/webshop/WebShop/cancelOrder/instances/{id}/in/fields/id": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -1132,7 +1319,7 @@
         }
       }
     },
-    "/webshop/cancelOrder/instances/{id}/out/fields/id": {
+    "/webshop/WebShop/cancelOrder/instances/{id}/out/fields/id": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1158,7 +1345,7 @@
         }
       }
     },
-    "/webshop/cancelOrder/instances/{id}/out/fields/products": {
+    "/webshop/WebShop/cancelOrder/instances/{id}/out/fields/products": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1184,7 +1371,7 @@
         }
       }
     },
-    "/webshop/cancelOrder/instances/{id}/out/fields/customer": {
+    "/webshop/WebShop/cancelOrder/instances/{id}/out/fields/customer": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1210,7 +1397,7 @@
         }
       }
     },
-    "/webshop/cancelOrder/instances/{id}/out/fields/status": {
+    "/webshop/WebShop/cancelOrder/instances/{id}/out/fields/status": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1242,7 +1429,7 @@
         }
       }
     },
-    "/webshop/cancelOrder/instances/{id}/out": {
+    "/webshop/WebShop/cancelOrder/instances/{id}/out": {
       "get": {
         "summary": "Get output message",
         "parameters": [
@@ -1268,7 +1455,7 @@
         }
       }
     },
-    "/webshop/calcTransactionCosts": {
+    "/webshop/WebShop/calcTransactionCosts": {
       "post": {
         "summary": "calcTransactionCosts",
         "consumes": [
@@ -1305,7 +1492,7 @@
         }
       }
     },
-    "/webshop/calcTransactionCosts/instances/{id}": {
+    "/webshop/WebShop/calcTransactionCosts/instances/{id}": {
       "patch": {
         "summary": "Update instance resource",
         "consumes": [
@@ -1385,7 +1572,7 @@
         }
       }
     },
-    "/webshop/calcTransactionCosts/instances/{id}/in/fields/id": {
+    "/webshop/WebShop/calcTransactionCosts/instances/{id}/in/fields/id": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -1417,7 +1604,7 @@
         }
       }
     },
-    "/webshop/calcTransactionCosts/instances/{id}/out/fields/costs": {
+    "/webshop/WebShop/calcTransactionCosts/instances/{id}/out/fields/costs": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1443,7 +1630,7 @@
         }
       }
     },
-    "/webshop/calcTransactionCosts/instances/{id}/out": {
+    "/webshop/WebShop/calcTransactionCosts/instances/{id}/out": {
       "get": {
         "summary": "Get output message",
         "parameters": [
@@ -1469,7 +1656,7 @@
         }
       }
     },
-    "/webshop/conductPayment": {
+    "/webshop/WebShop/conductPayment": {
       "post": {
         "summary": "conductPayment",
         "consumes": [
@@ -1506,7 +1693,7 @@
         }
       }
     },
-    "/webshop/conductPayment/instances/{id}": {
+    "/webshop/WebShop/conductPayment/instances/{id}": {
       "patch": {
         "summary": "Update instance resource",
         "consumes": [
@@ -1586,7 +1773,7 @@
         }
       }
     },
-    "/webshop/conductPayment/instances/{id}/in/fields/id": {
+    "/webshop/WebShop/conductPayment/instances/{id}/in/fields/id": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -1618,7 +1805,7 @@
         }
       }
     },
-    "/webshop/conductPayment/instances/{id}/in/fields/amount": {
+    "/webshop/WebShop/conductPayment/instances/{id}/in/fields/amount": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -1650,7 +1837,7 @@
         }
       }
     },
-    "/webshop/conductPayment/instances/{id}/out/fields/id": {
+    "/webshop/WebShop/conductPayment/instances/{id}/out/fields/id": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1676,7 +1863,7 @@
         }
       }
     },
-    "/webshop/conductPayment/instances/{id}/out/fields/products": {
+    "/webshop/WebShop/conductPayment/instances/{id}/out/fields/products": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1702,7 +1889,7 @@
         }
       }
     },
-    "/webshop/conductPayment/instances/{id}/out/fields/customer": {
+    "/webshop/WebShop/conductPayment/instances/{id}/out/fields/customer": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1728,7 +1915,7 @@
         }
       }
     },
-    "/webshop/conductPayment/instances/{id}/out/fields/status": {
+    "/webshop/WebShop/conductPayment/instances/{id}/out/fields/status": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1760,7 +1947,7 @@
         }
       }
     },
-    "/webshop/conductPayment/instances/{id}/out": {
+    "/webshop/WebShop/conductPayment/instances/{id}/out": {
       "get": {
         "summary": "Get output message",
         "parameters": [
@@ -1786,7 +1973,7 @@
         }
       }
     },
-    "/webshop/calcShipmentCosts": {
+    "/webshop/WebShop/calcShipmentCosts": {
       "post": {
         "summary": "calcShipmentCosts",
         "consumes": [
@@ -1823,7 +2010,7 @@
         }
       }
     },
-    "/webshop/calcShipmentCosts/instances/{id}": {
+    "/webshop/WebShop/calcShipmentCosts/instances/{id}": {
       "patch": {
         "summary": "Update instance resource",
         "consumes": [
@@ -1903,7 +2090,7 @@
         }
       }
     },
-    "/webshop/calcShipmentCosts/instances/{id}/in/fields/id": {
+    "/webshop/WebShop/calcShipmentCosts/instances/{id}/in/fields/id": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -1935,7 +2122,7 @@
         }
       }
     },
-    "/webshop/calcShipmentCosts/instances/{id}/out/fields/costs": {
+    "/webshop/WebShop/calcShipmentCosts/instances/{id}/out/fields/costs": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -1961,7 +2148,7 @@
         }
       }
     },
-    "/webshop/calcShipmentCosts/instances/{id}/out": {
+    "/webshop/WebShop/calcShipmentCosts/instances/{id}/out": {
       "get": {
         "summary": "Get output message",
         "parameters": [
@@ -1987,7 +2174,7 @@
         }
       }
     },
-    "/webshop/shipProducts": {
+    "/webshop/WebShop/shipProducts": {
       "post": {
         "summary": "shipProducts",
         "consumes": [
@@ -2024,7 +2211,7 @@
         }
       }
     },
-    "/webshop/shipProducts/instances/{id}": {
+    "/webshop/WebShop/shipProducts/instances/{id}": {
       "patch": {
         "summary": "Update instance resource",
         "consumes": [
@@ -2104,7 +2291,7 @@
         }
       }
     },
-    "/webshop/shipProducts/instances/{id}/in/fields/id": {
+    "/webshop/WebShop/shipProducts/instances/{id}/in/fields/id": {
       "put": {
         "summary": "Set input field",
         "parameters": [
@@ -2136,7 +2323,7 @@
         }
       }
     },
-    "/webshop/shipProducts/instances/{id}/out/fields/id": {
+    "/webshop/WebShop/shipProducts/instances/{id}/out/fields/id": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -2162,7 +2349,7 @@
         }
       }
     },
-    "/webshop/shipProducts/instances/{id}/out/fields/products": {
+    "/webshop/WebShop/shipProducts/instances/{id}/out/fields/products": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -2188,7 +2375,7 @@
         }
       }
     },
-    "/webshop/shipProducts/instances/{id}/out/fields/customer": {
+    "/webshop/WebShop/shipProducts/instances/{id}/out/fields/customer": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -2214,7 +2401,7 @@
         }
       }
     },
-    "/webshop/shipProducts/instances/{id}/out/fields/status": {
+    "/webshop/WebShop/shipProducts/instances/{id}/out/fields/status": {
       "get": {
         "summary": "Get output field",
         "parameters": [
@@ -2246,7 +2433,7 @@
         }
       }
     },
-    "/webshop/shipProducts/instances/{id}/out": {
+    "/webshop/WebShop/shipProducts/instances/{id}/out": {
       "get": {
         "summary": "Get output message",
         "parameters": [

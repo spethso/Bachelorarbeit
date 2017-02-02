@@ -9,6 +9,8 @@ var HashSet = require('hashset');
 var protoData = proto.getData();
 // Proto package
 var package = protoData.package;
+// Array with service and operations
+var serviceAndOperations = protoData.services;
 // Service operations
 var operations = protoData.operations;
 // Proto messages
@@ -79,108 +81,116 @@ var swagger = {
 };
 
 function getPaths() {
-    operations.forEach(function (operation) {
-        var pathName = '/' + package + '/' + operation.name;
-        var pathObject = {
-            post: {
-                summary: operation.name,
-                consumes: ['application/json'],
-                parameters: [
-                    stdParam,
-                    {
-                        name: 'input',
-                        in: 'body',
-                        schema: { $ref: '#/definitions/' + operation.request.name }
-                    }
-                ],
-                responses: response_202
-            }
-        };
-        // Add path to paths with specific name and path object
-        swagger.paths[pathName] = pathObject;
-
-        // Operation on instances
-        pathName += '/instances/{id}';
-        var paramArray = [instanceIDParam];
-        var res = {
-            '200': {
-                description: 'Instance resource',
-                schema: { $ref: '#/definitions/Instance' }
-            }
-        };
-        if (operation.response.isStream == false) {
-            // Add second param if operation does NOT have out stream
-            paramArray.push({
-                name: 'excludeOutput',
-                in: 'query',
-                description: 'Omit instance output in response',
-                type: 'boolean',
-                default: false
-            });
-            // Set response to normal instance resource without stream
-            res = {
-                '200': {
-                    description: 'Instance resource',
-                    schema: {
-                        type: 'object',
-                        allOf: [
-                            { $ref: '#/definitions/Instance' },
-                            {
-                                type: 'object',
-                                properties: {
-                                    out: { $ref: '#/definitions/' + operation.response.name }
-                                }
-                            }
-                        ]
-                    }
+    var globalPathName = '';
+    if (true) { // TODO: package exists?
+        globalPathName += '/' + package;
+    }
+    serviceAndOperations.forEach(function (service) {
+        // Path URL different for each service
+        var servicePathName = globalPathName + '/' + service.serviceName;
+        // Go through all operations of a specific service and set swagger parts
+        service.operations.forEach(function (operation) {
+            var pathName = servicePathName + '/' + operation.name;
+            var pathObject = {
+                post: {
+                    summary: operation.name,
+                    consumes: ['application/json'],
+                    parameters: [
+                        stdParam,
+                        {
+                            name: 'input',
+                            in: 'body',
+                            schema: { $ref: '#/definitions/' + operation.request.name }
+                        }
+                    ],
+                    responses: response_202
                 }
             };
-        }
-        pathObject = {
-            patch: {
-                summary: 'Update instance resource',
-                consumes: ['application/json'],
-                parameters: [
-                    instanceIDParam,
-                    {
-                        name: 'instance',
-                        in: 'body',
-                        description: 'Updated parts of instance resource',
-                        required: true,
-                        schema: { $ref: '#/definitions/InstanceWritable' }
+            // Add path to paths with specific name and path object
+            swagger.paths[pathName] = pathObject;
+
+            // Operation on instances
+            pathName += '/instances/{id}';
+            var paramArray = [instanceIDParam];
+            var res = {
+                '200': {
+                    description: 'Instance resource',
+                    schema: { $ref: '#/definitions/Instance' }
+                }
+            };
+            if (operation.response.isStream == false) {
+                // Add second param if operation does NOT have out stream
+                paramArray.push({
+                    name: 'excludeOutput',
+                    in: 'query',
+                    description: 'Omit instance output in response',
+                    type: 'boolean',
+                    default: false
+                });
+                // Set response to normal instance resource without stream
+                res = {
+                    '200': {
+                        description: 'Instance resource',
+                        schema: {
+                            type: 'object',
+                            allOf: [
+                                { $ref: '#/definitions/Instance' },
+                                {
+                                    type: 'object',
+                                    properties: {
+                                        out: { $ref: '#/definitions/' + operation.response.name }
+                                    }
+                                }
+                            ]
+                        }
                     }
-                ],
-                tags: ['Instances'],
-                responses: response_200_empty
-            },
-            get: {
-                summary: 'Get instance resource',
-                produces: ['application/json'],
-                parameters: paramArray,
-                tags: ['Instances'],
-                responses: res
+                };
             }
-        };
-        // Add path to paths with specific name and path object
-        swagger.paths[pathName] = pathObject;
+            pathObject = {
+                patch: {
+                    summary: 'Update instance resource',
+                    consumes: ['application/json'],
+                    parameters: [
+                        instanceIDParam,
+                        {
+                            name: 'instance',
+                            in: 'body',
+                            description: 'Updated parts of instance resource',
+                            required: true,
+                            schema: { $ref: '#/definitions/InstanceWritable' }
+                        }
+                    ],
+                    tags: ['Instances'],
+                    responses: response_200_empty
+                },
+                get: {
+                    summary: 'Get instance resource',
+                    produces: ['application/json'],
+                    parameters: paramArray,
+                    tags: ['Instances'],
+                    responses: res
+                }
+            };
+            // Add path to paths with specific name and path object
+            swagger.paths[pathName] = pathObject;
 
-        if (operation.request.isStream == false) {
-            noRequestStreamSwaggerPart(operation, pathName);
-        }
-        if (operation.response.isStream == false) {
-            noResponseStreamSwaggerPart(operation, pathName);
-        }
-        if (operation.request.isStream == true) {
-            requestStreamSwaggerPart(operation, pathName);
-        }
-        if (operation.response.isStream == true) {
-            responseStreamSwaggerPart(operation, pathName);
-        }
-        if (operation.request.isStream == true && operation.response.isStream == true) {
-            bidirectionalStreamSwaggerPart(operation, pathName);
-        }
+            if (operation.request.isStream == false) {
+                noRequestStreamSwaggerPart(operation, pathName);
+            }
+            if (operation.response.isStream == false) {
+                noResponseStreamSwaggerPart(operation, pathName);
+            }
+            if (operation.request.isStream == true) {
+                requestStreamSwaggerPart(operation, pathName);
+            }
+            if (operation.response.isStream == true) {
+                responseStreamSwaggerPart(operation, pathName);
+            }
+            if (operation.request.isStream == true && operation.response.isStream == true) {
+                bidirectionalStreamSwaggerPart(operation, pathName);
+            }
+        });
     });
-
 }
 
 /**

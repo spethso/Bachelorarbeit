@@ -17,13 +17,10 @@ var fs = require('fs');
 var HashMap = require('hashmap');
 var HashSet = require('hashset');
 
-// Proto data
-var protoElements = Object.keys(proto);
-var serviceName = protoElements[protoElements.length - 1];
-// Array of methods
-var methods = proto[serviceName].service.children;
-// Array with all rpc function data
-var functions = [];
+// Array of services
+var services = initServices();
+// Array with all services rpc operation data
+var serviceAndOperations = [];
 // HashMap containing all message types as JSON
 var messageTypes = new HashMap();
 // HashSet for JSON type Number
@@ -36,14 +33,28 @@ var stringTypes = getStringTypes();
  */
 exports.getData = function () {
     getMessagesData();
-    getMethodData();
+    getOperationsData();
     var data = {
         package: package,
-        operations: functions,
+        services: serviceAndOperations,
         messages: messageTypes
     };
     return data;
 }
+
+/**
+ * Initialize service Array
+ */
+function initServices() {
+    var services = [];
+    for (var key in proto) {
+        if (proto[key].hasOwnProperty('service')) {
+            services.push(proto[key].service);
+        }
+    }
+    return services;
+}
+
 
 /**
  * Initialize package variable
@@ -98,21 +109,30 @@ function getStringTypes() {
 /**
  * Method to fill functions with data
  */
-function getMethodData() {
-    // Fill funcs with relevant data
-    methods.forEach(function (element) {
-        var rpc = {
-            name: element.name,
-            request: {
-                name: element.resolvedRequestType.name,
-                isStream: element.requestStream
-            },
-            response: {
-                name: element.resolvedResponseType.name,
-                isStream: element.responseStream
-            }
+function getOperationsData() {
+    services.forEach(function (service) {
+        var serviceName = service.name;
+        var operations = [];
+        // Fill functions with relevant data
+        service.children.forEach(function (element) {
+            var rpc = {
+                name: element.name,
+                request: {
+                    name: element.resolvedRequestType.name,
+                    isStream: element.requestStream
+                },
+                response: {
+                    name: element.resolvedResponseType.name,
+                    isStream: element.responseStream
+                }
+            };
+            operations.push(rpc);
+        });
+        var serviceJSON = {
+            serviceName: serviceName,
+            operations: operations
         };
-        functions.push(rpc);
+        serviceAndOperations.push(serviceJSON);
     });
 }
 
@@ -120,12 +140,14 @@ function getMethodData() {
  * Method to fill messageTypes with data
  */
 function getMessagesData() {
-    // Fill messageTypes with relevant data of requests
-    methods.forEach(function (element) {
-        var request = element.resolvedRequestType;
-        getMessages(request, request.name, 1);
-        var response = element.resolvedResponseType;
-        getMessages(response, response.name, 1);
+    services.forEach(function (service) {
+        // Fill messageTypes with relevant data of requests
+        service.children.forEach(function (element) {
+            var request = element.resolvedRequestType;
+            getMessages(request, request.name, 1);
+            var response = element.resolvedResponseType;
+            getMessages(response, response.name, 1);
+        });
     });
 }
 
