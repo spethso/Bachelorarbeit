@@ -95,6 +95,7 @@ function getPaths() {
                 post: {
                     summary: operation.name,
                     consumes: ['application/json'],
+                    tags: [service.serviceName],
                     parameters: [
                         stdParam,
                         {
@@ -160,14 +161,14 @@ function getPaths() {
                             schema: { $ref: '#/definitions/InstanceWritable' }
                         }
                     ],
-                    tags: ['Instances'],
+                    tags: ['Instances', service.serviceName],
                     responses: response_200_empty
                 },
                 get: {
                     summary: 'Get instance resource',
                     produces: ['application/json'],
                     parameters: paramArray,
-                    tags: ['Instances'],
+                    tags: ['Instances', service.serviceName],
                     responses: res
                 }
             };
@@ -175,19 +176,19 @@ function getPaths() {
             swagger.paths[pathName] = pathObject;
 
             if (operation.request.isStream == false) {
-                noRequestStreamSwaggerPart(operation, pathName);
+                noRequestStreamSwaggerPart(operation, pathName, service.serviceName);
             }
             if (operation.response.isStream == false) {
-                noResponseStreamSwaggerPart(operation, pathName);
+                noResponseStreamSwaggerPart(operation, pathName, service.serviceName);
             }
             if (operation.request.isStream == true) {
-                requestStreamSwaggerPart(operation, pathName);
+                requestStreamSwaggerPart(operation, pathName, service.serviceName);
             }
             if (operation.response.isStream == true) {
-                responseStreamSwaggerPart(operation, pathName);
+                responseStreamSwaggerPart(operation, pathName, service.serviceName);
             }
             if (operation.request.isStream == true && operation.response.isStream == true) {
-                bidirectionalStreamSwaggerPart(operation, pathName);
+                bidirectionalStreamSwaggerPart(operation, pathName, service.serviceName);
             }
         });
     });
@@ -235,7 +236,37 @@ function getDefinitions() {
         // Add properties to message
         message.fields.forEach(function (field) {
             var fieldKind = field.kind;
-            if (!primitiveTypes.contains(fieldKind)) {
+            // If field is repeated, set type to Array with items
+            if (field.isRepeated == true) {
+                if (!primitiveTypes.contains(fieldKind)) {
+                    var f = {
+                        type: 'array',
+                        items: { $ref: '#/definitions/' + field.type }
+                    };
+                    m.properties[field.name] = f;
+                } else if (fieldKind == 'enum') {
+                    var enumValues = [];
+                    for (var enumValue in field.enum) {
+                        enumValues.push(enumValue);
+                    }
+                    var f = {
+                        type: 'array',
+                        items: {
+                            type: 'string',
+                            enum: enumValues
+                        }
+                    };
+                    m.properties[field.name] = f;
+                } else {
+                    var f = {
+                        type: 'array',
+                        items: { type: fieldKind }
+                    };
+                    m.properties[field.name] = f;
+                }
+            }
+            // Otherwise set field to normal type
+            else if (!primitiveTypes.contains(fieldKind)) {
                 var f = {
                     $ref: '#/definitions/' + field.type
                 };
@@ -245,7 +276,6 @@ function getDefinitions() {
                 for (var enumValue in field.enum) {
                     enumValues.push(enumValue);
                 }
-                // TODO: correct enum definitions
                 var f = {
                     type: 'string',
                     enum: enumValues
@@ -269,7 +299,7 @@ function getDefinitions() {
  * Function for a path that is only generated for gRPC operations
  * that have a bidirectional stream of request and response messages 
  */
-function bidirectionalStreamSwaggerPart(operation, pathName) {
+function bidirectionalStreamSwaggerPart(operation, pathName, serviceName) {
     var localPathName = pathName + '/bi/stream';
     var pathObject = {
         get: {
@@ -284,7 +314,7 @@ function bidirectionalStreamSwaggerPart(operation, pathName) {
                     schema: { $ref: '#definitions/' + operation.request.name }
                 }
             ],
-            tags: ['Instances', 'Streams'],
+            tags: ['Instances', 'Streams', serviceName],
             responses: {
                 '200': {
                     description: 'Output stream',
@@ -301,13 +331,13 @@ function bidirectionalStreamSwaggerPart(operation, pathName) {
  * Function for a path that is only generated for gRPC operations
  * that have a stream of response messages 
  */
-function responseStreamSwaggerPart(operation, pathName) {
+function responseStreamSwaggerPart(operation, pathName, serviceName) {
     var localPathName = pathName + '/out/stream';
     var pathObject = {
         get: {
             summary: 'Stream of output messages as newline-delimited JSON, see http://jsonlines.org',
             parameters: [instanceIDParam],
-            tags: ['Instances', 'Streams'],
+            tags: ['Instances', 'Streams', serviceName],
             responses: {
                 '200': {
                     description: 'Output stream',
@@ -324,7 +354,7 @@ function responseStreamSwaggerPart(operation, pathName) {
  * Function for a path that is only generated for gRPC operations
  * that have a stream of request messages 
  */
-function requestStreamSwaggerPart(operation, pathName) {
+function requestStreamSwaggerPart(operation, pathName, serviceName) {
     var localPathName = pathName + '/in/stream';
     var pathObject = {
         post: {
@@ -339,7 +369,7 @@ function requestStreamSwaggerPart(operation, pathName) {
                     schema: { $ref: '#/definitions/' + operation.request.name }
                 }
             ],
-            tags: ['Instances', 'Streams'],
+            tags: ['Instances', 'Streams', serviceName],
             responses: response_200_empty
         }
     };
@@ -351,7 +381,7 @@ function requestStreamSwaggerPart(operation, pathName) {
  * Function for a path that is only generated for gRPC operations
  * that NO NOT have a stream of response messages 
  */
-function noResponseStreamSwaggerPart(operation, pathName) {
+function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
     var responseObjectFields = messages.get(operation.response.name).fields;
     responseObjectFields.forEach(function (field) {
         var localPathName = pathName + '/out/fields/' + field.name;
@@ -361,8 +391,12 @@ function noResponseStreamSwaggerPart(operation, pathName) {
         var fieldType = field.type;
         // Schema part of path object
         var schema = {};
-        // Fill in schema part
-        if (fieldKind == 'object') {
+        // Fill in schema part as Array if field is repeated
+        if (field.isRepeated == true) {
+            schema = getArraySchema(field, fieldKind, fieldType);
+        }
+        // Otherwise fill in schema part
+        else if (fieldKind == 'object') {
             // Reference on definitions object
             schema = { $ref: '#/definitions/' + fieldType };
         } else if (fieldKind == 'enum') {
@@ -385,7 +419,7 @@ function noResponseStreamSwaggerPart(operation, pathName) {
             get: {
                 summary: 'Get output field',
                 parameters: [instanceIDParam],
-                tags: ['Instances', 'Fields'],
+                tags: ['Instances', 'Fields', serviceName],
                 responses: {
                     '200': {
                         description: 'Field value',
@@ -404,7 +438,7 @@ function noResponseStreamSwaggerPart(operation, pathName) {
         get: {
             summary: 'Get output message',
             parameters: [instanceIDParam],
-            tags: ['Instances', 'Fields'],
+            tags: ['Instances', 'Fields', serviceName],
             responses: {
                 '200': {
                     description: 'Output message',
@@ -421,7 +455,7 @@ function noResponseStreamSwaggerPart(operation, pathName) {
  * Function for a path that is only generated for gRPC operations
  * that NO NOT have a stream of request messages 
  */
-function noRequestStreamSwaggerPart(operation, pathName) {
+function noRequestStreamSwaggerPart(operation, pathName, serviceName) {
     var requestObjectFields = messages.get(operation.request.name).fields;
     requestObjectFields.forEach(function (field) {
         var localPathName = pathName + '/in/fields/' + field.name;
@@ -431,8 +465,12 @@ function noRequestStreamSwaggerPart(operation, pathName) {
         var fieldType = field.type;
         // Schema part of path object
         var schema = {};
-        // Fill in schema part
-        if (fieldKind == 'object') {
+        // Fill in schema part as Array if field is repeated
+        if (field.isRepeated == true) {
+            schema = getArraySchema(field, fieldKind, fieldType);
+        }
+        // Otherwise fill in schema part
+        else if (fieldKind == 'object') {
             // Reference on definitions object
             schema = { $ref: '#/definitions/' + fieldType };
         } else if (fieldKind == 'enum') {
@@ -464,13 +502,47 @@ function noRequestStreamSwaggerPart(operation, pathName) {
                         schema: schema
                     }
                 ],
-                tags: ['Instances', 'Fields'],
+                tags: ['Instances', 'Fields', serviceName],
                 responses: response_200_empty
             }
         };
         // Add path to paths with specific name and path object
         swagger.paths[localPathName] = pathObject;
     });
+}
+
+/**
+ * Function to fill in request or response filed schema part with array
+ */
+function getArraySchema(field, fieldKind, fieldType) {
+    var schema = {};
+    if (fieldKind == 'object') {
+        schema = {
+            type: 'array',
+            items: { $ref: '#/definitions/' + fieldType }
+        }
+    } else if (fieldKind == 'enum') {
+        // Get field enum values
+        var enumValues = [];
+        for (var enumValue in field.enum) {
+            enumValues.push(enumValue);
+        }
+        // Set enum values
+        schema = {
+            type: 'array',
+            items: {
+                type: 'string',
+                enum: enumValues,
+                //required: true
+            }
+        };
+    } else {
+        schema = {
+            type: 'array',
+            items: { type: fieldKind }
+        };
+    }
+    return schema;
 }
 
 function main() {

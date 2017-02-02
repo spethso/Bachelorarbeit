@@ -1,17 +1,17 @@
 {
-  "name": "REST Adapter",
+  "name": "gRPC to REST Adapter",
   "author": "spethso",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Example gRPC to REST Adapter",
   "keywords": [
     "grpc",
-	"REST"
+    "REST"
   ],
   "url": "https://github.com/spethso/Bachelorarbeit",
   "repository": "git://github.com/spethso/Bachelorarbeit",
   "dependencies": [
     "grpc",
     "hashmap",
-	"hashset"
+    "hashset"
   ]
 }

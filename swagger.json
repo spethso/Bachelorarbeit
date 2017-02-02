@@ -7,198 +7,14 @@
   },
   "basePath": "/",
   "paths": {
-    "/webshop/TestShop/listProducts": {
-      "post": {
-        "summary": "listProducts",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "start",
-            "in": "query",
-            "type": "boolean",
-            "default": true
-          },
-          {
-            "name": "input",
-            "in": "body",
-            "schema": {
-              "$ref": "#/definitions/ListProductsParams"
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Instance resource",
-            "headers": {
-              "Content-Location": {
-                "description": "Path to created instance resource",
-                "type": "string"
-              }
-            },
-            "schema": {
-              "$ref": "#/definitions/Instance"
-            }
-          }
-        }
-      }
-    },
-    "/webshop/TestShop/listProducts/instances/{id}": {
-      "patch": {
-        "summary": "Update instance resource",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Unique identifier of instance",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "instance",
-            "in": "body",
-            "description": "Updated parts of instance resource",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/InstanceWritable"
-            }
-          }
-        ],
-        "tags": [
-          "Instances"
-        ],
-        "responses": {
-          "200": {
-            "description": "Empty body"
-          }
-        }
-      },
-      "get": {
-        "summary": "Get instance resource",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Unique identifier of instance",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Instances"
-        ],
-        "responses": {
-          "200": {
-            "description": "Instance resource",
-            "schema": {
-              "$ref": "#/definitions/Instance"
-            }
-          }
-        }
-      }
-    },
-    "/webshop/TestShop/listProducts/instances/{id}/in/fields/limit": {
-      "put": {
-        "summary": "Set input field",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Unique identifier of instance",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "value",
-            "in": "body",
-            "description": "Field value",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "tags": [
-          "Instances",
-          "Fields"
-        ],
-        "responses": {
-          "200": {
-            "description": "Empty body"
-          }
-        }
-      }
-    },
-    "/webshop/TestShop/listProducts/instances/{id}/in/fields/products": {
-      "put": {
-        "summary": "Set input field",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Unique identifier of instance",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "value",
-            "in": "body",
-            "description": "Field value",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ListProductsParams_Products"
-            }
-          }
-        ],
-        "tags": [
-          "Instances",
-          "Fields"
-        ],
-        "responses": {
-          "200": {
-            "description": "Empty body"
-          }
-        }
-      }
-    },
-    "/webshop/TestShop/listProducts/instances/{id}/out/stream": {
-      "get": {
-        "summary": "Stream of output messages as newline-delimited JSON, see http://jsonlines.org",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "Unique identifier of instance",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "Instances",
-          "Streams"
-        ],
-        "responses": {
-          "200": {
-            "description": "Output stream",
-            "schema": {
-              "$ref": "#/definitions/Product"
-            }
-          }
-        }
-      }
-    },
     "/webshop/WebShop/listProducts": {
       "post": {
         "summary": "listProducts",
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "WebShop"
         ],
         "parameters": [
           {
@@ -256,7 +72,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -279,7 +96,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -314,7 +132,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -346,7 +165,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -369,7 +189,8 @@
         ],
         "tags": [
           "Instances",
-          "Streams"
+          "Streams",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -386,6 +207,9 @@
         "summary": "checkAvailability",
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "WebShop"
         ],
         "parameters": [
           {
@@ -443,7 +267,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -473,7 +298,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -521,7 +347,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -544,7 +371,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -570,7 +398,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -587,6 +416,9 @@
         "summary": "storeOrderDetails",
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "WebShop"
         ],
         "parameters": [
           {
@@ -644,7 +476,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -674,7 +507,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -722,7 +556,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -748,13 +583,17 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ProductId"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductId"
+              }
             }
           }
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -786,7 +625,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -824,7 +664,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -847,7 +688,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -873,7 +715,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -890,6 +733,9 @@
         "summary": "getOrderDetails",
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "WebShop"
         ],
         "parameters": [
           {
@@ -947,7 +793,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -977,7 +824,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1025,7 +873,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1048,7 +897,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1074,13 +924,17 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
             "description": "Field value",
             "schema": {
-              "$ref": "#/definitions/ProductId"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductId"
+              }
             }
           }
         }
@@ -1100,7 +954,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1126,7 +981,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1158,7 +1014,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1175,6 +1032,9 @@
         "summary": "cancelOrder",
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "WebShop"
         ],
         "parameters": [
           {
@@ -1232,7 +1092,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1262,7 +1123,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1310,7 +1172,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1333,7 +1196,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1359,13 +1223,17 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
             "description": "Field value",
             "schema": {
-              "$ref": "#/definitions/ProductId"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductId"
+              }
             }
           }
         }
@@ -1385,7 +1253,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1411,7 +1280,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1443,7 +1313,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1460,6 +1331,9 @@
         "summary": "calcTransactionCosts",
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "WebShop"
         ],
         "parameters": [
           {
@@ -1517,7 +1391,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1547,7 +1422,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1595,7 +1471,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1618,7 +1495,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1644,7 +1522,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1661,6 +1540,9 @@
         "summary": "conductPayment",
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "WebShop"
         ],
         "parameters": [
           {
@@ -1718,7 +1600,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1748,7 +1631,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1796,7 +1680,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1828,7 +1713,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1851,7 +1737,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1877,13 +1764,17 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
             "description": "Field value",
             "schema": {
-              "$ref": "#/definitions/ProductId"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductId"
+              }
             }
           }
         }
@@ -1903,7 +1794,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1929,7 +1821,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1961,7 +1854,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -1978,6 +1872,9 @@
         "summary": "calcShipmentCosts",
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "WebShop"
         ],
         "parameters": [
           {
@@ -2035,7 +1932,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2065,7 +1963,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2113,7 +2012,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2136,7 +2036,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2162,7 +2063,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2179,6 +2081,9 @@
         "summary": "shipProducts",
         "consumes": [
           "application/json"
+        ],
+        "tags": [
+          "WebShop"
         ],
         "parameters": [
           {
@@ -2236,7 +2141,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2266,7 +2172,8 @@
           }
         ],
         "tags": [
-          "Instances"
+          "Instances",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2314,7 +2221,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2337,7 +2245,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2363,13 +2272,17 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
             "description": "Field value",
             "schema": {
-              "$ref": "#/definitions/ProductId"
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ProductId"
+              }
             }
           }
         }
@@ -2389,7 +2302,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2415,7 +2329,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2447,7 +2362,8 @@
         ],
         "tags": [
           "Instances",
-          "Fields"
+          "Fields",
+          "WebShop"
         ],
         "responses": {
           "200": {
@@ -2597,7 +2513,10 @@
           "type": "string"
         },
         "products": {
-          "$ref": "#/definitions/ProductId"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductId"
+          }
         },
         "customer": {
           "$ref": "#/definitions/Customer"
