@@ -14,7 +14,8 @@
           "application/json"
         ],
         "tags": [
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.listProducts"
         ],
         "parameters": [
           {
@@ -27,7 +28,7 @@
             "name": "input",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/ListProductsParams"
+              "$ref": "#/definitions/webshop.ListProductsParams"
             }
           }
         ],
@@ -73,7 +74,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.listProducts"
         ],
         "responses": {
           "200": {
@@ -97,7 +99,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.listProducts"
         ],
         "responses": {
           "200": {
@@ -134,7 +137,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.listProducts"
         ],
         "responses": {
           "200": {
@@ -160,14 +164,15 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ListProductsParams_Products"
+              "$ref": "#/definitions/webshop.ListProductsParams.Products"
             }
           }
         ],
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.listProducts"
         ],
         "responses": {
           "200": {
@@ -191,13 +196,14 @@
         "tags": [
           "Instances",
           "Streams",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.listProducts"
         ],
         "responses": {
           "200": {
             "description": "Output stream",
             "schema": {
-              "$ref": "#/definitions/Product"
+              "$ref": "#/definitions/webshop.Product"
             }
           }
         }
@@ -210,7 +216,8 @@
           "application/json"
         ],
         "tags": [
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.checkAvailability"
         ],
         "parameters": [
           {
@@ -223,7 +230,7 @@
             "name": "input",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/ProductId"
+              "$ref": "#/definitions/webshop.ProductId"
             }
           }
         ],
@@ -269,7 +276,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.checkAvailability"
         ],
         "responses": {
           "200": {
@@ -300,7 +308,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.checkAvailability"
         ],
         "responses": {
           "200": {
@@ -315,7 +324,7 @@
                   "type": "object",
                   "properties": {
                     "out": {
-                      "$ref": "#/definitions/Availability"
+                      "$ref": "#/definitions/webshop.Availability"
                     }
                   }
                 }
@@ -349,7 +358,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.checkAvailability"
         ],
         "responses": {
           "200": {
@@ -373,7 +383,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.checkAvailability"
         ],
         "responses": {
           "200": {
@@ -400,13 +411,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.checkAvailability"
         ],
         "responses": {
           "200": {
             "description": "Output message",
             "schema": {
-              "$ref": "#/definitions/Availability"
+              "$ref": "#/definitions/webshop.Availability"
             }
           }
         }
@@ -419,7 +431,8 @@
           "application/json"
         ],
         "tags": [
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.storeOrderDetails"
         ],
         "parameters": [
           {
@@ -432,7 +445,7 @@
             "name": "input",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/Order"
+              "$ref": "#/definitions/webshop.Order"
             }
           }
         ],
@@ -478,7 +491,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.storeOrderDetails"
         ],
         "responses": {
           "200": {
@@ -509,7 +523,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.storeOrderDetails"
         ],
         "responses": {
           "200": {
@@ -524,7 +539,7 @@
                   "type": "object",
                   "properties": {
                     "out": {
-                      "$ref": "#/definitions/OrderId"
+                      "$ref": "#/definitions/webshop.OrderId"
                     }
                   }
                 }
@@ -558,7 +573,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.storeOrderDetails"
         ],
         "responses": {
           "200": {
@@ -586,7 +602,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/ProductId"
+                "$ref": "#/definitions/webshop.ProductId"
               }
             }
           }
@@ -594,7 +610,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.storeOrderDetails"
         ],
         "responses": {
           "200": {
@@ -620,14 +637,15 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Customer"
+              "$ref": "#/definitions/webshop.Customer"
             }
           }
         ],
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.storeOrderDetails"
         ],
         "responses": {
           "200": {
@@ -666,7 +684,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.storeOrderDetails"
         ],
         "responses": {
           "200": {
@@ -690,7 +709,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.storeOrderDetails"
         ],
         "responses": {
           "200": {
@@ -717,13 +737,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.storeOrderDetails"
         ],
         "responses": {
           "200": {
             "description": "Output message",
             "schema": {
-              "$ref": "#/definitions/OrderId"
+              "$ref": "#/definitions/webshop.OrderId"
             }
           }
         }
@@ -736,7 +757,8 @@
           "application/json"
         ],
         "tags": [
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.getOrderDetails"
         ],
         "parameters": [
           {
@@ -749,7 +771,7 @@
             "name": "input",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/OrderId"
+              "$ref": "#/definitions/webshop.OrderId"
             }
           }
         ],
@@ -795,7 +817,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.getOrderDetails"
         ],
         "responses": {
           "200": {
@@ -826,7 +849,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.getOrderDetails"
         ],
         "responses": {
           "200": {
@@ -841,7 +865,7 @@
                   "type": "object",
                   "properties": {
                     "out": {
-                      "$ref": "#/definitions/Order"
+                      "$ref": "#/definitions/webshop.Order"
                     }
                   }
                 }
@@ -875,7 +899,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.getOrderDetails"
         ],
         "responses": {
           "200": {
@@ -899,7 +924,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.getOrderDetails"
         ],
         "responses": {
           "200": {
@@ -926,7 +952,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.getOrderDetails"
         ],
         "responses": {
           "200": {
@@ -934,7 +961,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/ProductId"
+                "$ref": "#/definitions/webshop.ProductId"
               }
             }
           }
@@ -956,13 +983,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.getOrderDetails"
         ],
         "responses": {
           "200": {
             "description": "Field value",
             "schema": {
-              "$ref": "#/definitions/Customer"
+              "$ref": "#/definitions/webshop.Customer"
             }
           }
         }
@@ -983,7 +1011,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.getOrderDetails"
         ],
         "responses": {
           "200": {
@@ -1016,13 +1045,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.getOrderDetails"
         ],
         "responses": {
           "200": {
             "description": "Output message",
             "schema": {
-              "$ref": "#/definitions/Order"
+              "$ref": "#/definitions/webshop.Order"
             }
           }
         }
@@ -1035,7 +1065,8 @@
           "application/json"
         ],
         "tags": [
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.cancelOrder"
         ],
         "parameters": [
           {
@@ -1048,7 +1079,7 @@
             "name": "input",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/OrderId"
+              "$ref": "#/definitions/webshop.OrderId"
             }
           }
         ],
@@ -1094,7 +1125,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.cancelOrder"
         ],
         "responses": {
           "200": {
@@ -1125,7 +1157,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.cancelOrder"
         ],
         "responses": {
           "200": {
@@ -1140,7 +1173,7 @@
                   "type": "object",
                   "properties": {
                     "out": {
-                      "$ref": "#/definitions/Order"
+                      "$ref": "#/definitions/webshop.Order"
                     }
                   }
                 }
@@ -1174,7 +1207,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.cancelOrder"
         ],
         "responses": {
           "200": {
@@ -1198,7 +1232,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.cancelOrder"
         ],
         "responses": {
           "200": {
@@ -1225,7 +1260,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.cancelOrder"
         ],
         "responses": {
           "200": {
@@ -1233,7 +1269,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/ProductId"
+                "$ref": "#/definitions/webshop.ProductId"
               }
             }
           }
@@ -1255,13 +1291,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.cancelOrder"
         ],
         "responses": {
           "200": {
             "description": "Field value",
             "schema": {
-              "$ref": "#/definitions/Customer"
+              "$ref": "#/definitions/webshop.Customer"
             }
           }
         }
@@ -1282,7 +1319,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.cancelOrder"
         ],
         "responses": {
           "200": {
@@ -1315,13 +1353,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.cancelOrder"
         ],
         "responses": {
           "200": {
             "description": "Output message",
             "schema": {
-              "$ref": "#/definitions/Order"
+              "$ref": "#/definitions/webshop.Order"
             }
           }
         }
@@ -1334,7 +1373,8 @@
           "application/json"
         ],
         "tags": [
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcTransactionCosts"
         ],
         "parameters": [
           {
@@ -1347,7 +1387,7 @@
             "name": "input",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/OrderId"
+              "$ref": "#/definitions/webshop.OrderId"
             }
           }
         ],
@@ -1393,7 +1433,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcTransactionCosts"
         ],
         "responses": {
           "200": {
@@ -1424,7 +1465,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcTransactionCosts"
         ],
         "responses": {
           "200": {
@@ -1439,7 +1481,7 @@
                   "type": "object",
                   "properties": {
                     "out": {
-                      "$ref": "#/definitions/Costs"
+                      "$ref": "#/definitions/webshop.Costs"
                     }
                   }
                 }
@@ -1473,7 +1515,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcTransactionCosts"
         ],
         "responses": {
           "200": {
@@ -1497,7 +1540,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcTransactionCosts"
         ],
         "responses": {
           "200": {
@@ -1525,13 +1569,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcTransactionCosts"
         ],
         "responses": {
           "200": {
             "description": "Output message",
             "schema": {
-              "$ref": "#/definitions/Costs"
+              "$ref": "#/definitions/webshop.Costs"
             }
           }
         }
@@ -1544,7 +1589,8 @@
           "application/json"
         ],
         "tags": [
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "parameters": [
           {
@@ -1557,7 +1603,7 @@
             "name": "input",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/Payment"
+              "$ref": "#/definitions/webshop.Payment"
             }
           }
         ],
@@ -1603,7 +1649,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "responses": {
           "200": {
@@ -1634,7 +1681,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "responses": {
           "200": {
@@ -1649,7 +1697,7 @@
                   "type": "object",
                   "properties": {
                     "out": {
-                      "$ref": "#/definitions/Order"
+                      "$ref": "#/definitions/webshop.Order"
                     }
                   }
                 }
@@ -1676,14 +1724,15 @@
             "description": "Field value",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/OrderId"
+              "$ref": "#/definitions/webshop.OrderId"
             }
           }
         ],
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "responses": {
           "200": {
@@ -1717,7 +1766,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "responses": {
           "200": {
@@ -1741,7 +1791,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "responses": {
           "200": {
@@ -1768,7 +1819,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "responses": {
           "200": {
@@ -1776,7 +1828,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/ProductId"
+                "$ref": "#/definitions/webshop.ProductId"
               }
             }
           }
@@ -1798,13 +1850,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "responses": {
           "200": {
             "description": "Field value",
             "schema": {
-              "$ref": "#/definitions/Customer"
+              "$ref": "#/definitions/webshop.Customer"
             }
           }
         }
@@ -1825,7 +1878,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "responses": {
           "200": {
@@ -1858,13 +1912,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.conductPayment"
         ],
         "responses": {
           "200": {
             "description": "Output message",
             "schema": {
-              "$ref": "#/definitions/Order"
+              "$ref": "#/definitions/webshop.Order"
             }
           }
         }
@@ -1877,7 +1932,8 @@
           "application/json"
         ],
         "tags": [
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcShipmentCosts"
         ],
         "parameters": [
           {
@@ -1890,7 +1946,7 @@
             "name": "input",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/OrderId"
+              "$ref": "#/definitions/webshop.OrderId"
             }
           }
         ],
@@ -1936,7 +1992,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcShipmentCosts"
         ],
         "responses": {
           "200": {
@@ -1967,7 +2024,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcShipmentCosts"
         ],
         "responses": {
           "200": {
@@ -1982,7 +2040,7 @@
                   "type": "object",
                   "properties": {
                     "out": {
-                      "$ref": "#/definitions/Costs"
+                      "$ref": "#/definitions/webshop.Costs"
                     }
                   }
                 }
@@ -2016,7 +2074,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcShipmentCosts"
         ],
         "responses": {
           "200": {
@@ -2040,7 +2099,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcShipmentCosts"
         ],
         "responses": {
           "200": {
@@ -2068,13 +2128,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.calcShipmentCosts"
         ],
         "responses": {
           "200": {
             "description": "Output message",
             "schema": {
-              "$ref": "#/definitions/Costs"
+              "$ref": "#/definitions/webshop.Costs"
             }
           }
         }
@@ -2087,7 +2148,8 @@
           "application/json"
         ],
         "tags": [
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.shipProducts"
         ],
         "parameters": [
           {
@@ -2100,7 +2162,7 @@
             "name": "input",
             "in": "body",
             "schema": {
-              "$ref": "#/definitions/OrderId"
+              "$ref": "#/definitions/webshop.OrderId"
             }
           }
         ],
@@ -2146,7 +2208,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.shipProducts"
         ],
         "responses": {
           "200": {
@@ -2177,7 +2240,8 @@
         ],
         "tags": [
           "Instances",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.shipProducts"
         ],
         "responses": {
           "200": {
@@ -2192,7 +2256,7 @@
                   "type": "object",
                   "properties": {
                     "out": {
-                      "$ref": "#/definitions/Order"
+                      "$ref": "#/definitions/webshop.Order"
                     }
                   }
                 }
@@ -2226,7 +2290,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.shipProducts"
         ],
         "responses": {
           "200": {
@@ -2250,7 +2315,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.shipProducts"
         ],
         "responses": {
           "200": {
@@ -2277,7 +2343,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.shipProducts"
         ],
         "responses": {
           "200": {
@@ -2285,7 +2352,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/ProductId"
+                "$ref": "#/definitions/webshop.ProductId"
               }
             }
           }
@@ -2307,13 +2374,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.shipProducts"
         ],
         "responses": {
           "200": {
             "description": "Field value",
             "schema": {
-              "$ref": "#/definitions/Customer"
+              "$ref": "#/definitions/webshop.Customer"
             }
           }
         }
@@ -2334,7 +2402,8 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.shipProducts"
         ],
         "responses": {
           "200": {
@@ -2367,13 +2436,14 @@
         "tags": [
           "Instances",
           "Fields",
-          "WebShop"
+          "webshop.WebShop",
+          "webshop.WebShop.shipProducts"
         ],
         "responses": {
           "200": {
             "description": "Output message",
             "schema": {
-              "$ref": "#/definitions/Order"
+              "$ref": "#/definitions/webshop.Order"
             }
           }
         }
@@ -2421,7 +2491,7 @@
         }
       }
     },
-    "ListProductsParams_Products_Product": {
+    "webshop.ListProductsParams.Products.Product": {
       "type": "object",
       "properties": {
         "text": {
@@ -2429,18 +2499,18 @@
         }
       }
     },
-    "ListProductsParams_Products": {
+    "webshop.ListProductsParams.Products": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string"
         },
         "p": {
-          "$ref": "#/definitions/ListProductsParams_Products_Product"
+          "$ref": "#/definitions/webshop.ListProductsParams.Products.Product"
         }
       }
     },
-    "ListProductsParams": {
+    "webshop.ListProductsParams": {
       "type": "object",
       "properties": {
         "limit": {
@@ -2448,11 +2518,11 @@
           "format": "int32"
         },
         "products": {
-          "$ref": "#/definitions/ListProductsParams_Products"
+          "$ref": "#/definitions/webshop.ListProductsParams.Products"
         }
       }
     },
-    "Product": {
+    "webshop.Product": {
       "type": "object",
       "properties": {
         "id": {
@@ -2477,7 +2547,7 @@
         }
       }
     },
-    "ProductId": {
+    "webshop.ProductId": {
       "type": "object",
       "properties": {
         "id": {
@@ -2485,7 +2555,7 @@
         }
       }
     },
-    "Availability": {
+    "webshop.Availability": {
       "type": "object",
       "properties": {
         "available": {
@@ -2493,7 +2563,7 @@
         }
       }
     },
-    "Customer": {
+    "webshop.Customer": {
       "type": "object",
       "properties": {
         "id": {
@@ -2513,7 +2583,7 @@
         }
       }
     },
-    "Order": {
+    "webshop.Order": {
       "type": "object",
       "properties": {
         "id": {
@@ -2522,11 +2592,11 @@
         "products": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ProductId"
+            "$ref": "#/definitions/webshop.ProductId"
           }
         },
         "customer": {
-          "$ref": "#/definitions/Customer"
+          "$ref": "#/definitions/webshop.Customer"
         },
         "status": {
           "type": "string",
@@ -2539,7 +2609,7 @@
         }
       }
     },
-    "OrderId": {
+    "webshop.OrderId": {
       "type": "object",
       "properties": {
         "id": {
@@ -2547,7 +2617,7 @@
         }
       }
     },
-    "Costs": {
+    "webshop.Costs": {
       "type": "object",
       "properties": {
         "costs": {
@@ -2556,11 +2626,11 @@
         }
       }
     },
-    "Payment": {
+    "webshop.Payment": {
       "type": "object",
       "properties": {
         "id": {
-          "$ref": "#/definitions/OrderId"
+          "$ref": "#/definitions/webshop.OrderId"
         },
         "amount": {
           "type": "number",

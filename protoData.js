@@ -171,7 +171,7 @@ function getMessages(message, messageName, limit) {
     message.children.forEach(function (field) {
         if (field.className == 'Message') {
             nestedMessages.add(field.name);
-            var nestedName = messageName + '_' + field.name;
+            var nestedName = messageName + '.' + field.name;
             getMessages(field, nestedName, ++limit);
         }
     });
@@ -189,7 +189,7 @@ function getMessages(message, messageName, limit) {
                 fieldType = field.resolvedType.name;
                 if (nestedMessages.contains(fieldType)) {
                     // Set fieldType to local message type
-                    fieldType = messageName + '_' + fieldType;
+                    fieldType = messageName + '.' + fieldType;
                 } else {
                     // Call method recursively with field message datatype and limit + 1
                     getMessages(field.resolvedType, fieldType, ++limit);

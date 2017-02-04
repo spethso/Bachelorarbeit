@@ -99,20 +99,27 @@ function getPaths() {
     serviceAndOperations.forEach(function (service) {
         // Path URL different for each service
         var servicePathName = globalPathName + '/' + service.serviceName;
+        var pkg = package;
+        if (pkg != '') {
+            pkg += '.';
+        }
+        // Service name
+        var serviceName = pkg + service.serviceName;
         // Go through all operations of a specific service and set swagger parts
         service.operations.forEach(function (operation) {
             var pathName = servicePathName + '/' + operation.name;
+            var operationName = serviceName + '.' + operation.name;
             var pathObject = {
                 post: {
                     summary: operation.name,
                     consumes: ['application/json'],
-                    tags: [service.serviceName],
+                    tags: [serviceName, operationName],
                     parameters: [
                         stdParam,
                         {
                             name: 'input',
                             in: 'body',
-                            schema: { $ref: '#/definitions/' + operation.request.name }
+                            schema: { $ref: '#/definitions/' + pkg + operation.request.name }
                         }
                     ],
                     responses: response_202
@@ -150,7 +157,7 @@ function getPaths() {
                                 {
                                     type: 'object',
                                     properties: {
-                                        out: { $ref: '#/definitions/' + operation.response.name }
+                                        out: { $ref: '#/definitions/' + pkg + operation.response.name }
                                     }
                                 }
                             ]
@@ -172,14 +179,14 @@ function getPaths() {
                             schema: { $ref: '#/definitions/InstanceWritable' }
                         }
                     ],
-                    tags: ['Instances', service.serviceName],
+                    tags: ['Instances', serviceName, operationName],
                     responses: response_200_empty
                 },
                 get: {
                     summary: 'Get instance resource',
                     produces: ['application/json'],
                     parameters: paramArray,
-                    tags: ['Instances', service.serviceName],
+                    tags: ['Instances', serviceName, operationName],
                     responses: res
                 }
             };
@@ -187,19 +194,19 @@ function getPaths() {
             swagger.paths[pathName] = pathObject;
 
             if (operation.request.isStream == false) {
-                noRequestStreamSwaggerPart(operation, pathName, service.serviceName);
+                noRequestStreamSwaggerPart(operation, pathName, serviceName);
             }
             if (operation.response.isStream == false) {
-                noResponseStreamSwaggerPart(operation, pathName, service.serviceName);
+                noResponseStreamSwaggerPart(operation, pathName, serviceName);
             }
             if (operation.request.isStream == true) {
-                requestStreamSwaggerPart(operation, pathName, service.serviceName);
+                requestStreamSwaggerPart(operation, pathName, serviceName);
             }
             if (operation.response.isStream == true) {
-                responseStreamSwaggerPart(operation, pathName, service.serviceName);
+                responseStreamSwaggerPart(operation, pathName, serviceName);
             }
             if (operation.request.isStream == true && operation.response.isStream == true) {
-                bidirectionalStreamSwaggerPart(operation, pathName, service.serviceName);
+                bidirectionalStreamSwaggerPart(operation, pathName, serviceName);
             }
         });
     });
@@ -209,6 +216,10 @@ function getPaths() {
  * Function to fill swagger definitions part
  */
 function getDefinitions() {
+    var pkg = package;
+    if (pkg != '') {
+        pkg += '.';
+    }
     var definitions = {
         Instance: {
             type: 'object',
@@ -252,7 +263,7 @@ function getDefinitions() {
                 if (!primitiveTypes.contains(fieldKind)) {
                     var f = {
                         type: 'array',
-                        items: { $ref: '#/definitions/' + field.type }
+                        items: { $ref: '#/definitions/' + pkg + field.type }
                     };
                     m.properties[field.name] = f;
                 } else if (fieldKind == 'enum') {
@@ -282,7 +293,7 @@ function getDefinitions() {
             // Otherwise set field to normal type
             else if (!primitiveTypes.contains(fieldKind)) {
                 var f = {
-                    $ref: '#/definitions/' + field.type
+                    $ref: '#/definitions/' + pkg + field.type
                 };
                 m.properties[field.name] = f;
             } else if (fieldKind == 'enum') {
@@ -305,7 +316,7 @@ function getDefinitions() {
 
         });
         // Add message to definitions part
-        definitions[message.name] = m;
+        definitions[pkg + message.name] = m;
     });
 
     // Set swagger definitions part
@@ -318,6 +329,11 @@ function getDefinitions() {
  */
 function bidirectionalStreamSwaggerPart(operation, pathName, serviceName) {
     var localPathName = pathName + '/bi/stream';
+    var pkg = package;
+    if (pkg != '') {
+        pkg += '.';
+    }
+    var operationName = serviceName + '.' + operation.name;
     var pathObject = {
         get: {
             summary: 'Stream of output messages as newline-delimited JSON, see http://jsonlines.org',
@@ -328,14 +344,14 @@ function bidirectionalStreamSwaggerPart(operation, pathName, serviceName) {
                     description: 'Input stream',
                     in: 'body',
                     required: true,
-                    schema: { $ref: '#definitions/' + operation.request.name }
+                    schema: { $ref: '#definitions/' + pkg + operation.request.name }
                 }
             ],
-            tags: ['Instances', 'Streams', serviceName],
+            tags: ['Instances', 'Streams', serviceName, operationName],
             responses: {
                 '200': {
                     description: 'Output stream',
-                    schema: { $ref: '#/definitions/' + operation.response.name }
+                    schema: { $ref: '#/definitions/' + pkg + operation.response.name }
                 }
             }
         }
@@ -350,15 +366,20 @@ function bidirectionalStreamSwaggerPart(operation, pathName, serviceName) {
  */
 function responseStreamSwaggerPart(operation, pathName, serviceName) {
     var localPathName = pathName + '/out/stream';
+    var pkg = package;
+    if (pkg != '') {
+        pkg += '.';
+    }
+    var operationName = serviceName + '.' + operation.name;
     var pathObject = {
         get: {
             summary: 'Stream of output messages as newline-delimited JSON, see http://jsonlines.org',
             parameters: [instanceIDParam],
-            tags: ['Instances', 'Streams', serviceName],
+            tags: ['Instances', 'Streams', serviceName, operationName],
             responses: {
                 '200': {
                     description: 'Output stream',
-                    schema: { $ref: '#/definitions/' + operation.response.name }
+                    schema: { $ref: '#/definitions/' + pkg + operation.response.name }
                 }
             }
         }
@@ -373,6 +394,11 @@ function responseStreamSwaggerPart(operation, pathName, serviceName) {
  */
 function requestStreamSwaggerPart(operation, pathName, serviceName) {
     var localPathName = pathName + '/in/stream';
+    var pkg = package;
+    if (pkg != '') {
+        pkg += '.';
+    }
+    var operationName = serviceName + '.' + operation.name;
     var pathObject = {
         post: {
             summary: 'Stream of input messages as newline-delimited JSON, see http://jsonlines.org',
@@ -383,10 +409,10 @@ function requestStreamSwaggerPart(operation, pathName, serviceName) {
                     description: 'Input stream',
                     in: 'body',
                     required: true,
-                    schema: { $ref: '#/definitions/' + operation.request.name }
+                    schema: { $ref: '#/definitions/' + pkg + operation.request.name }
                 }
             ],
-            tags: ['Instances', 'Streams', serviceName],
+            tags: ['Instances', 'Streams', serviceName, operationName],
             responses: response_200_empty
         }
     };
@@ -400,6 +426,11 @@ function requestStreamSwaggerPart(operation, pathName, serviceName) {
  */
 function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
     var responseObjectFields = messages.get(operation.response.name).fields;
+    var pkg = package;
+    if (pkg != '') {
+        pkg += '.';
+    }
+    var operationName = serviceName + '.' + operation.name;
     responseObjectFields.forEach(function (field) {
         var localPathName = pathName + '/out/fields/' + field.name;
         // Kind of field, e.g. object or number
@@ -415,7 +446,7 @@ function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
         // Otherwise fill in schema part
         else if (fieldKind == 'object') {
             // Reference on definitions object
-            schema = { $ref: '#/definitions/' + fieldType };
+            schema = { $ref: '#/definitions/' + pkg + fieldType };
         } else if (fieldKind == 'enum') {
             // Get field enum values
             var enumValues = [];
@@ -439,7 +470,7 @@ function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
             get: {
                 summary: 'Get output field',
                 parameters: [instanceIDParam],
-                tags: ['Instances', 'Fields', serviceName],
+                tags: ['Instances', 'Fields', serviceName, operationName],
                 responses: {
                     '200': {
                         description: 'Field value',
@@ -458,11 +489,11 @@ function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
         get: {
             summary: 'Get output message',
             parameters: [instanceIDParam],
-            tags: ['Instances', 'Fields', serviceName],
+            tags: ['Instances', 'Fields', serviceName, operationName],
             responses: {
                 '200': {
                     description: 'Output message',
-                    schema: { $ref: '#/definitions/' + operation.response.name }
+                    schema: { $ref: '#/definitions/' + pkg + operation.response.name }
                 }
             }
         }
@@ -479,6 +510,11 @@ function noRequestStreamSwaggerPart(operation, pathName, serviceName) {
     var requestObjectFields = messages.get(operation.request.name).fields;
     requestObjectFields.forEach(function (field) {
         var localPathName = pathName + '/in/fields/' + field.name;
+        var pkg = package;
+        if (pkg != '') {
+            pkg += '.';
+        }
+        var operationName = serviceName + '.' + operation.name;
         // Kind of field, e.g. object or number
         var fieldKind = field.kind;
         // Specific type of field, e.g. Example, float or int32
@@ -492,7 +528,7 @@ function noRequestStreamSwaggerPart(operation, pathName, serviceName) {
         // Otherwise fill in schema part
         else if (fieldKind == 'object') {
             // Reference on definitions object
-            schema = { $ref: '#/definitions/' + fieldType };
+            schema = { $ref: '#/definitions/' + pkg + fieldType };
         } else if (fieldKind == 'enum') {
             // Get field enum values
             var enumValues = [];
@@ -525,7 +561,7 @@ function noRequestStreamSwaggerPart(operation, pathName, serviceName) {
                         schema: schema
                     }
                 ],
-                tags: ['Instances', 'Fields', serviceName],
+                tags: ['Instances', 'Fields', serviceName, operationName],
                 responses: response_200_empty
             }
         };
@@ -539,10 +575,14 @@ function noRequestStreamSwaggerPart(operation, pathName, serviceName) {
  */
 function getArraySchema(field, fieldKind, fieldType) {
     var schema = {};
+    var pkg = package;
+    if (pkg != '') {
+        pkg += '.';
+    }
     if (fieldKind == 'object') {
         schema = {
             type: 'array',
-            items: { $ref: '#/definitions/' + fieldType }
+            items: { $ref: '#/definitions/' + pkg + fieldType }
         }
     } else if (fieldKind == 'enum') {
         // Get field enum values
