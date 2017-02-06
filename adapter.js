@@ -11,9 +11,8 @@ var yaml = require('js-yaml');
 var protoData = proto.getData();
 // Proto package
 var package;
+// Service name
 var service_Name;
-// Array with service and operations
-//var serviceAndOperations = protoData[0].services;
 // Service operations
 var operations;
 // Proto messages
@@ -257,7 +256,6 @@ function initDefinitions() {
             properties: { started: { type: 'boolean' } }
         }
     };
-
     // Set swagger definitions part
     swagger.definitions = definitions;
 }
@@ -340,8 +338,6 @@ function getDefinitions() {
         });
         // Add message to definitions part
         swagger.definitions[pkg + message.name] = m;
-        //definitions[pkg + message.name] = m;
-
     });
 }
 
@@ -358,7 +354,7 @@ function bidirectionalStreamSwaggerPart(operation, pathName, serviceName) {
     var operationName = serviceName + '.' + operation.name;
     var pathObject = {
         get: {
-            summary: 'Stream of output messages as newline-delimited JSON, see http://jsonlines.org',
+            summary: 'Bidirectional stream of input and output messages as newline-delimited JSON, see http://jsonlines.org',
             parameters: [
                 instanceIDParam,
                 {

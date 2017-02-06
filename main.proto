@@ -44,6 +44,6 @@ service Two {
 service Three {
     rpc listBar(Qux) returns (Bar) {}
     rpc listBarOutStream(Qux) returns (stream Bar) {}
-//    rpc listBarBiStream(stream Qux) returns (stream Bar) {}
+    rpc listBarBiStream(stream Qux) returns (stream Bar) {}
     rpc listBarInStream(stream Qux) returns (Bar) {}
 }

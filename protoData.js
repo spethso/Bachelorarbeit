@@ -3,28 +3,19 @@
  * Module to get data out of proto file for an API Adapter
  * @author spethso
  */
-//var PROTO_PATH = 'C:/Users/Sandro/Informatik/Bachelorarbeit/Projekte/etcd-master/etcdserver/etcdserverpb/rpc.proto';
 // Load proto file and grpc module
 //var PROTO_PATH = __dirname + '/webshop.proto';
 var PROTO_PATH = __dirname + '/main.proto';
 var grpc = require('grpc');
 var parent = grpc.load(PROTO_PATH);
-// Name of proto package
-//var package = initPackage(parent);
-//package = package.slice(0, package.length - 1); // Delete last '.'
-// Object of proto messages and services
-//var proto = initProto(parent)
 // Useful additional modules
 var fs = require('fs');
 var HashMap = require('hashmap');
 var HashSet = require('hashset');
-
-// Array of services
-//var services = initServices();
 // Array with all services rpc operation and messages data
 var serviceAndMessages = [];
 // HashMap containing all message types as JSON
-var messageTypes = new HashMap;
+var messageTypes = new HashMap();
 // HashSet for JSON type Number
 var numberTypes = getNumberTypes();
 // HashSet for JSON type String
