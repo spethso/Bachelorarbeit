@@ -1,0 +1,3049 @@
+swagger: '2.0'
+info:
+  title: REST API
+  description: Generated from gRPC API
+  version: 1.0.0
+basePath: /
+paths:
+  /webshop/WebShop/listProducts:
+    post:
+      summary: listProducts
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.listProducts
+      parameters:
+        - &ref_2
+          name: start
+          in: query
+          type: boolean
+          default: true
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.ListProductsParams'
+      responses: &ref_3
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
+  '/webshop/WebShop/listProducts/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - &ref_0
+          name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.listProducts
+      responses: &ref_1
+        '200':
+          description: Empty body
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.listProducts
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            $ref: '#/definitions/Instance'
+  '/webshop/WebShop/listProducts/instances/{id}/in/fields/limit':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: integer
+            format: int32
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.listProducts
+      responses: *ref_1
+  '/webshop/WebShop/listProducts/instances/{id}/in/fields/products':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            $ref: '#/definitions/webshop.ListProductsParams.Products'
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.listProducts
+      responses: *ref_1
+  '/webshop/WebShop/listProducts/instances/{id}/out/stream':
+    get:
+      summary: >-
+        Stream of output messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Streams
+        - webshop.WebShop
+        - webshop.WebShop.listProducts
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/webshop.Product'
+  /webshop/WebShop/checkAvailability:
+    post:
+      summary: checkAvailability
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.checkAvailability
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.ProductId'
+      responses: *ref_3
+  '/webshop/WebShop/checkAvailability/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.checkAvailability
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.checkAvailability
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/webshop.Availability'
+  '/webshop/WebShop/checkAvailability/instances/{id}/in/fields/id':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.checkAvailability
+      responses: *ref_1
+  '/webshop/WebShop/checkAvailability/instances/{id}/out/fields/available':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.checkAvailability
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: boolean
+  '/webshop/WebShop/checkAvailability/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.checkAvailability
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/webshop.Availability'
+  /webshop/WebShop/storeOrderDetails:
+    post:
+      summary: storeOrderDetails
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.storeOrderDetails
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.Order'
+      responses: *ref_3
+  '/webshop/WebShop/storeOrderDetails/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.storeOrderDetails
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.storeOrderDetails
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/webshop.OrderId'
+  '/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/id':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.storeOrderDetails
+      responses: *ref_1
+  '/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/products':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/webshop.ProductId'
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.storeOrderDetails
+      responses: *ref_1
+  '/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/customer':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            $ref: '#/definitions/webshop.Customer'
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.storeOrderDetails
+      responses: *ref_1
+  '/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/status':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+            enum:
+              - NEW
+              - PAYED
+              - SHIPPED
+              - CANCELED
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.storeOrderDetails
+      responses: *ref_1
+  '/webshop/WebShop/storeOrderDetails/instances/{id}/out/fields/id':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.storeOrderDetails
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/webshop/WebShop/storeOrderDetails/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.storeOrderDetails
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/webshop.OrderId'
+  /webshop/WebShop/getOrderDetails:
+    post:
+      summary: getOrderDetails
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.getOrderDetails
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.OrderId'
+      responses: *ref_3
+  '/webshop/WebShop/getOrderDetails/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.getOrderDetails
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.getOrderDetails
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/webshop.Order'
+  '/webshop/WebShop/getOrderDetails/instances/{id}/in/fields/id':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.getOrderDetails
+      responses: *ref_1
+  '/webshop/WebShop/getOrderDetails/instances/{id}/out/fields/id':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.getOrderDetails
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/webshop/WebShop/getOrderDetails/instances/{id}/out/fields/products':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.getOrderDetails
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/webshop.ProductId'
+  '/webshop/WebShop/getOrderDetails/instances/{id}/out/fields/customer':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.getOrderDetails
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/webshop.Customer'
+  '/webshop/WebShop/getOrderDetails/instances/{id}/out/fields/status':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.getOrderDetails
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+            enum:
+              - NEW
+              - PAYED
+              - SHIPPED
+              - CANCELED
+  '/webshop/WebShop/getOrderDetails/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.getOrderDetails
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/webshop.Order'
+  /webshop/WebShop/cancelOrder:
+    post:
+      summary: cancelOrder
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.cancelOrder
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.OrderId'
+      responses: *ref_3
+  '/webshop/WebShop/cancelOrder/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.cancelOrder
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.cancelOrder
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/webshop.Order'
+  '/webshop/WebShop/cancelOrder/instances/{id}/in/fields/id':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.cancelOrder
+      responses: *ref_1
+  '/webshop/WebShop/cancelOrder/instances/{id}/out/fields/id':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.cancelOrder
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/webshop/WebShop/cancelOrder/instances/{id}/out/fields/products':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.cancelOrder
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/webshop.ProductId'
+  '/webshop/WebShop/cancelOrder/instances/{id}/out/fields/customer':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.cancelOrder
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/webshop.Customer'
+  '/webshop/WebShop/cancelOrder/instances/{id}/out/fields/status':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.cancelOrder
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+            enum:
+              - NEW
+              - PAYED
+              - SHIPPED
+              - CANCELED
+  '/webshop/WebShop/cancelOrder/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.cancelOrder
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/webshop.Order'
+  /webshop/WebShop/calcTransactionCosts:
+    post:
+      summary: calcTransactionCosts
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.calcTransactionCosts
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.OrderId'
+      responses: *ref_3
+  '/webshop/WebShop/calcTransactionCosts/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.calcTransactionCosts
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.calcTransactionCosts
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/webshop.Costs'
+  '/webshop/WebShop/calcTransactionCosts/instances/{id}/in/fields/id':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.calcTransactionCosts
+      responses: *ref_1
+  '/webshop/WebShop/calcTransactionCosts/instances/{id}/out/fields/costs':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.calcTransactionCosts
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: number
+            format: float
+  '/webshop/WebShop/calcTransactionCosts/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.calcTransactionCosts
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/webshop.Costs'
+  /webshop/WebShop/conductPayment:
+    post:
+      summary: conductPayment
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.Payment'
+      responses: *ref_3
+  '/webshop/WebShop/conductPayment/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/webshop.Order'
+  '/webshop/WebShop/conductPayment/instances/{id}/in/fields/id':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            $ref: '#/definitions/webshop.OrderId'
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      responses: *ref_1
+  '/webshop/WebShop/conductPayment/instances/{id}/in/fields/amount':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: number
+            format: float
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      responses: *ref_1
+  '/webshop/WebShop/conductPayment/instances/{id}/out/fields/id':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/webshop/WebShop/conductPayment/instances/{id}/out/fields/products':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/webshop.ProductId'
+  '/webshop/WebShop/conductPayment/instances/{id}/out/fields/customer':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/webshop.Customer'
+  '/webshop/WebShop/conductPayment/instances/{id}/out/fields/status':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+            enum:
+              - NEW
+              - PAYED
+              - SHIPPED
+              - CANCELED
+  '/webshop/WebShop/conductPayment/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.conductPayment
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/webshop.Order'
+  /webshop/WebShop/calcShipmentCosts:
+    post:
+      summary: calcShipmentCosts
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.calcShipmentCosts
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.OrderId'
+      responses: *ref_3
+  '/webshop/WebShop/calcShipmentCosts/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.calcShipmentCosts
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.calcShipmentCosts
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/webshop.Costs'
+  '/webshop/WebShop/calcShipmentCosts/instances/{id}/in/fields/id':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.calcShipmentCosts
+      responses: *ref_1
+  '/webshop/WebShop/calcShipmentCosts/instances/{id}/out/fields/costs':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.calcShipmentCosts
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: number
+            format: float
+  '/webshop/WebShop/calcShipmentCosts/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.calcShipmentCosts
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/webshop.Costs'
+  /webshop/WebShop/shipProducts:
+    post:
+      summary: shipProducts
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.shipProducts
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.OrderId'
+      responses: *ref_3
+  '/webshop/WebShop/shipProducts/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.shipProducts
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.shipProducts
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/webshop.Order'
+  '/webshop/WebShop/shipProducts/instances/{id}/in/fields/id':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.shipProducts
+      responses: *ref_1
+  '/webshop/WebShop/shipProducts/instances/{id}/out/fields/id':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.shipProducts
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/webshop/WebShop/shipProducts/instances/{id}/out/fields/products':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.shipProducts
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/webshop.ProductId'
+  '/webshop/WebShop/shipProducts/instances/{id}/out/fields/customer':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.shipProducts
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/webshop.Customer'
+  '/webshop/WebShop/shipProducts/instances/{id}/out/fields/status':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.shipProducts
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+            enum:
+              - NEW
+              - PAYED
+              - SHIPPED
+              - CANCELED
+  '/webshop/WebShop/shipProducts/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.shipProducts
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/webshop.Order'
+  /main.test/One/listQux:
+    post:
+      summary: listQux
+      consumes:
+        - application/json
+      tags:
+        - main.test.One
+        - main.test.One.listQux
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      responses: *ref_3
+  '/main.test/One/listQux/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listQux
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listQux
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/main.test.Qux'
+  '/main.test/One/listQux/instances/{id}/in/fields/bastet':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: integer
+            format: int32
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQux
+      responses: *ref_1
+  '/main.test/One/listQux/instances/{id}/in/fields/osiris':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQux
+      responses: *ref_1
+  '/main.test/One/listQux/instances/{id}/in/fields/orders':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/main.test.Order'
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQux
+      responses: *ref_1
+  '/main.test/One/listQux/instances/{id}/out/fields/osiris':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQux
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/main.test.Qux.Osiris'
+  '/main.test/One/listQux/instances/{id}/out/fields/anubis':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQux
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/main.test/One/listQux/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQux
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/main.test.Qux'
+  /main.test/One/listQuxOutStream:
+    post:
+      summary: listQuxOutStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.One
+        - main.test.One.listQuxOutStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      responses: *ref_3
+  '/main.test/One/listQuxOutStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listQuxOutStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listQuxOutStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            $ref: '#/definitions/Instance'
+  '/main.test/One/listQuxOutStream/instances/{id}/in/fields/bastet':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: integer
+            format: int32
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQuxOutStream
+      responses: *ref_1
+  '/main.test/One/listQuxOutStream/instances/{id}/in/fields/osiris':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQuxOutStream
+      responses: *ref_1
+  '/main.test/One/listQuxOutStream/instances/{id}/in/fields/orders':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/main.test.Order'
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQuxOutStream
+      responses: *ref_1
+  '/main.test/One/listQuxOutStream/instances/{id}/out/stream':
+    get:
+      summary: >-
+        Stream of output messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listQuxOutStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Qux'
+  /main.test/One/listQuxInStream:
+    post:
+      summary: listQuxInStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.One
+        - main.test.One.listQuxInStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      responses: *ref_3
+  '/main.test/One/listQuxInStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listQuxInStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listQuxInStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/main.test.Qux'
+  '/main.test/One/listQuxInStream/instances/{id}/out/fields/osiris':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQuxInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/main.test.Qux.Osiris'
+  '/main.test/One/listQuxInStream/instances/{id}/out/fields/anubis':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQuxInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/main.test/One/listQuxInStream/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listQuxInStream
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/main.test.Qux'
+  '/main.test/One/listQuxInStream/instances/{id}/in/stream':
+    post:
+      summary: >-
+        Stream of input messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listQuxInStream
+      responses: *ref_1
+  /main.test/One/listBar:
+    post:
+      summary: listBar
+      consumes:
+        - application/json
+      tags:
+        - main.test.One
+        - main.test.One.listBar
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      responses: *ref_3
+  '/main.test/One/listBar/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listBar
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listBar
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/main.test.Bar'
+  '/main.test/One/listBar/instances/{id}/in/fields/re':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBar
+      responses: *ref_1
+  '/main.test/One/listBar/instances/{id}/in/fields/horus':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: number
+            format: float
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBar
+      responses: *ref_1
+  '/main.test/One/listBar/instances/{id}/out/fields/bastet':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBar
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: integer
+            format: int32
+  '/main.test/One/listBar/instances/{id}/out/fields/osiris':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBar
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+  '/main.test/One/listBar/instances/{id}/out/fields/orders':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBar
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/main.test.Order'
+  '/main.test/One/listBar/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBar
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+  /main.test/One/listBarOutStream:
+    post:
+      summary: listBarOutStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.One
+        - main.test.One.listBarOutStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      responses: *ref_3
+  '/main.test/One/listBarOutStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listBarOutStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listBarOutStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            $ref: '#/definitions/Instance'
+  '/main.test/One/listBarOutStream/instances/{id}/in/fields/re':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBarOutStream
+      responses: *ref_1
+  '/main.test/One/listBarOutStream/instances/{id}/in/fields/horus':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: number
+            format: float
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBarOutStream
+      responses: *ref_1
+  '/main.test/One/listBarOutStream/instances/{id}/out/stream':
+    get:
+      summary: >-
+        Stream of output messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listBarOutStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+  /main.test/One/listBarInStream:
+    post:
+      summary: listBarInStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.One
+        - main.test.One.listBarInStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      responses: *ref_3
+  '/main.test/One/listBarInStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listBarInStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listBarInStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/main.test.Bar'
+  '/main.test/One/listBarInStream/instances/{id}/out/fields/bastet':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBarInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: integer
+            format: int32
+  '/main.test/One/listBarInStream/instances/{id}/out/fields/osiris':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBarInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+  '/main.test/One/listBarInStream/instances/{id}/out/fields/orders':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBarInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/main.test.Order'
+  '/main.test/One/listBarInStream/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.One
+        - main.test.One.listBarInStream
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+  '/main.test/One/listBarInStream/instances/{id}/in/stream':
+    post:
+      summary: >-
+        Stream of input messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listBarInStream
+      responses: *ref_1
+  /main.test/Two/listFoo:
+    post:
+      summary: listFoo
+      consumes:
+        - application/json
+      tags:
+        - main.test.Two
+        - main.test.Two.listFoo
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      responses: *ref_3
+  '/main.test/Two/listFoo/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.Two
+        - main.test.Two.listFoo
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - main.test.Two
+        - main.test.Two.listFoo
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/main.test.Foo'
+  '/main.test/Two/listFoo/instances/{id}/in/fields/bastet':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: integer
+            format: int32
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFoo
+      responses: *ref_1
+  '/main.test/Two/listFoo/instances/{id}/in/fields/osiris':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFoo
+      responses: *ref_1
+  '/main.test/Two/listFoo/instances/{id}/in/fields/orders':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/main.test.Order'
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFoo
+      responses: *ref_1
+  '/main.test/Two/listFoo/instances/{id}/out/fields/re':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFoo
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/main.test/Two/listFoo/instances/{id}/out/fields/horus':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFoo
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: number
+            format: float
+  '/main.test/Two/listFoo/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFoo
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+  /main.test/Two/listFooOutStream:
+    post:
+      summary: listFooOutStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.Two
+        - main.test.Two.listFooOutStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      responses: *ref_3
+  '/main.test/Two/listFooOutStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.Two
+        - main.test.Two.listFooOutStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - main.test.Two
+        - main.test.Two.listFooOutStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            $ref: '#/definitions/Instance'
+  '/main.test/Two/listFooOutStream/instances/{id}/in/fields/bastet':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: integer
+            format: int32
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFooOutStream
+      responses: *ref_1
+  '/main.test/Two/listFooOutStream/instances/{id}/in/fields/osiris':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFooOutStream
+      responses: *ref_1
+  '/main.test/Two/listFooOutStream/instances/{id}/in/fields/orders':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/main.test.Order'
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFooOutStream
+      responses: *ref_1
+  '/main.test/Two/listFooOutStream/instances/{id}/out/stream':
+    get:
+      summary: >-
+        Stream of output messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Streams
+        - main.test.Two
+        - main.test.Two.listFooOutStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+  /main.test/Two/listFooInStream:
+    post:
+      summary: listFooInStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.Two
+        - main.test.Two.listFooInStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      responses: *ref_3
+  '/main.test/Two/listFooInStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.Two
+        - main.test.Two.listFooInStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - main.test.Two
+        - main.test.Two.listFooInStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/main.test.Foo'
+  '/main.test/Two/listFooInStream/instances/{id}/out/fields/re':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFooInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/main.test/Two/listFooInStream/instances/{id}/out/fields/horus':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFooInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: number
+            format: float
+  '/main.test/Two/listFooInStream/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Two
+        - main.test.Two.listFooInStream
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+  '/main.test/Two/listFooInStream/instances/{id}/in/stream':
+    post:
+      summary: >-
+        Stream of input messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      tags:
+        - Instances
+        - Streams
+        - main.test.Two
+        - main.test.Two.listFooInStream
+      responses: *ref_1
+  /main.test/Three/listBar:
+    post:
+      summary: listBar
+      consumes:
+        - application/json
+      tags:
+        - main.test.Three
+        - main.test.Three.listBar
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Qux'
+      responses: *ref_3
+  '/main.test/Three/listBar/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.Three
+        - main.test.Three.listBar
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - main.test.Three
+        - main.test.Three.listBar
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/main.test.Bar'
+  '/main.test/Three/listBar/instances/{id}/in/fields/osiris':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Qux.Osiris'
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBar
+      responses: *ref_1
+  '/main.test/Three/listBar/instances/{id}/in/fields/anubis':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBar
+      responses: *ref_1
+  '/main.test/Three/listBar/instances/{id}/out/fields/bastet':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBar
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: integer
+            format: int32
+  '/main.test/Three/listBar/instances/{id}/out/fields/osiris':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBar
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+  '/main.test/Three/listBar/instances/{id}/out/fields/orders':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBar
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/main.test.Order'
+  '/main.test/Three/listBar/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBar
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+  /main.test/Three/listBarOutStream:
+    post:
+      summary: listBarOutStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.Three
+        - main.test.Three.listBarOutStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Qux'
+      responses: *ref_3
+  '/main.test/Three/listBarOutStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.Three
+        - main.test.Three.listBarOutStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - main.test.Three
+        - main.test.Three.listBarOutStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            $ref: '#/definitions/Instance'
+  '/main.test/Three/listBarOutStream/instances/{id}/in/fields/osiris':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Qux.Osiris'
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBarOutStream
+      responses: *ref_1
+  '/main.test/Three/listBarOutStream/instances/{id}/in/fields/anubis':
+    put:
+      summary: Set input field
+      parameters:
+        - *ref_0
+        - name: value
+          in: body
+          description: Field value
+          required: true
+          schema:
+            type: string
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBarOutStream
+      responses: *ref_1
+  '/main.test/Three/listBarOutStream/instances/{id}/out/stream':
+    get:
+      summary: >-
+        Stream of output messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Streams
+        - main.test.Three
+        - main.test.Three.listBarOutStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+  /main.test/Three/listBarInStream:
+    post:
+      summary: listBarInStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.Three
+        - main.test.Three.listBarInStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Qux'
+      responses: *ref_3
+  '/main.test/Three/listBarInStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.Three
+        - main.test.Three.listBarInStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - main.test.Three
+        - main.test.Three.listBarInStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/main.test.Bar'
+  '/main.test/Three/listBarInStream/instances/{id}/out/fields/bastet':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBarInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: integer
+            format: int32
+  '/main.test/Three/listBarInStream/instances/{id}/out/fields/osiris':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBarInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+  '/main.test/Three/listBarInStream/instances/{id}/out/fields/orders':
+    get:
+      summary: Get output field
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBarInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/main.test.Order'
+  '/main.test/Three/listBarInStream/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Fields
+        - main.test.Three
+        - main.test.Three.listBarInStream
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+  '/main.test/Three/listBarInStream/instances/{id}/in/stream':
+    post:
+      summary: >-
+        Stream of input messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Qux'
+      tags:
+        - Instances
+        - Streams
+        - main.test.Three
+        - main.test.Three.listBarInStream
+      responses: *ref_1
+definitions:
+  Instance:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier of instance
+      started:
+        type: boolean
+      done:
+        type: boolean
+      createdAt:
+        type: string
+      startedAt:
+        type: string
+      doneAt:
+        type: string
+      error:
+        type: string
+        description: Error message if instance failed
+      links:
+        type: object
+        description: Links to relevant resources such as output
+  InstanceWritable:
+    type: object
+    properties:
+      started:
+        type: boolean
+  webshop.ListProductsParams.Products.Product:
+    type: object
+    properties:
+      text:
+        type: string
+  webshop.ListProductsParams.Products:
+    type: object
+    properties:
+      id:
+        type: string
+      p:
+        $ref: '#/definitions/webshop.ListProductsParams.Products.Product'
+  webshop.ListProductsParams:
+    type: object
+    properties:
+      limit:
+        type: integer
+        format: int32
+      products:
+        $ref: '#/definitions/webshop.ListProductsParams.Products'
+  webshop.Product:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      category:
+        type: string
+      producer:
+        type: string
+      weight:
+        type: number
+        format: float
+      price:
+        type: number
+        format: float
+  webshop.ProductId:
+    type: object
+    properties:
+      id:
+        type: string
+  webshop.Availability:
+    type: object
+    properties:
+      available:
+        type: boolean
+  webshop.Customer:
+    type: object
+    properties:
+      id:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      shippingAddress:
+        type: string
+      paymentDetails:
+        type: string
+  webshop.Order:
+    type: object
+    properties:
+      id:
+        type: string
+      products:
+        type: array
+        items:
+          $ref: '#/definitions/webshop.ProductId'
+      customer:
+        $ref: '#/definitions/webshop.Customer'
+      status:
+        type: string
+        enum:
+          - NEW
+          - PAYED
+          - SHIPPED
+          - CANCELED
+  webshop.OrderId:
+    type: object
+    properties:
+      id:
+        type: string
+  webshop.Costs:
+    type: object
+    properties:
+      costs:
+        type: number
+        format: float
+  webshop.Payment:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/webshop.OrderId'
+      amount:
+        type: number
+        format: float
+  main.test.Foo:
+    type: object
+    properties:
+      re:
+        type: string
+      horus:
+        type: number
+        format: float
+  main.test.ProductId:
+    type: object
+    properties:
+      id:
+        type: string
+  main.test.Customer:
+    type: object
+    properties:
+      id:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      shippingAddress:
+        type: string
+      paymentDetails:
+        type: string
+  main.test.Order:
+    type: object
+    properties:
+      id:
+        type: string
+      products:
+        type: array
+        items:
+          $ref: '#/definitions/main.test.ProductId'
+      customer:
+        $ref: '#/definitions/main.test.Customer'
+      status:
+        type: string
+        enum:
+          - NEW
+          - PAYED
+          - SHIPPED
+          - CANCELED
+  main.test.Bar:
+    type: object
+    properties:
+      bastet:
+        type: integer
+        format: int32
+      osiris:
+        $ref: '#/definitions/main.test.Foo'
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/main.test.Order'
+  main.test.Qux.Osiris:
+    type: object
+    properties:
+      hel:
+        type: string
+  main.test.Qux:
+    type: object
+    properties:
+      osiris:
+        $ref: '#/definitions/main.test.Qux.Osiris'
+      anubis:
+        type: string

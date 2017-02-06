@@ -3,82 +3,61 @@
  * Module to get data out of proto file for an API Adapter
  * @author spethso
  */
+//var PROTO_PATH = 'C:/Users/Sandro/Informatik/Bachelorarbeit/Projekte/etcd-master/etcdserver/etcdserverpb/rpc.proto';
 // Load proto file and grpc module
-var PROTO_PATH = __dirname + '/webshop.proto';
+//var PROTO_PATH = __dirname + '/webshop.proto';
+var PROTO_PATH = __dirname + '/main.proto';
 var grpc = require('grpc');
 var parent = grpc.load(PROTO_PATH);
 // Name of proto package
-var package = initPackage(parent);
-package = package.slice(0, package.length - 1); // Delete last '.'
+//var package = initPackage(parent);
+//package = package.slice(0, package.length - 1); // Delete last '.'
 // Object of proto messages and services
-var proto = initProto(parent)
+//var proto = initProto(parent)
 // Useful additional modules
 var fs = require('fs');
 var HashMap = require('hashmap');
 var HashSet = require('hashset');
 
 // Array of services
-var services = initServices();
-// Array with all services rpc operation data
-var serviceAndOperations = [];
+//var services = initServices();
+// Array with all services rpc operation and messages data
+var serviceAndMessages = [];
 // HashMap containing all message types as JSON
-var messageTypes = new HashMap();
+var messageTypes = new HashMap;
 // HashSet for JSON type Number
 var numberTypes = getNumberTypes();
 // HashSet for JSON type String
 var stringTypes = getStringTypes();
+// Array of packages and related services
+var servicesAndPackages = [];
+
 
 /**
  * Export relevant data
  */
 exports.getData = function () {
-    getMessagesData();
-    getOperationsData();
-    var data = {
-        package: package,
-        services: serviceAndOperations,
-        messages: messageTypes
-    };
-    return data;
+    initServices(parent, '');
+    getData();
+    return serviceAndMessages;
 }
 
 /**
- * Initialize service Array
+ * Get packages with related services
  */
-function initServices() {
-    var services = [];
-    for (var key in proto) {
-        if (proto[key].hasOwnProperty('service')) {
-            services.push(proto[key].service);
+function initServices(obj, package) {
+    for (var key in obj) {
+        if (key == 'service') {
+            pkg = package.split('.');
+            pkg.length -= 2;
+            var sp = {
+                package: pkg.join('.'),
+                service: obj.service
+            };
+            servicesAndPackages.push(sp);
+        } else {
+            initServices(obj[key], package + key + '.');
         }
-    }
-    return services;
-}
-
-
-/**
- * Initialize package variable
- */
-function initPackage(obj) {
-    var keys = Object.keys(obj);
-    var localPackage = keys[0];
-    if (keys.length == 1) {
-        return localPackage + '.' + initPackage(obj[keys[0]]);
-    } else {
-        return '';
-    }
-}
-
-/**
- * Initialize proto variable
- */
-function initProto(obj) {
-    var keys = Object.keys(obj)
-    if (keys.length == 1) {
-        proto = obj[keys[0]];
-        return initProto(proto);
-    } else {
-        return obj;
     }
 }
 
@@ -107,10 +86,13 @@ function getStringTypes() {
 }
 
 /**
- * Method to fill functions with data
+ * Method to fill with data
  */
-function getOperationsData() {
-    services.forEach(function (service) {
+function getData() {
+    servicesAndPackages.forEach(function (sp) {
+        messageTypes = new HashMap();
+        package = sp.package;
+        service = sp.service;
         var serviceName = service.name;
         var operations = [];
         // Fill functions with relevant data
@@ -127,27 +109,18 @@ function getOperationsData() {
                 }
             };
             operations.push(rpc);
-        });
-        var serviceJSON = {
-            serviceName: serviceName,
-            operations: operations
-        };
-        serviceAndOperations.push(serviceJSON);
-    });
-}
-
-/**
- * Method to fill messageTypes with data
- */
-function getMessagesData() {
-    services.forEach(function (service) {
-        // Fill messageTypes with relevant data of requests
-        service.children.forEach(function (element) {
             var request = element.resolvedRequestType;
             getMessages(request, request.name, 1);
             var response = element.resolvedResponseType;
             getMessages(response, response.name, 1);
         });
+        var serviceJSON = {
+            package: package,
+            serviceName: serviceName,
+            operations: operations,
+            messages: messageTypes
+        };
+        serviceAndMessages.push(serviceJSON);
     });
 }
 

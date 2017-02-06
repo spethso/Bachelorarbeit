@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package main.test;
+
+import "webshop.proto";
+
+message Foo {
+    string re = 1;
+    float horus = 2;
+}
+
+message Bar {
+    int32 bastet = 1;
+    Foo osiris = 2;
+    repeated webshop.Order orders = 3;
+}
+
+message Qux {
+    message Osiris {
+        string hel = 1;
+    }
+    Osiris osiris = 1;
+    string anubis = 2;
+}
+
+service One {
+    rpc listQux(Bar) returns (Qux) {}
+    rpc listQuxOutStream(Bar) returns (stream Qux) {}
+//    rpc listQuxBiStream(stream Bar) returns (stream Qux) {}
+    rpc listQuxInStream(stream Bar) returns (Qux) {}
+    rpc listBar(Foo) returns (Bar) {}
+    rpc listBarOutStream(Foo) returns (stream Bar) {}
+//    rpc listBarBiStream(stream Foo) returns (stream Bar) {}
+    rpc listBarInStream(stream Foo) returns (Bar) {}
+}
+
+service Two {
+    rpc listFoo(Bar) returns (Foo) {}
+    rpc listFooOutStream(Bar) returns (stream Foo) {}
+//    rpc listFooBiStream(stream Bar) returns (stream Foo) {}
+    rpc listFooInStream(stream Bar) returns (Foo) {}
+}
+
+service Three {
+    rpc listBar(Qux) returns (Bar) {}
+    rpc listBarOutStream(Qux) returns (stream Bar) {}
+//    rpc listBarBiStream(stream Qux) returns (stream Bar) {}
+    rpc listBarInStream(stream Qux) returns (Bar) {}
+}
