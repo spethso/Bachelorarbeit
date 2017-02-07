@@ -3003,6 +3003,210 @@
         }
       }
     },
+    "/main.test/One/listQuxBiStream": {
+      "post": {
+        "summary": "listQuxBiStream",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "main.test.One",
+          "main.test.One.listQuxBiStream"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/main.test.Bar"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/One/listQuxBiStream/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "main.test.One",
+          "main.test.One.listQuxBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "main.test.One",
+          "main.test.One.listQuxBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/One/listQuxBiStream/instances/{id}/in/stream": {
+      "post": {
+        "summary": "Stream of input messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stream",
+            "description": "Input stream",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.test.Bar"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams",
+          "main.test.One",
+          "main.test.One.listQuxBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/main.test/One/listQuxBiStream/instances/{id}/out/stream": {
+      "get": {
+        "summary": "Stream of output messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams",
+          "main.test.One",
+          "main.test.One.listQuxBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output stream",
+            "schema": {
+              "$ref": "#/definitions/main.test.Qux"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/One/listQuxBiStream/instances/{id}/bi/stream": {
+      "get": {
+        "summary": "Bidirectional stream of input and output messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stream",
+            "description": "Input stream",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.test.Bar"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams",
+          "main.test.One",
+          "main.test.One.listQuxBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output stream",
+            "schema": {
+              "$ref": "#/definitions/main.test.Qux"
+            }
+          }
+        }
+      }
+    },
     "/main.test/One/listQuxInStream": {
       "post": {
         "summary": "listQuxInStream",
@@ -3747,6 +3951,210 @@
           "Streams",
           "main.test.One",
           "main.test.One.listBarOutStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output stream",
+            "schema": {
+              "$ref": "#/definitions/main.test.Bar"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/One/listBarBiStream": {
+      "post": {
+        "summary": "listBarBiStream",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "main.test.One",
+          "main.test.One.listBarBiStream"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/main.test.Foo"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/One/listBarBiStream/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "main.test.One",
+          "main.test.One.listBarBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "main.test.One",
+          "main.test.One.listBarBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/One/listBarBiStream/instances/{id}/in/stream": {
+      "post": {
+        "summary": "Stream of input messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stream",
+            "description": "Input stream",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.test.Foo"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams",
+          "main.test.One",
+          "main.test.One.listBarBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/main.test/One/listBarBiStream/instances/{id}/out/stream": {
+      "get": {
+        "summary": "Stream of output messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams",
+          "main.test.One",
+          "main.test.One.listBarBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output stream",
+            "schema": {
+              "$ref": "#/definitions/main.test.Bar"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/One/listBarBiStream/instances/{id}/bi/stream": {
+      "get": {
+        "summary": "Bidirectional stream of input and output messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stream",
+            "description": "Input stream",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.test.Foo"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams",
+          "main.test.One",
+          "main.test.One.listBarBiStream"
         ],
         "responses": {
           "200": {
@@ -4577,6 +4985,210 @@
           "Streams",
           "main.test.Two",
           "main.test.Two.listFooOutStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output stream",
+            "schema": {
+              "$ref": "#/definitions/main.test.Foo"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/Two/listFooBiStream": {
+      "post": {
+        "summary": "listFooBiStream",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "main.test.Two",
+          "main.test.Two.listFooBiStream"
+        ],
+        "parameters": [
+          {
+            "name": "start",
+            "in": "query",
+            "type": "boolean",
+            "default": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/main.test.Bar"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Instance resource",
+            "headers": {
+              "Content-Location": {
+                "description": "Path to created instance resource",
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/Two/listFooBiStream/instances/{id}": {
+      "patch": {
+        "summary": "Update instance resource",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "instance",
+            "in": "body",
+            "description": "Updated parts of instance resource",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InstanceWritable"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "main.test.Two",
+          "main.test.Two.listFooBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      },
+      "get": {
+        "summary": "Get instance resource",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "main.test.Two",
+          "main.test.Two.listFooBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Instance resource",
+            "schema": {
+              "$ref": "#/definitions/Instance"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/Two/listFooBiStream/instances/{id}/in/stream": {
+      "post": {
+        "summary": "Stream of input messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stream",
+            "description": "Input stream",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.test.Bar"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams",
+          "main.test.Two",
+          "main.test.Two.listFooBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Empty body"
+          }
+        }
+      }
+    },
+    "/main.test/Two/listFooBiStream/instances/{id}/out/stream": {
+      "get": {
+        "summary": "Stream of output messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams",
+          "main.test.Two",
+          "main.test.Two.listFooBiStream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Output stream",
+            "schema": {
+              "$ref": "#/definitions/main.test.Foo"
+            }
+          }
+        }
+      }
+    },
+    "/main.test/Two/listFooBiStream/instances/{id}/bi/stream": {
+      "get": {
+        "summary": "Bidirectional stream of input and output messages as newline-delimited JSON, see http://jsonlines.org",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier of instance",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stream",
+            "description": "Input stream",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/main.test.Bar"
+            }
+          }
+        ],
+        "tags": [
+          "Instances",
+          "Streams",
+          "main.test.Two",
+          "main.test.Two.listFooBiStream"
         ],
         "responses": {
           "200": {
@@ -5526,7 +6138,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#definitions/main.test.Qux"
+              "$ref": "#/definitions/main.test.Qux"
             }
           }
         ],

@@ -362,7 +362,7 @@ function bidirectionalStreamSwaggerPart(operation, pathName, serviceName) {
                     description: 'Input stream',
                     in: 'body',
                     required: true,
-                    schema: { $ref: '#definitions/' + pkg + operation.request.name }
+                    schema: { $ref: '#/definitions/' + pkg + operation.request.name }
                 }
             ],
             tags: ['Instances', 'Streams', serviceName, operationName],

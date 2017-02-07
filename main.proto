@@ -26,18 +26,18 @@ message Qux {
 service One {
     rpc listQux(Bar) returns (Qux) {}
     rpc listQuxOutStream(Bar) returns (stream Qux) {}
-//    rpc listQuxBiStream(stream Bar) returns (stream Qux) {}
+    rpc listQuxBiStream(stream Bar) returns (stream Qux) {}
     rpc listQuxInStream(stream Bar) returns (Qux) {}
     rpc listBar(Foo) returns (Bar) {}
     rpc listBarOutStream(Foo) returns (stream Bar) {}
-//    rpc listBarBiStream(stream Foo) returns (stream Bar) {}
+    rpc listBarBiStream(stream Foo) returns (stream Bar) {}
     rpc listBarInStream(stream Foo) returns (Bar) {}
 }
 
 service Two {
     rpc listFoo(Bar) returns (Foo) {}
     rpc listFooOutStream(Bar) returns (stream Foo) {}
-//    rpc listFooBiStream(stream Bar) returns (stream Foo) {}
+    rpc listFooBiStream(stream Bar) returns (stream Foo) {}
     rpc listFooInStream(stream Bar) returns (Foo) {}
 }
 

@@ -1535,6 +1535,113 @@ paths:
           description: Output stream
           schema:
             $ref: '#/definitions/main.test.Qux'
+  /main.test/One/listQuxBiStream:
+    post:
+      summary: listQuxBiStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.One
+        - main.test.One.listQuxBiStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      responses: *ref_3
+  '/main.test/One/listQuxBiStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listQuxBiStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listQuxBiStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            $ref: '#/definitions/Instance'
+  '/main.test/One/listQuxBiStream/instances/{id}/in/stream':
+    post:
+      summary: >-
+        Stream of input messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listQuxBiStream
+      responses: *ref_1
+  '/main.test/One/listQuxBiStream/instances/{id}/out/stream':
+    get:
+      summary: >-
+        Stream of output messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listQuxBiStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Qux'
+  '/main.test/One/listQuxBiStream/instances/{id}/bi/stream':
+    get:
+      summary: >-
+        Bidirectional stream of input and output messages as newline-delimited
+        JSON, see http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listQuxBiStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Qux'
   /main.test/One/listQuxInStream:
     post:
       summary: listQuxInStream
@@ -1910,6 +2017,113 @@ paths:
         - Streams
         - main.test.One
         - main.test.One.listBarOutStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+  /main.test/One/listBarBiStream:
+    post:
+      summary: listBarBiStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.One
+        - main.test.One.listBarBiStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      responses: *ref_3
+  '/main.test/One/listBarBiStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listBarBiStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - main.test.One
+        - main.test.One.listBarBiStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            $ref: '#/definitions/Instance'
+  '/main.test/One/listBarBiStream/instances/{id}/in/stream':
+    post:
+      summary: >-
+        Stream of input messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listBarBiStream
+      responses: *ref_1
+  '/main.test/One/listBarBiStream/instances/{id}/out/stream':
+    get:
+      summary: >-
+        Stream of output messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listBarBiStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+  '/main.test/One/listBarBiStream/instances/{id}/bi/stream':
+    get:
+      summary: >-
+        Bidirectional stream of input and output messages as newline-delimited
+        JSON, see http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+      tags:
+        - Instances
+        - Streams
+        - main.test.One
+        - main.test.One.listBarBiStream
       responses:
         '200':
           description: Output stream
@@ -2329,6 +2543,113 @@ paths:
         - Streams
         - main.test.Two
         - main.test.Two.listFooOutStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+  /main.test/Two/listFooBiStream:
+    post:
+      summary: listFooBiStream
+      consumes:
+        - application/json
+      tags:
+        - main.test.Two
+        - main.test.Two.listFooBiStream
+      parameters:
+        - *ref_2
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      responses: *ref_3
+  '/main.test/Two/listFooBiStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - *ref_0
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - main.test.Two
+        - main.test.Two.listFooBiStream
+      responses: *ref_1
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - main.test.Two
+        - main.test.Two.listFooBiStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            $ref: '#/definitions/Instance'
+  '/main.test/Two/listFooBiStream/instances/{id}/in/stream':
+    post:
+      summary: >-
+        Stream of input messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      tags:
+        - Instances
+        - Streams
+        - main.test.Two
+        - main.test.Two.listFooBiStream
+      responses: *ref_1
+  '/main.test/Two/listFooBiStream/instances/{id}/out/stream':
+    get:
+      summary: >-
+        Stream of output messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - *ref_0
+      tags:
+        - Instances
+        - Streams
+        - main.test.Two
+        - main.test.Two.listFooBiStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/main.test.Foo'
+  '/main.test/Two/listFooBiStream/instances/{id}/bi/stream':
+    get:
+      summary: >-
+        Bidirectional stream of input and output messages as newline-delimited
+        JSON, see http://jsonlines.org
+      parameters:
+        - *ref_0
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/main.test.Bar'
+      tags:
+        - Instances
+        - Streams
+        - main.test.Two
+        - main.test.Two.listFooBiStream
       responses:
         '200':
           description: Output stream
@@ -2809,7 +3130,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#definitions/main.test.Qux'
+            $ref: '#/definitions/main.test.Qux'
       tags:
         - Instances
         - Streams
