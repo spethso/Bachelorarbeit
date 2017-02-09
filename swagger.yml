@@ -14,8 +14,7 @@ paths:
         - webshop.WebShop
         - webshop.WebShop.listProducts
       parameters:
-        - &ref_2
-          name: start
+        - name: start
           in: query
           type: boolean
           default: true
@@ -23,7 +22,7 @@ paths:
           in: body
           schema:
             $ref: '#/definitions/webshop.ListProductsParams'
-      responses: &ref_3
+      responses:
         '202':
           description: Instance resource
           headers:
@@ -38,8 +37,7 @@ paths:
       consumes:
         - application/json
       parameters:
-        - &ref_0
-          name: id
+        - name: id
           in: path
           description: Unique identifier of instance
           required: true
@@ -54,7 +52,7 @@ paths:
         - Instances
         - webshop.WebShop
         - webshop.WebShop.listProducts
-      responses: &ref_1
+      responses:
         '200':
           description: Empty body
     get:
@@ -62,7 +60,11 @@ paths:
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - webshop.WebShop
@@ -76,7 +78,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -89,12 +95,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.listProducts
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/listProducts/instances/{id}/in/fields/products':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -106,14 +118,20 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.listProducts
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/listProducts/instances/{id}/out/stream':
     get:
       summary: >-
         Stream of output messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Streams
@@ -133,19 +151,34 @@ paths:
         - webshop.WebShop
         - webshop.WebShop.checkAvailability
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/webshop.ProductId'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/webshop/WebShop/checkAvailability/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -156,13 +189,19 @@ paths:
         - Instances
         - webshop.WebShop
         - webshop.WebShop.checkAvailability
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -187,7 +226,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -199,12 +242,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.checkAvailability
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/checkAvailability/instances/{id}/out/fields/available':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -219,7 +268,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -239,19 +292,34 @@ paths:
         - webshop.WebShop
         - webshop.WebShop.storeOrderDetails
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/webshop.Order'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/webshop/WebShop/storeOrderDetails/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -262,13 +330,19 @@ paths:
         - Instances
         - webshop.WebShop
         - webshop.WebShop.storeOrderDetails
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -293,7 +367,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -305,12 +383,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.storeOrderDetails
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/products':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -324,12 +408,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.storeOrderDetails
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/customer':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -341,12 +431,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.storeOrderDetails
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/storeOrderDetails/instances/{id}/in/fields/status':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -363,12 +459,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.storeOrderDetails
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/storeOrderDetails/instances/{id}/out/fields/id':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -383,7 +485,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -403,19 +509,34 @@ paths:
         - webshop.WebShop
         - webshop.WebShop.getOrderDetails
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/webshop.OrderId'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/webshop/WebShop/getOrderDetails/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -426,13 +547,19 @@ paths:
         - Instances
         - webshop.WebShop
         - webshop.WebShop.getOrderDetails
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -457,7 +584,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -469,12 +600,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.getOrderDetails
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/getOrderDetails/instances/{id}/out/fields/id':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -489,7 +626,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -506,7 +647,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -521,7 +666,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -541,7 +690,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -561,19 +714,34 @@ paths:
         - webshop.WebShop
         - webshop.WebShop.cancelOrder
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/webshop.OrderId'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/webshop/WebShop/cancelOrder/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -584,13 +752,19 @@ paths:
         - Instances
         - webshop.WebShop
         - webshop.WebShop.cancelOrder
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -615,7 +789,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -627,12 +805,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.cancelOrder
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/cancelOrder/instances/{id}/out/fields/id':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -647,7 +831,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -664,7 +852,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -679,7 +871,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -699,7 +895,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -719,19 +919,34 @@ paths:
         - webshop.WebShop
         - webshop.WebShop.calcTransactionCosts
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/webshop.OrderId'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/webshop/WebShop/calcTransactionCosts/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -742,13 +957,19 @@ paths:
         - Instances
         - webshop.WebShop
         - webshop.WebShop.calcTransactionCosts
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -773,7 +994,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -785,12 +1010,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.calcTransactionCosts
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/calcTransactionCosts/instances/{id}/out/fields/costs':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -806,7 +1037,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -826,19 +1061,34 @@ paths:
         - webshop.WebShop
         - webshop.WebShop.conductPayment
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/webshop.Payment'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/webshop/WebShop/conductPayment/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -849,13 +1099,19 @@ paths:
         - Instances
         - webshop.WebShop
         - webshop.WebShop.conductPayment
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -880,7 +1136,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -892,12 +1152,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.conductPayment
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/conductPayment/instances/{id}/in/fields/amount':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -910,12 +1176,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.conductPayment
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/conductPayment/instances/{id}/out/fields/id':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -930,7 +1202,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -947,7 +1223,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -962,7 +1242,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -982,7 +1266,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1002,19 +1290,34 @@ paths:
         - webshop.WebShop
         - webshop.WebShop.calcShipmentCosts
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/webshop.OrderId'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/webshop/WebShop/calcShipmentCosts/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -1025,13 +1328,19 @@ paths:
         - Instances
         - webshop.WebShop
         - webshop.WebShop.calcShipmentCosts
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -1056,7 +1365,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1068,12 +1381,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.calcShipmentCosts
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/calcShipmentCosts/instances/{id}/out/fields/costs':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1089,7 +1408,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1109,19 +1432,34 @@ paths:
         - webshop.WebShop
         - webshop.WebShop.shipProducts
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/webshop.OrderId'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/webshop/WebShop/shipProducts/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -1132,13 +1470,19 @@ paths:
         - Instances
         - webshop.WebShop
         - webshop.WebShop.shipProducts
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -1163,7 +1507,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1175,12 +1523,18 @@ paths:
         - Fields
         - webshop.WebShop
         - webshop.WebShop.shipProducts
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/webshop/WebShop/shipProducts/instances/{id}/out/fields/id':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1195,7 +1549,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1212,7 +1570,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1227,7 +1589,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1247,7 +1613,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1267,19 +1637,34 @@ paths:
         - main.test.One
         - main.test.One.listQux
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Bar'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/One/listQux/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -1290,13 +1675,19 @@ paths:
         - Instances
         - main.test.One
         - main.test.One.listQux
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -1321,7 +1712,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1334,12 +1729,18 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listQux
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listQux/instances/{id}/in/fields/osiris':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1351,12 +1752,18 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listQux
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listQux/instances/{id}/in/fields/orders':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1370,12 +1777,18 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listQux
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listQux/instances/{id}/out/fields/osiris':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1390,7 +1803,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1405,7 +1822,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1425,19 +1846,34 @@ paths:
         - main.test.One
         - main.test.One.listQuxOutStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Bar'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/One/listQuxOutStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -1448,13 +1884,19 @@ paths:
         - Instances
         - main.test.One
         - main.test.One.listQuxOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - main.test.One
@@ -1468,7 +1910,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1481,12 +1927,18 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listQuxOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listQuxOutStream/instances/{id}/in/fields/osiris':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1498,12 +1950,18 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listQuxOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listQuxOutStream/instances/{id}/in/fields/orders':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1517,14 +1975,20 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listQuxOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listQuxOutStream/instances/{id}/out/stream':
     get:
       summary: >-
         Stream of output messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Streams
@@ -1544,19 +2008,34 @@ paths:
         - main.test.One
         - main.test.One.listQuxBiStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Bar'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/One/listQuxBiStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -1567,13 +2046,19 @@ paths:
         - Instances
         - main.test.One
         - main.test.One.listQuxBiStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - main.test.One
@@ -1589,7 +2074,11 @@ paths:
         Stream of input messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -1601,14 +2090,20 @@ paths:
         - Streams
         - main.test.One
         - main.test.One.listQuxBiStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listQuxBiStream/instances/{id}/out/stream':
     get:
       summary: >-
         Stream of output messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Streams
@@ -1625,7 +2120,11 @@ paths:
         Bidirectional stream of input and output messages as newline-delimited
         JSON, see http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -1651,19 +2150,34 @@ paths:
         - main.test.One
         - main.test.One.listQuxInStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Bar'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/One/listQuxInStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -1674,13 +2188,19 @@ paths:
         - Instances
         - main.test.One
         - main.test.One.listQuxInStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -1705,7 +2225,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1720,7 +2244,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1735,7 +2263,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1752,7 +2284,11 @@ paths:
         Stream of input messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -1764,7 +2300,9 @@ paths:
         - Streams
         - main.test.One
         - main.test.One.listQuxInStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   /main.test/One/listBar:
     post:
       summary: listBar
@@ -1774,19 +2312,34 @@ paths:
         - main.test.One
         - main.test.One.listBar
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Foo'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/One/listBar/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -1797,13 +2350,19 @@ paths:
         - Instances
         - main.test.One
         - main.test.One.listBar
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -1828,7 +2387,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1840,12 +2403,18 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listBar
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listBar/instances/{id}/in/fields/horus':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1858,12 +2427,18 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listBar
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listBar/instances/{id}/out/fields/bastet':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1879,7 +2454,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1894,7 +2473,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1911,7 +2494,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -1931,19 +2518,34 @@ paths:
         - main.test.One
         - main.test.One.listBarOutStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Foo'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/One/listBarOutStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -1954,13 +2556,19 @@ paths:
         - Instances
         - main.test.One
         - main.test.One.listBarOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - main.test.One
@@ -1974,7 +2582,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -1986,12 +2598,18 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listBarOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listBarOutStream/instances/{id}/in/fields/horus':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2004,14 +2622,20 @@ paths:
         - Fields
         - main.test.One
         - main.test.One.listBarOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listBarOutStream/instances/{id}/out/stream':
     get:
       summary: >-
         Stream of output messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Streams
@@ -2031,19 +2655,34 @@ paths:
         - main.test.One
         - main.test.One.listBarBiStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Foo'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/One/listBarBiStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -2054,13 +2693,19 @@ paths:
         - Instances
         - main.test.One
         - main.test.One.listBarBiStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - main.test.One
@@ -2076,7 +2721,11 @@ paths:
         Stream of input messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -2088,14 +2737,20 @@ paths:
         - Streams
         - main.test.One
         - main.test.One.listBarBiStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/One/listBarBiStream/instances/{id}/out/stream':
     get:
       summary: >-
         Stream of output messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Streams
@@ -2112,7 +2767,11 @@ paths:
         Bidirectional stream of input and output messages as newline-delimited
         JSON, see http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -2138,19 +2797,34 @@ paths:
         - main.test.One
         - main.test.One.listBarInStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Foo'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/One/listBarInStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -2161,13 +2835,19 @@ paths:
         - Instances
         - main.test.One
         - main.test.One.listBarInStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -2192,7 +2872,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2208,7 +2892,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2223,7 +2911,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2240,7 +2932,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2257,7 +2953,11 @@ paths:
         Stream of input messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -2269,7 +2969,9 @@ paths:
         - Streams
         - main.test.One
         - main.test.One.listBarInStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   /main.test/Two/listFoo:
     post:
       summary: listFoo
@@ -2279,19 +2981,34 @@ paths:
         - main.test.Two
         - main.test.Two.listFoo
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Bar'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/Two/listFoo/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -2302,13 +3019,19 @@ paths:
         - Instances
         - main.test.Two
         - main.test.Two.listFoo
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -2333,7 +3056,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2346,12 +3073,18 @@ paths:
         - Fields
         - main.test.Two
         - main.test.Two.listFoo
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Two/listFoo/instances/{id}/in/fields/osiris':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2363,12 +3096,18 @@ paths:
         - Fields
         - main.test.Two
         - main.test.Two.listFoo
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Two/listFoo/instances/{id}/in/fields/orders':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2382,12 +3121,18 @@ paths:
         - Fields
         - main.test.Two
         - main.test.Two.listFoo
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Two/listFoo/instances/{id}/out/fields/re':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2402,7 +3147,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2418,7 +3167,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2438,19 +3191,34 @@ paths:
         - main.test.Two
         - main.test.Two.listFooOutStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Bar'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/Two/listFooOutStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -2461,13 +3229,19 @@ paths:
         - Instances
         - main.test.Two
         - main.test.Two.listFooOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - main.test.Two
@@ -2481,7 +3255,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2494,12 +3272,18 @@ paths:
         - Fields
         - main.test.Two
         - main.test.Two.listFooOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Two/listFooOutStream/instances/{id}/in/fields/osiris':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2511,12 +3295,18 @@ paths:
         - Fields
         - main.test.Two
         - main.test.Two.listFooOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Two/listFooOutStream/instances/{id}/in/fields/orders':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2530,14 +3320,20 @@ paths:
         - Fields
         - main.test.Two
         - main.test.Two.listFooOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Two/listFooOutStream/instances/{id}/out/stream':
     get:
       summary: >-
         Stream of output messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Streams
@@ -2557,19 +3353,34 @@ paths:
         - main.test.Two
         - main.test.Two.listFooBiStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Bar'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/Two/listFooBiStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -2580,13 +3391,19 @@ paths:
         - Instances
         - main.test.Two
         - main.test.Two.listFooBiStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - main.test.Two
@@ -2602,7 +3419,11 @@ paths:
         Stream of input messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -2614,14 +3435,20 @@ paths:
         - Streams
         - main.test.Two
         - main.test.Two.listFooBiStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Two/listFooBiStream/instances/{id}/out/stream':
     get:
       summary: >-
         Stream of output messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Streams
@@ -2638,7 +3465,11 @@ paths:
         Bidirectional stream of input and output messages as newline-delimited
         JSON, see http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -2664,19 +3495,34 @@ paths:
         - main.test.Two
         - main.test.Two.listFooInStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Bar'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/Two/listFooInStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -2687,13 +3533,19 @@ paths:
         - Instances
         - main.test.Two
         - main.test.Two.listFooInStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -2718,7 +3570,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2733,7 +3589,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2749,7 +3609,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2766,7 +3630,11 @@ paths:
         Stream of input messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -2778,7 +3646,9 @@ paths:
         - Streams
         - main.test.Two
         - main.test.Two.listFooInStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   /main.test/Three/listBar:
     post:
       summary: listBar
@@ -2788,19 +3658,34 @@ paths:
         - main.test.Three
         - main.test.Three.listBar
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Qux'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/Three/listBar/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -2811,13 +3696,19 @@ paths:
         - Instances
         - main.test.Three
         - main.test.Three.listBar
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -2842,7 +3733,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2854,12 +3749,18 @@ paths:
         - Fields
         - main.test.Three
         - main.test.Three.listBar
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Three/listBar/instances/{id}/in/fields/anubis':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2871,12 +3772,18 @@ paths:
         - Fields
         - main.test.Three
         - main.test.Three.listBar
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Three/listBar/instances/{id}/out/fields/bastet':
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2892,7 +3799,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2907,7 +3818,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2924,7 +3839,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -2944,19 +3863,34 @@ paths:
         - main.test.Three
         - main.test.Three.listBarOutStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Qux'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/Three/listBarOutStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -2967,13 +3901,19 @@ paths:
         - Instances
         - main.test.Three
         - main.test.Three.listBarOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - main.test.Three
@@ -2987,7 +3927,11 @@ paths:
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -2999,12 +3943,18 @@ paths:
         - Fields
         - main.test.Three
         - main.test.Three.listBarOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Three/listBarOutStream/instances/{id}/in/fields/anubis':
     put:
       summary: Set input field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: value
           in: body
           description: Field value
@@ -3016,14 +3966,20 @@ paths:
         - Fields
         - main.test.Three
         - main.test.Three.listBarOutStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Three/listBarOutStream/instances/{id}/out/stream':
     get:
       summary: >-
         Stream of output messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Streams
@@ -3043,19 +3999,34 @@ paths:
         - main.test.Three
         - main.test.Three.listBarBiStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Qux'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/Three/listBarBiStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -3066,13 +4037,19 @@ paths:
         - Instances
         - main.test.Three
         - main.test.Three.listBarBiStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - main.test.Three
@@ -3088,7 +4065,11 @@ paths:
         Stream of input messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -3100,14 +4081,20 @@ paths:
         - Streams
         - main.test.Three
         - main.test.Three.listBarBiStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
   '/main.test/Three/listBarBiStream/instances/{id}/out/stream':
     get:
       summary: >-
         Stream of output messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Streams
@@ -3124,7 +4111,11 @@ paths:
         Bidirectional stream of input and output messages as newline-delimited
         JSON, see http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -3150,19 +4141,34 @@ paths:
         - main.test.Three
         - main.test.Three.listBarInStream
       parameters:
-        - *ref_2
+        - name: start
+          in: query
+          type: boolean
+          default: true
         - name: input
           in: body
           schema:
             $ref: '#/definitions/main.test.Qux'
-      responses: *ref_3
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
   '/main.test/Three/listBarInStream/instances/{id}':
     patch:
       summary: Update instance resource
       consumes:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: instance
           in: body
           description: Updated parts of instance resource
@@ -3173,13 +4179,19 @@ paths:
         - Instances
         - main.test.Three
         - main.test.Three.listBarInStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
     get:
       summary: Get instance resource
       produces:
         - application/json
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: excludeOutput
           in: query
           description: Omit instance output in response
@@ -3204,7 +4216,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -3220,7 +4236,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -3235,7 +4255,11 @@ paths:
     get:
       summary: Get output field
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -3252,7 +4276,11 @@ paths:
     get:
       summary: Get output message
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
       tags:
         - Instances
         - Fields
@@ -3269,7 +4297,11 @@ paths:
         Stream of input messages as newline-delimited JSON, see
         http://jsonlines.org
       parameters:
-        - *ref_0
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
         - name: stream
           description: Input stream
           in: body
@@ -3281,7 +4313,9 @@ paths:
         - Streams
         - main.test.Three
         - main.test.Three.listBarInStream
-      responses: *ref_1
+      responses:
+        '200':
+          description: Empty body
 definitions:
   Instance:
     type: object

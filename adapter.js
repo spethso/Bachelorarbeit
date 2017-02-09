@@ -632,8 +632,9 @@ function getArraySchema(field, fieldKind, fieldType) {
 function main() {
     getServiceData();
     //console.log(util.inspect(swagger, { depth: 10, colors: true }));
-    fs.writeFile(__dirname + '/swagger.json', JSON.stringify(swagger, null, 2));
-    fs.writeFile(__dirname + '/swagger.yml', yaml.dump(swagger));
+    var jsonString = JSON.stringify(swagger, null, 2);
+    fs.writeFile(__dirname + '/swagger.json', jsonString);
+    fs.writeFile(__dirname + '/swagger.yml', yaml.safeDump(JSON.parse(jsonString)));
 }
 
 main();
