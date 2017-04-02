@@ -4,8 +4,8 @@
  * @author spethso
  */
 // Load proto file and grpc module
-//var PROTO_PATH = __dirname + '/webshop.proto';
-var PROTO_PATH = __dirname + '/main.proto';
+var PROTO_PATH = __dirname + '/webshop.proto';
+//var PROTO_PATH = __dirname + '/main.proto';
 var grpc = require('grpc');
 var parent = grpc.load(PROTO_PATH);
 // Useful additional modules

@@ -24,6 +24,44 @@ var primitiveTypes = setPrimitiveTypes();
 // Allowed primitive format types
 var formatTypes = setFormatTypes();
 
+// Export path Objects
+var postObjects = [];
+var getObjects = [];
+var biStreamObjects = [];
+var outStreamObjects = [];
+var inStreamObjects = [];
+var noInStreamObjects = [];
+var noOutStreamObjects = [];
+var noOutStreamObjectsMessage = [];
+
+// function main() {
+//     getPathObjects();
+// }
+
+// main();
+
+exports.getPathObjects = function() {
+    // Create Swagger Object
+    getServiceData();
+    //console.log(util.inspect(swagger, { depth: 10, colors: true }));
+    // Print Swagger Object
+    var jsonString = JSON.stringify(swagger, null, 2);
+    fs.writeFile(__dirname + '/swagger.json', jsonString);
+    fs.writeFile(__dirname + '/swagger.yml', yaml.safeDump(JSON.parse(jsonString)));
+    // Create export Object and return it
+    var exportPaths = {
+        postObjects: postObjects,
+        getObjects: getObjects,
+        biStreamObjects: biStreamObjects,
+        outStreamObjects: outStreamObjects,
+        inStreamObjects: inStreamObjects,
+        noInStreamObjects: noInStreamObjects,
+        noOutStreamObjects: noOutStreamObjects,
+        noOutStreamObjectsMessage : noOutStreamObjectsMessage
+    };
+    return exportPaths;
+}
+
 function getServiceData() {
     initDefinitions();
     protoData.forEach(function (serviceJSON) {
@@ -141,7 +179,16 @@ function getPaths() {
         // Add path to paths with specific name and path object
         swagger.paths[pathName] = pathObject;
 
+        // Add path to postObjects Array
+        var exportObj = {
+            pathName: pathName,
+            operation: operation.name,
+            obj: pathObject
+        };
+        postObjects.push(exportObj);
+
         // Operation on instances
+        var adapterPathName = pathName + '/instances/:id';
         pathName += '/instances/{id}';
         var paramArray = [instanceIDParam];
         var res = {
@@ -206,20 +253,28 @@ function getPaths() {
         // Add path to paths with specific name and path object
         swagger.paths[pathName] = pathObject;
 
+        // Add path to getObjects Array
+        var exportObj = {
+            pathName: adapterPathName,
+            operation: operation.name,
+            obj: pathObject
+        };
+        getObjects.push(exportObj);
+
         if (operation.request.isStream == false) {
-            noRequestStreamSwaggerPart(operation, pathName, serviceName);
+            noRequestStreamSwaggerPart(operation, pathName, serviceName, adapterPathName);
         }
         if (operation.response.isStream == false) {
-            noResponseStreamSwaggerPart(operation, pathName, serviceName);
+            noResponseStreamSwaggerPart(operation, pathName, serviceName, adapterPathName);
         }
         if (operation.request.isStream == true) {
-            requestStreamSwaggerPart(operation, pathName, serviceName);
+            requestStreamSwaggerPart(operation, pathName, serviceName, adapterPathName);
         }
         if (operation.response.isStream == true) {
-            responseStreamSwaggerPart(operation, pathName, serviceName);
+            responseStreamSwaggerPart(operation, pathName, serviceName, adapterPathName);
         }
         if (operation.request.isStream == true && operation.response.isStream == true) {
-            bidirectionalStreamSwaggerPart(operation, pathName, serviceName);
+            bidirectionalStreamSwaggerPart(operation, pathName, serviceName, adapterPathName);
         }
     });
 }
@@ -345,8 +400,9 @@ function getDefinitions() {
  * Function for a path that is only generated for gRPC operations
  * that have a bidirectional stream of request and response messages 
  */
-function bidirectionalStreamSwaggerPart(operation, pathName, serviceName) {
+function bidirectionalStreamSwaggerPart(operation, pathName, serviceName, adapterPathName) {
     var localPathName = pathName + '/bi/stream';
+    var localAdapterPathName = adapterPathName + '/bi/stream';
     var pkg = package;
     if (pkg != '') {
         pkg += '.';
@@ -376,14 +432,23 @@ function bidirectionalStreamSwaggerPart(operation, pathName, serviceName) {
     };
     // Add path to paths with specific name and path object
     swagger.paths[localPathName] = pathObject;
+
+    // Add path to biStreamObjects Array
+    var exportObj = {
+        pathName: localAdapterPathName,
+        operation: operation.name,
+        obj: pathObject
+    };
+    biStreamObjects.push(exportObj);
 }
 
 /**
  * Function for a path that is only generated for gRPC operations
  * that have a stream of response messages 
  */
-function responseStreamSwaggerPart(operation, pathName, serviceName) {
+function responseStreamSwaggerPart(operation, pathName, serviceName, adapterPathName) {
     var localPathName = pathName + '/out/stream';
+    var localAdapterPathName = adapterPathName + '/out/stream';
     var pkg = package;
     if (pkg != '') {
         pkg += '.';
@@ -404,14 +469,23 @@ function responseStreamSwaggerPart(operation, pathName, serviceName) {
     };
     // Add path to paths with specific name and path object
     swagger.paths[localPathName] = pathObject;
+
+    // Add path to outStreamObjects Array
+    var exportObj = {
+        pathName: localAdapterPathName,
+        operation: operation.name,
+        obj: pathObject
+    };
+    outStreamObjects.push(exportObj);
 }
 
 /**
  * Function for a path that is only generated for gRPC operations
  * that have a stream of request messages 
  */
-function requestStreamSwaggerPart(operation, pathName, serviceName) {
+function requestStreamSwaggerPart(operation, pathName, serviceName, adapterPathName) {
     var localPathName = pathName + '/in/stream';
+    var localAdapterPathName = adapterPathName + '/in/stream';
     var pkg = package;
     if (pkg != '') {
         pkg += '.';
@@ -436,13 +510,21 @@ function requestStreamSwaggerPart(operation, pathName, serviceName) {
     };
     // Add path to paths with specific name and path object
     swagger.paths[localPathName] = pathObject;
+
+    // Add path to inStreamObjects Array
+    var exportObj = {
+        pathName: localAdapterPathName,
+        operation: operation.name,
+        obj: pathObject
+    };
+    inStreamObjects.push(exportObj);
 }
 
 /**
  * Function for a path that is only generated for gRPC operations
  * that NO NOT have a stream of response messages 
  */
-function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
+function noResponseStreamSwaggerPart(operation, pathName, serviceName, adapterPathName) {
     var responseObjectFields = messages.get(operation.response.name).fields;
     var pkg = package;
     if (pkg != '') {
@@ -451,6 +533,7 @@ function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
     var operationName = serviceName + '.' + operation.name;
     responseObjectFields.forEach(function (field) {
         var localPathName = pathName + '/out/fields/' + field.name;
+        var localAdapterPathName = adapterPathName + '/out/fields/' + field.name;
         // Kind of field, e.g. object or number
         var fieldKind = field.kind;
         // Specific type of field, e.g. Example, float or int32
@@ -499,10 +582,19 @@ function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
         };
         // Add path to paths with specific name and path object
         swagger.paths[localPathName] = pathObject;
+
+        // Add path to noOutStreamObjects Array
+        var exportObj = {
+            pathName: localAdapterPathName,
+            operation: operation.name,
+            obj: pathObject
+        };
+        noOutStreamObjects.push(exportObj);
     });
 
     // New local path name
-    localPathName = pathName + '/out';
+    var localPathName = pathName + '/out';
+    var localAdapterPathName = adapterPathName + '/out';
     pathObject = {
         get: {
             summary: 'Get output message',
@@ -518,16 +610,25 @@ function noResponseStreamSwaggerPart(operation, pathName, serviceName) {
     };
     // Add path to paths with specific name and path object
     swagger.paths[localPathName] = pathObject;
+
+    // Add path to noOutStreamObjectsMessage Array
+    var exportObj = {
+        pathName: localAdapterPathName,
+        operation: operation.name,
+        obj: pathObject
+    };
+    noOutStreamObjectsMessage.push(exportObj);
 }
 
 /**
  * Function for a path that is only generated for gRPC operations
  * that NO NOT have a stream of request messages 
  */
-function noRequestStreamSwaggerPart(operation, pathName, serviceName) {
+function noRequestStreamSwaggerPart(operation, pathName, serviceName, adapterPathName) {
     var requestObjectFields = messages.get(operation.request.name).fields;
     requestObjectFields.forEach(function (field) {
         var localPathName = pathName + '/in/fields/' + field.name;
+        var localAdapterPathName = adapterPathName + '/in/fields/' + field.name;
         var pkg = package;
         if (pkg != '') {
             pkg += '.';
@@ -585,6 +686,14 @@ function noRequestStreamSwaggerPart(operation, pathName, serviceName) {
         };
         // Add path to paths with specific name and path object
         swagger.paths[localPathName] = pathObject;
+
+        // Add path to noInStreamObjects Array
+        var exportObj = {
+            pathName: localAdapterPathName,
+            operation: operation.name,                        
+            obj: pathObject
+        };
+        noInStreamObjects.push(exportObj);
     });
 }
 
@@ -629,17 +738,9 @@ function getArraySchema(field, fieldKind, fieldType) {
     return schema;
 }
 
-function main() {
-    getServiceData();
-    //console.log(util.inspect(swagger, { depth: 10, colors: true }));
-    var jsonString = JSON.stringify(swagger, null, 2);
-    fs.writeFile(__dirname + '/swagger.json', jsonString);
-    fs.writeFile(__dirname + '/swagger.yml', yaml.safeDump(JSON.parse(jsonString)));
-}
 
-main();
 
-function formPath(operation, pathName) {
+/*function formPath(operation, pathName) {
     // Operation path with form
     localPathName = pathName + '/form';
     var pathObject = {
@@ -659,4 +760,4 @@ function formPath(operation, pathName) {
     };
     // Add path to paths with specific name and path object
     swagger.paths[localPathName] = pathObject;
-}
+}*/
