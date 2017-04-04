@@ -257,7 +257,8 @@ function getPaths() {
         var exportObj = {
             pathName: adapterPathName,
             operation: operation.name,
-            obj: pathObject
+            obj: pathObject,
+            isStream: operation.response.isStream
         };
         getObjects.push(exportObj);
 
@@ -628,7 +629,7 @@ function noRequestStreamSwaggerPart(operation, pathName, serviceName, adapterPat
     var requestObjectFields = messages.get(operation.request.name).fields;
     requestObjectFields.forEach(function (field) {
         var localPathName = pathName + '/in/fields/' + field.name;
-        var localAdapterPathName = adapterPathName + '/in/fields/' + field.name;
+        var localAdapterPathName = adapterPathName + '/:in/fields/' + field.name;
         var pkg = package;
         if (pkg != '') {
             pkg += '.';

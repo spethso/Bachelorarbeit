@@ -4,7 +4,7 @@
 			var xhr = new XMLHttpRequest();
 			var start = document.getElementById('start').value;
 			var input = document.getElementById('input').value;
-			xhr.open("POST", "http://localhost:8081/webshop/WebShop/listProducts/" + start, true);			
+			xhr.open("POST", "http://localhost:8081/webshop/WebShop/listProducts/?start=" + start, true);			
 			xhr.setRequestHeader("Content-type", "application/json");
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
@@ -22,6 +22,18 @@
 			var xhr = new XMLHttpRequest();
 			var id = new String(document.getElementById('get').value);
 			xhr.open("GET", "http://localhost:8081/webshop/WebShop/listProducts/instances/" + id);			
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					var r = JSON.parse(xhr.responseText);
+				}
+			};
+			xhr.send(null);
+		}
+		function test_delete() {
+			var xhr = new XMLHttpRequest();
+			var id = new String(document.getElementById('get').value);
+			xhr.open("DELETE", "http://localhost:8081/webshop/WebShop/listProducts/instances/" + id);			
 			xhr.setRequestHeader("Content-type", "application/json");
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
@@ -64,6 +76,7 @@
         start: <input type="text" name="start" id="start">  <br/>  
 		input: <input type="text" name="input" id="input">  <br/> <br/>
 		<button onclick="test_get()">GET</button> <br/> 
+		<button onclick="test_delete()">DELETE</button> <br/> 
         Get Instance by ID: <input type="text" name="get" id="get">  <br/> <br/>
 		<button onclick="test_patch()">PATCH</button> <br/> 
         Instance ID: <input type="text" name="patch" id="patch">  <br/>

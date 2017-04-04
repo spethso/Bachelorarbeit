@@ -1,9 +1,8 @@
 /**
  * TODOs:
  * - Start gRPC operations and safe responses in Map
- * - Change query parameters from path to query
  * - PATCH: Maybe start gRPC operation, if started is set to true
- * - Instances GET: Add optional second parameter and alternative response
+ * - Instances GET: Add always second parameter or not, if out stream?
  * - PUT: Routing does not work. Rest is not complete
  * - Field GET: Need to be tested
  * - Out GET: Need to be tested
@@ -26,6 +25,7 @@ var PROTO_PATH = __dirname + '/webshop.proto';
 var grpc = require('grpc');
 var webshop_proto = grpc.load(PROTO_PATH).webshop; // TODO: Change to abstract service
 var HashMap = require('hashmap');
+const uuidV4 = require('uuid/v4');
 var bodyParser = require('body-parser');
 app.use(express.static('public'));
 app.use(bodyParser.json());
@@ -39,17 +39,17 @@ var responseMessages = new HashMap();
  * POST of grpc operation 
  */
 exportPaths.postObjects.forEach(function (obj) {
-    app.post(obj.pathName + '/:start', function(req, res) {
-        var date = new Date();
-        var actualDate = date.getDay() + '.' + date.getDate() + '.' + date.getFullYear();
-        var start = req.params.start;
+    app.post(obj.pathName, function(req, res) {
+        var date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        var start = req.query.start;
         var input = req.body.input;
+        console.log(start);
         var instance = {
-                id: new String(date.getTime()), //TODO: uID
+                id: uuidV4(),
                 started: start,
                 done: false,
-                createdAt: actualDate,
-                startedAt: actualDate,
+                createdAt: date,
+                startedAt: date,
                 doneAt: '',
                 error: '',
                 links: ''
@@ -79,7 +79,7 @@ exportPaths.postObjects.forEach(function (obj) {
 })
 
 /**
- * GET of instance
+ * GET/PATCH/DELETE of instance and DELETE of message
  */
 exportPaths.getObjects.forEach(function (obj) {
     app.patch(obj.pathName, function(req, res) {
@@ -87,8 +87,10 @@ exportPaths.getObjects.forEach(function (obj) {
         var id = req.params.id;
         var instanceWritable = req.body.instance;
         if (instances.has(id)) {
-            instances.get(new String(id)).started = instanceWritable.started;
-            // TODO: Maybe start grpc operation
+            instances.get(id).started = instanceWritable.started;
+            if (instanceWritable.started == true) {
+                // TODO: start gRPC operation
+            }
         } else {
             console.log('There is no such instance!');
         }
@@ -97,8 +99,40 @@ exportPaths.getObjects.forEach(function (obj) {
     app.get(obj.pathName, function(req, res) {
         console.log('Test GET');
         var id = req.params.id;
-        console.log(instances.get(id));
-        res.end(JSON.stringify(instances.get(id)));
+        var excludeOutput = false;
+        if (obj.isStream == false) {
+            var excludeOutput = req.query.excludeOutput;
+        }
+        if (instances.has(id)) {
+            var instance = instance.get(id);
+            console.log(instances.get(id));
+            if (obj.isStream == true && excludeOutput == false) {
+                res.send(JSON.stringify(responseMessages.get(instance.links)));
+            }
+            res.end(JSON.stringify(instance));
+        } else {
+            console.log('There is no such instance!');
+        }
+    });
+
+    app.delete(obj.pathName, function(req, res) {
+        console.log('TEST DELETE INSTANCE');
+        var id = req.params.id;
+        if (instances.has(id)) {
+            var instance = instances.get(id);
+            if (instance.done == true || instance.error != '') {
+                instances.remove(id);
+                var msg = responseMessages.get(instance.links);
+                responseMessages.remove(instance.links);
+                console.log('Delete finished');
+                res.send(JSON.stringify(msg));
+                res.end(JSON.stringify(instance));
+            } else {
+                console.log('The operation is not finished yet');
+            }
+        } else {
+            console.log('There is no such instance!');
+        }
     });
 });
 
@@ -106,6 +140,7 @@ exportPaths.getObjects.forEach(function (obj) {
  * PUT for gRPC operations without request stream
  */
 exportPaths.noInStreamObjects.forEach(function (obj) {
+    console.log(obj.pathName);
     app.put(obj.pathName, function (req, res) {
         console.log('TEST PUT');
         var id = req.params.id;
