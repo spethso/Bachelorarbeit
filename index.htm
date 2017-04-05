@@ -60,7 +60,7 @@
 		}
 		function test_put() {
 			var xhr = new XMLHttpRequest();
-			var id = new String(document.getElementById('get').value);
+			var id = new String(document.getElementById('putID').value);
 			var value = document.getElementById('putValue').value;
 			xhr.open("PUT", "http://localhost:8081/webshop/WebShop/listProducts/instances/" + id + '/in/fields/limit', true);			
 			xhr.setRequestHeader("Content-type", "application/json");
@@ -70,6 +70,68 @@
 				}
 			};
 			xhr.send(JSON.stringify({value : value}));
+		}
+		function test_fieldGet() {
+			var xhr = new XMLHttpRequest();
+			var id = new String(document.getElementById('get').value);
+			xhr.open("GET", "http://localhost:8081/webshop/WebShop/checkAvailability/instances/" + id + "/out/fields/available", true);			
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					var r = JSON.parse(xhr.responseText);
+				}
+			};
+			xhr.send(null);
+		}
+		function test_getOut() {
+			var xhr = new XMLHttpRequest();
+			var id = new String(document.getElementById('get').value);
+			xhr.open("GET", "http://localhost:8081/webshop/WebShop/checkAvailability/instances/" + id + "/out/", true);			
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					var r = JSON.parse(xhr.responseText);
+				}
+			};
+			xhr.send(null);
+		}
+		function test_postInStream() {
+			var xhr = new XMLHttpRequest();
+			var id = new String(document.getElementById('get').value);
+			var stream = document.getElementById('inStream').value;
+			xhr.open("POST", "http://localhost:8081/webshop/WebShop/checkAvailability/instances/" + id + "/out/", true);			
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					var r = JSON.parse(xhr.responseText);
+				}
+			};
+			xhr.send(JSON.parse({stream: stream}));
+		}
+		function test_getOutStream() {
+			var xhr = new XMLHttpRequest();
+			var id = new String(document.getElementById('get').value);
+			xhr.open("GET", "http://localhost:8081/webshop/WebShop/listProducts/instances/" + id + "/out/stream", true);			
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					var r = JSON.parse(xhr.responseText);
+				}
+			};
+			xhr.send(null);
+		}
+		function test_postBiStream() {
+			var xhr = new XMLHttpRequest();
+			var id = new String(document.getElementById('get').value);
+			var stream = document.getElementById('inStream').value;
+			xhr.open("POST", "http://localhost:8081/webshop/WebShop/checkAvailability/instances/" + id + "/out/", true);			
+			xhr.setRequestHeader("Content-type", "application/json");
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState == 4) {
+					var r = JSON.parse(xhr.responseText);
+				}
+			};
+			xhr.send(JSON.parse({stream: stream}));
 		}
 	</script>
 		<button onclick="test_post()">POST</button> <br/>    
@@ -84,6 +146,12 @@
 		<button onclick="test_put()">PUT</button> <br/>
 		Instance ID: <input type="text" name="putID" id="putID">  <br/>  
 		value: <input type="text" name="putValue" id="putValue">  <br/> <br/>
+		<button onclick="test_fieldGet()">GET Field</button> <br/><br/>
+		<button onclick="test_getOut()">GET OUT</button> <br/><br/>
+		<button onclick="test_postInStream()">POST IN STREAM</button> <br/>
+		stream: <input type="text" name="inStream" id="inStream">  <br/> <br/>
+		<button onclick="test_getOutStream()">GET OUT STREAM</button> <br/><br/>
+		<button onclick="test_postBiStream()">GET OUT STREAM</button> <br/><br/>
 	<body>
 		
 	</body>

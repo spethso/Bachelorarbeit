@@ -3,12 +3,10 @@
  * - Start gRPC operations and safe responses in Map
  * - PATCH: Maybe start gRPC operation, if started is set to true
  * - Instances GET: Add always second parameter or not, if out stream?
- * - PUT: Routing does not work. Rest is not complete
- * - Field GET: Need to be tested
- * - Out GET: Need to be tested
- * - In stream POST: not implemented yet
- * - Out stream GET: not implemented yet
- * - Bi stream POST: not implemented yet
+ * - In stream POST: not tested and complete yet
+ * - Test Routing of last two http verbs
+ * - Out stream GET: not completely implemented yet
+ * - Bi stream POST: not completely implemented yet
  */
 
 /**
@@ -104,7 +102,7 @@ exportPaths.getObjects.forEach(function (obj) {
             var excludeOutput = req.query.excludeOutput;
         }
         if (instances.has(id)) {
-            var instance = instance.get(id);
+            var instance = instances.get(id);
             console.log(instances.get(id));
             if (obj.isStream == true && excludeOutput == false) {
                 res.send(JSON.stringify(responseMessages.get(instance.links)));
@@ -140,19 +138,21 @@ exportPaths.getObjects.forEach(function (obj) {
  * PUT for gRPC operations without request stream
  */
 exportPaths.noInStreamObjects.forEach(function (obj) {
-    console.log(obj.pathName);
     app.put(obj.pathName, function (req, res) {
         console.log('TEST PUT');
         var id = req.params.id;
         var value = req.body.value;
         var pathArray = obj.pathName.split('/'); // fieldname is the last element
-        // TODO: Change value of in field
-        var messageID = instances.get(id).links;
-        if (responseMessages.has(messageID)) {
+        if (instances.has(id)) {
+            var messageID = instances.get(id).links;
+            if (responseMessages.has(messageID)) {
             responseMessages.get(messageID)[pathArray[pathArray.length - 1]] = value;
             console.log(responseMessages.get(messageID));
-        } else {
+            } else {
             console.log('There is no such message!')
+            }
+        } else {
+            console.log('There is no such instance!');
         }
     });
 });
@@ -162,10 +162,16 @@ exportPaths.noInStreamObjects.forEach(function (obj) {
  */
 exportPaths.noOutStreamObjects.forEach(function (obj) {
     app.get(obj.pathName, function (req, res) {
+        console.log('TEST GET FIELD')
         var id = req.params.id;
-        var messageID = instances.get(id).links;
         var pa = obj.pathName.split('/');
-        res.end(JSON.stringify(responseMessages.get(messageID)[pa[pa.length - 1]]));
+        if (instances.has(id)) {
+             var messageID = instances.get(id).links;  
+            console.log(responseMessages.get(messageID)[pa[pa.length - 1]]);
+            res.end(JSON.stringify(responseMessages.get(messageID)[pa[pa.length - 1]]));
+        } else {
+            console.log('There is no such instance!')
+        }
     });
 });
 
@@ -175,11 +181,46 @@ exportPaths.noOutStreamObjects.forEach(function (obj) {
  */
 exportPaths.noOutStreamObjectsMessage.forEach(function (obj) {
     app.get(obj.pathName, function (req, res) {
+        console.log('TEST GET OUT')
         var id = req.params.id;
-        var messageID = instances.get(id).links;
-        res.end(JSON.stringify(responseMessages.get(messageID)));
+        if (instances.has(id)) {
+            var messageID = instances.get(id).links;
+            res.end(JSON.stringify(responseMessages.get(messageID)));
+        } else {
+            console.log('There is no such instance!');
+        } 
     });
 });
+
+// Test with proto file with existing in stream
+exportPaths.inStreamObjects.forEach(function (obj) {
+    console.log(obj.pathName);
+    app.post(obj.pathName, function (req, res) {
+        console.log('TEST POST IN STREAM');
+        var id = req.params.id;
+        var stream = req.body.stream;
+        // TODO: Start gRPC operation?
+    });
+});
+
+exportPaths.outStreamObjects.forEach(function (obj) {
+    app.get(obj.pathName, function (req, res) {
+        console.log('TEST GET OUT STREAM');
+        var id = req.params.id;
+        // TODO: Response
+    });
+});
+
+// Test with proto file with existing in stream
+exportPaths.biStreamObjects.forEach(function (obj) {
+    console.log(obj.pathName);
+    app.post(obj.pathName, function (req, res) {
+        console.log('TEST GET BI STREAM');
+        var id = req.params.id;
+        var stream = req.body.stream;
+        // TODO: Response
+    });
+})
 
 //--------------------------------------------------------------
 
