@@ -99,14 +99,14 @@
 			var xhr = new XMLHttpRequest();
 			var id = new String(document.getElementById('get').value);
 			var stream = document.getElementById('inStream').value;
-			xhr.open("POST", "http://localhost:8081/webshop/WebShop/checkAvailability/instances/" + id + "/out/", true);			
+			xhr.open("POST", "http://localhost:8081/webshop/WebShop/testInStream/instances/" + id + "/in/stream", true);			
 			xhr.setRequestHeader("Content-type", "application/json");
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
 					var r = JSON.parse(xhr.responseText);
 				}
 			};
-			xhr.send(JSON.parse({stream: stream}));
+			xhr.send(JSON.stringify({stream: stream}));
 		}
 		function test_getOutStream() {
 			var xhr = new XMLHttpRequest();
@@ -124,14 +124,14 @@
 			var xhr = new XMLHttpRequest();
 			var id = new String(document.getElementById('get').value);
 			var stream = document.getElementById('inStream').value;
-			xhr.open("POST", "http://localhost:8081/webshop/WebShop/checkAvailability/instances/" + id + "/out/", true);			
+			xhr.open("POST", "http://localhost:8081/webshop/WebShop/testBiStream/instances/" + id + "/bi/stream", true);			
 			xhr.setRequestHeader("Content-type", "application/json");
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
 					var r = JSON.parse(xhr.responseText);
 				}
 			};
-			xhr.send(JSON.parse({stream: stream}));
+			xhr.send(JSON.stringify({stream: stream}));
 		}
 	</script>
 		<button onclick="test_post()">POST</button> <br/>    
@@ -151,7 +151,7 @@
 		<button onclick="test_postInStream()">POST IN STREAM</button> <br/>
 		stream: <input type="text" name="inStream" id="inStream">  <br/> <br/>
 		<button onclick="test_getOutStream()">GET OUT STREAM</button> <br/><br/>
-		<button onclick="test_postBiStream()">GET OUT STREAM</button> <br/><br/>
+		<button onclick="test_postBiStream()">POST OUT STREAM</button> <br/><br/>
 	<body>
 		
 	</body>

@@ -72,6 +72,10 @@ message Payment {
 service WebShop {
   rpc listProducts(ListProductsParams) returns (stream Product) {}
 
+  rpc testInStream(stream ListProductsParams) returns (Product) {}
+
+  rpc testBiStream(stream ListProductsParams) returns (stream Product) {}
+
   rpc checkAvailability(ProductId) returns (Availability) {}
 
   rpc storeOrderDetails(Order) returns (OrderId) {}

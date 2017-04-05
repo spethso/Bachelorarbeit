@@ -2,9 +2,7 @@
  * TODOs:
  * - Start gRPC operations and safe responses in Map
  * - PATCH: Maybe start gRPC operation, if started is set to true
- * - Instances GET: Add always second parameter or not, if out stream?
  * - In stream POST: not tested and complete yet
- * - Test Routing of last two http verbs
  * - Out stream GET: not completely implemented yet
  * - Bi stream POST: not completely implemented yet
  */
@@ -59,7 +57,8 @@ exportPaths.postObjects.forEach(function (obj) {
             // Only for test purpose
             instances.get(instance.id).links = instance.id;
             var msg = {
-                limit: '10'
+                limit: '10',
+                available: 'true'
             };
             responseMessages.set(instance.links, msg);
             console.log('Message added');
@@ -104,7 +103,7 @@ exportPaths.getObjects.forEach(function (obj) {
         if (instances.has(id)) {
             var instance = instances.get(id);
             console.log(instances.get(id));
-            if (obj.isStream == true && excludeOutput == false) {
+            if (obj.isStream == true /*&& excludeOutput == false*/) {
                 res.send(JSON.stringify(responseMessages.get(instance.links)));
             }
             res.end(JSON.stringify(instance));
@@ -192,17 +191,21 @@ exportPaths.noOutStreamObjectsMessage.forEach(function (obj) {
     });
 });
 
-// Test with proto file with existing in stream
+/**
+ * POST for input stream request messages
+ */
 exportPaths.inStreamObjects.forEach(function (obj) {
-    console.log(obj.pathName);
     app.post(obj.pathName, function (req, res) {
         console.log('TEST POST IN STREAM');
         var id = req.params.id;
         var stream = req.body.stream;
-        // TODO: Start gRPC operation?
+        // TODO: Send input stream to gRPC operation
     });
 });
 
+/**
+ * GET for output stream response messages
+ */
 exportPaths.outStreamObjects.forEach(function (obj) {
     app.get(obj.pathName, function (req, res) {
         console.log('TEST GET OUT STREAM');
@@ -211,16 +214,17 @@ exportPaths.outStreamObjects.forEach(function (obj) {
     });
 });
 
-// Test with proto file with existing in stream
+/**
+ * POST for bidirectional stream. Send request messages and get response messages
+ */
 exportPaths.biStreamObjects.forEach(function (obj) {
-    console.log(obj.pathName);
     app.post(obj.pathName, function (req, res) {
         console.log('TEST GET BI STREAM');
         var id = req.params.id;
         var stream = req.body.stream;
         // TODO: Response
     });
-})
+});
 
 //--------------------------------------------------------------
 

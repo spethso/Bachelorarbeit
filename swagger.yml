@@ -142,6 +142,388 @@ paths:
           description: Output stream
           schema:
             $ref: '#/definitions/webshop.Product'
+  /webshop/WebShop/testInStream:
+    post:
+      summary: testInStream
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      parameters:
+        - name: start
+          in: query
+          type: boolean
+          default: true
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.ListProductsParams'
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
+  '/webshop/WebShop/testInStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Empty body
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+        - name: excludeOutput
+          in: query
+          description: Omit instance output in response
+          type: boolean
+          default: false
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/Instance'
+              - type: object
+                properties:
+                  out:
+                    $ref: '#/definitions/webshop.Product'
+  '/webshop/WebShop/testInStream/instances/{id}/out/fields/id':
+    get:
+      summary: Get output field
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/webshop/WebShop/testInStream/instances/{id}/out/fields/name':
+    get:
+      summary: Get output field
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/webshop/WebShop/testInStream/instances/{id}/out/fields/category':
+    get:
+      summary: Get output field
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/webshop/WebShop/testInStream/instances/{id}/out/fields/producer':
+    get:
+      summary: Get output field
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: string
+  '/webshop/WebShop/testInStream/instances/{id}/out/fields/weight':
+    get:
+      summary: Get output field
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: number
+            format: float
+  '/webshop/WebShop/testInStream/instances/{id}/out/fields/price':
+    get:
+      summary: Get output field
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Field value
+          schema:
+            type: number
+            format: float
+  '/webshop/WebShop/testInStream/instances/{id}/out':
+    get:
+      summary: Get output message
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+      tags:
+        - Instances
+        - Fields
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Output message
+          schema:
+            $ref: '#/definitions/webshop.Product'
+  '/webshop/WebShop/testInStream/instances/{id}/in/stream':
+    post:
+      summary: >-
+        Stream of input messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/webshop.ListProductsParams'
+      tags:
+        - Instances
+        - Streams
+        - webshop.WebShop
+        - webshop.WebShop.testInStream
+      responses:
+        '200':
+          description: Empty body
+  /webshop/WebShop/testBiStream:
+    post:
+      summary: testBiStream
+      consumes:
+        - application/json
+      tags:
+        - webshop.WebShop
+        - webshop.WebShop.testBiStream
+      parameters:
+        - name: start
+          in: query
+          type: boolean
+          default: true
+        - name: input
+          in: body
+          schema:
+            $ref: '#/definitions/webshop.ListProductsParams'
+      responses:
+        '202':
+          description: Instance resource
+          headers:
+            Content-Location:
+              description: Path to created instance resource
+              type: string
+          schema:
+            $ref: '#/definitions/Instance'
+  '/webshop/WebShop/testBiStream/instances/{id}':
+    patch:
+      summary: Update instance resource
+      consumes:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+        - name: instance
+          in: body
+          description: Updated parts of instance resource
+          required: true
+          schema:
+            $ref: '#/definitions/InstanceWritable'
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.testBiStream
+      responses:
+        '200':
+          description: Empty body
+    get:
+      summary: Get instance resource
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+      tags:
+        - Instances
+        - webshop.WebShop
+        - webshop.WebShop.testBiStream
+      responses:
+        '200':
+          description: Instance resource
+          schema:
+            $ref: '#/definitions/Instance'
+  '/webshop/WebShop/testBiStream/instances/{id}/in/stream':
+    post:
+      summary: >-
+        Stream of input messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/webshop.ListProductsParams'
+      tags:
+        - Instances
+        - Streams
+        - webshop.WebShop
+        - webshop.WebShop.testBiStream
+      responses:
+        '200':
+          description: Empty body
+  '/webshop/WebShop/testBiStream/instances/{id}/out/stream':
+    get:
+      summary: >-
+        Stream of output messages as newline-delimited JSON, see
+        http://jsonlines.org
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+      tags:
+        - Instances
+        - Streams
+        - webshop.WebShop
+        - webshop.WebShop.testBiStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/webshop.Product'
+  '/webshop/WebShop/testBiStream/instances/{id}/bi/stream':
+    get:
+      summary: >-
+        Bidirectional stream of input and output messages as newline-delimited
+        JSON, see http://jsonlines.org
+      parameters:
+        - name: id
+          in: path
+          description: Unique identifier of instance
+          required: true
+          type: string
+        - name: stream
+          description: Input stream
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/webshop.ListProductsParams'
+      tags:
+        - Instances
+        - Streams
+        - webshop.WebShop
+        - webshop.WebShop.testBiStream
+      responses:
+        '200':
+          description: Output stream
+          schema:
+            $ref: '#/definitions/webshop.Product'
   /webshop/WebShop/checkAvailability:
     post:
       summary: checkAvailability
