@@ -183,6 +183,7 @@ function getPaths() {
         var exportObj = {
             pathName: pathName,
             operation: operation.name,
+            isStream: operation.response.isStream,
             obj: pathObject
         };
         postObjects.push(exportObj);

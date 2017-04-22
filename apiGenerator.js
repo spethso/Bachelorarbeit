@@ -28,27 +28,26 @@ app.use(bodyParser.json());
 
 var instances = new HashMap();
 var responseMessages = new HashMap();
-//var client = new webshop_proto.WebShop('localhost:50051', // TODO: get PORT
-//                                         grpc.credentials.createInsecure());
+
+var client = new webshop_proto.WebShop('localhost:50051', grpc.credentials.createInsecure());
 
 /**
  * POST of grpc operation 
  */
 exportPaths.postObjects.forEach(function (obj) {
-    app.post(obj.pathName, function(req, res) {
+    app.post(obj.pathName, function (req, res) {
         var date = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
         var start = req.query.start;
         var input = req.body.input;
-        console.log(start);
         var instance = {
-                id: uuidV4(),
-                started: start,
-                done: false,
-                createdAt: date,
-                startedAt: date,
-                doneAt: '',
-                error: '',
-                links: ''
+            id: uuidV4(),
+            started: start,
+            done: false,
+            createdAt: date,
+            startedAt: date,
+            doneAt: '',
+            error: '',
+            links: ''
         };
         console.log('Instance:' + instance.id);
         instances.set(instance.id, instance);
@@ -62,15 +61,26 @@ exportPaths.postObjects.forEach(function (obj) {
             };
             responseMessages.set(instance.links, msg);
             console.log('Message added');
-            // client[obj.operation](input, function(err, response) {
-            //     if (err) {
-            //         console.log('Error of operation ' + obj.operation);
-            //         instance.error = err.message;
-            //     } else {
-            //         // TODO: response of add to Map
-            //         res.end(response);
-            //     }
-            // });
+            if (obj.isStream == true) {
+                var call = client[obj.operation](input);
+                call.on('data', function (responseObject) {
+                    console.log(responseObject);
+                });
+                call.on('end', function () { });
+            } else {
+                client[obj.operation](input, function (err, response) {
+                    if (err) {
+                        console.log('Error of operation ' + obj.operation);
+                        instance.error = err.message;
+                        console.log('Msg: ' + err.message);
+                    } else {
+                        // TODO: response of add to Map
+                        var resp = response;
+                        console.log(resp)
+                        res.end(JSON.stringify(resp));
+                    }
+                });
+            }
         }
     });
 })
@@ -79,7 +89,7 @@ exportPaths.postObjects.forEach(function (obj) {
  * GET/PATCH/DELETE of instance and DELETE of message
  */
 exportPaths.getObjects.forEach(function (obj) {
-    app.patch(obj.pathName, function(req, res) {
+    app.patch(obj.pathName, function (req, res) {
         console.log('TEST PATCH');
         var id = req.params.id;
         var instanceWritable = req.body.instance;
@@ -93,7 +103,7 @@ exportPaths.getObjects.forEach(function (obj) {
         }
     });
 
-    app.get(obj.pathName, function(req, res) {
+    app.get(obj.pathName, function (req, res) {
         console.log('Test GET');
         var id = req.params.id;
         var excludeOutput = false;
@@ -112,7 +122,7 @@ exportPaths.getObjects.forEach(function (obj) {
         }
     });
 
-    app.delete(obj.pathName, function(req, res) {
+    app.delete(obj.pathName, function (req, res) {
         console.log('TEST DELETE INSTANCE');
         var id = req.params.id;
         if (instances.has(id)) {
@@ -145,10 +155,10 @@ exportPaths.noInStreamObjects.forEach(function (obj) {
         if (instances.has(id)) {
             var messageID = instances.get(id).links;
             if (responseMessages.has(messageID)) {
-            responseMessages.get(messageID)[pathArray[pathArray.length - 1]] = value;
-            console.log(responseMessages.get(messageID));
+                responseMessages.get(messageID)[pathArray[pathArray.length - 1]] = value;
+                console.log(responseMessages.get(messageID));
             } else {
-            console.log('There is no such message!')
+                console.log('There is no such message!')
             }
         } else {
             console.log('There is no such instance!');
@@ -165,7 +175,7 @@ exportPaths.noOutStreamObjects.forEach(function (obj) {
         var id = req.params.id;
         var pa = obj.pathName.split('/');
         if (instances.has(id)) {
-             var messageID = instances.get(id).links;  
+            var messageID = instances.get(id).links;
             console.log(responseMessages.get(messageID)[pa[pa.length - 1]]);
             res.end(JSON.stringify(responseMessages.get(messageID)[pa[pa.length - 1]]));
         } else {
@@ -187,7 +197,7 @@ exportPaths.noOutStreamObjectsMessage.forEach(function (obj) {
             res.end(JSON.stringify(responseMessages.get(messageID)));
         } else {
             console.log('There is no such instance!');
-        } 
+        }
     });
 });
 
