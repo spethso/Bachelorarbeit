@@ -258,8 +258,8 @@ function getPaths() {
         var exportObj = {
             pathName: adapterPathName,
             operation: operation.name,
-            obj: pathObject,
-            isStream: operation.response.isStream
+            isStream: operation.response.isStream,
+            obj: pathObject            
         };
         getObjects.push(exportObj);
 

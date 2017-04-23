@@ -1,8 +1,7 @@
 /**
  * TODOs:
- * - Start gRPC operations and safe responses in Map
- * - PATCH: Maybe start gRPC operation, if started is set to true
- * - In stream POST: not tested and complete yet
+ * - Correct response if maps do not contain key
+ * - In stream POST: get messages out of JSON
  * - Out stream GET: not completely implemented yet
  * - Bi stream POST: not completely implemented yet
  */
@@ -28,8 +27,42 @@ app.use(bodyParser.json());
 
 var instances = new HashMap();
 var responseMessages = new HashMap();
+var requestMessages = new HashMap();
 
 var client = new webshop_proto.WebShop('localhost:50051', grpc.credentials.createInsecure());
+
+/**
+ * Helping function to start gRPC operation
+ */
+function gRPCStart(obj, instanceID) {
+    instances.get(instanceID).links = instanceID;
+    var input = requestMessages.get(instanceID);
+    if (obj.isStream == true) {
+        // Create new array in responseMessages Map and add all response messages.
+        responseMessages.set(instanceID, []);
+        var call = client[obj.operation](input);
+        // Retrieve responses
+        call.on('data', function (responseObject) {
+            console.log(responseObject);
+            responseMessages.get(instanceID).push(responseObject);
+        });
+        // End response stream
+        call.on('end', function () { });
+    } else {
+        // Retrieve 
+        client[obj.operation](input, function (err, response) {
+            if (err) {
+                console.log('Error of operation ' + obj.operation);
+                instance.error = err.message;
+                console.log('Msg: ' + err.message);
+            } else {
+                // Add response to map
+                console.log(response);
+                responseMessages.set(instanceID, response);
+            }
+        });
+    }
+}
 
 /**
  * POST of grpc operation 
@@ -51,37 +84,13 @@ exportPaths.postObjects.forEach(function (obj) {
         };
         console.log('Instance:' + instance.id);
         instances.set(instance.id, instance);
+        // TODO: If input stream add newline delimited String as objects into map
+        requestMessages.set(instance.id, input);
 
         if (start == 'true') {
-            // Only for test purpose
-            instances.get(instance.id).links = instance.id;
-            var msg = {
-                limit: '10',
-                available: 'true'
-            };
-            responseMessages.set(instance.links, msg);
-            console.log('Message added');
-            if (obj.isStream == true) {
-                var call = client[obj.operation](input);
-                call.on('data', function (responseObject) {
-                    console.log(responseObject);
-                });
-                call.on('end', function () { });
-            } else {
-                client[obj.operation](input, function (err, response) {
-                    if (err) {
-                        console.log('Error of operation ' + obj.operation);
-                        instance.error = err.message;
-                        console.log('Msg: ' + err.message);
-                    } else {
-                        // TODO: response of add to Map
-                        var resp = response;
-                        console.log(resp)
-                        res.end(JSON.stringify(resp));
-                    }
-                });
-            }
+            gRPCStart(obj, instance.id);
         }
+        res.end(JSON.stringify(instance));
     });
 })
 
@@ -96,11 +105,13 @@ exportPaths.getObjects.forEach(function (obj) {
         if (instances.has(id)) {
             instances.get(id).started = instanceWritable.started;
             if (instanceWritable.started == true) {
-                // TODO: start gRPC operation
+                // Start gRPC operation
+                gRPCStart(obj, id)
             }
         } else {
             console.log('There is no such instance!');
         }
+        res.end(null); // TODO: correct response
     });
 
     app.get(obj.pathName, function (req, res) {
@@ -108,17 +119,20 @@ exportPaths.getObjects.forEach(function (obj) {
         var id = req.params.id;
         var excludeOutput = false;
         if (obj.isStream == false) {
+            // TODO: What todo with this?
             var excludeOutput = req.query.excludeOutput;
         }
         if (instances.has(id)) {
             var instance = instances.get(id);
             console.log(instances.get(id));
-            if (obj.isStream == true /*&& excludeOutput == false*/) {
+            if (obj.isStream == false) {
                 res.send(JSON.stringify(responseMessages.get(instance.links)));
             }
+            // TODO: How to get data, if out stream exists? Maybe also return string representation of array?
             res.end(JSON.stringify(instance));
         } else {
             console.log('There is no such instance!');
+            res.end(null); // TODO: correct response
         }
     });
 
@@ -132,7 +146,7 @@ exportPaths.getObjects.forEach(function (obj) {
                 var msg = responseMessages.get(instance.links);
                 responseMessages.remove(instance.links);
                 console.log('Delete finished');
-                res.send(JSON.stringify(msg));
+                // res.send(JSON.stringify(msg)); TODO: Difference with stream?
                 res.end(JSON.stringify(instance));
             } else {
                 console.log('The operation is not finished yet');
@@ -154,15 +168,16 @@ exportPaths.noInStreamObjects.forEach(function (obj) {
         var pathArray = obj.pathName.split('/'); // fieldname is the last element
         if (instances.has(id)) {
             var messageID = instances.get(id).links;
-            if (responseMessages.has(messageID)) {
-                responseMessages.get(messageID)[pathArray[pathArray.length - 1]] = value;
-                console.log(responseMessages.get(messageID));
+            if (requestMessages.has(messageID)) {
+                requestMessages.get(messageID)[pathArray[pathArray.length - 1]] = value;
+                console.log(requestMessages.get(messageID));
             } else {
                 console.log('There is no such message!')
             }
         } else {
             console.log('There is no such instance!');
         }
+        res.end(null); // TODO: correct response
     });
 });
 
@@ -180,6 +195,7 @@ exportPaths.noOutStreamObjects.forEach(function (obj) {
             res.end(JSON.stringify(responseMessages.get(messageID)[pa[pa.length - 1]]));
         } else {
             console.log('There is no such instance!')
+            res.end(null); // TODO: correct response?
         }
     });
 });
@@ -197,6 +213,7 @@ exportPaths.noOutStreamObjectsMessage.forEach(function (obj) {
             res.end(JSON.stringify(responseMessages.get(messageID)));
         } else {
             console.log('There is no such instance!');
+            res.end(null); // TODO: correct response?
         }
     });
 });
@@ -209,7 +226,8 @@ exportPaths.inStreamObjects.forEach(function (obj) {
         console.log('TEST POST IN STREAM');
         var id = req.params.id;
         var stream = req.body.stream;
-        // TODO: Send input stream to gRPC operation
+        // TODO: Get messages out of newline-delimited JSON and add to requestMessages
+        // If operation already started, end this function while doing nothing.
     });
 });
 
@@ -220,7 +238,7 @@ exportPaths.outStreamObjects.forEach(function (obj) {
     app.get(obj.pathName, function (req, res) {
         console.log('TEST GET OUT STREAM');
         var id = req.params.id;
-        // TODO: Response
+        // TODO: Response as newline-delimited JSON
     });
 });
 
@@ -232,7 +250,14 @@ exportPaths.biStreamObjects.forEach(function (obj) {
         console.log('TEST GET BI STREAM');
         var id = req.params.id;
         var stream = req.body.stream;
-        // TODO: Response
+        /*
+        * If gRPC operation is not started yet, get messages out of 
+        * newline-delimited JSON and add them to requestMessages map.
+        * Otherwise end this function.
+        */
+        /*
+        * Add response messages to newline-delimited JSON and send it.
+        */
     });
 });
 

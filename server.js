@@ -6,7 +6,7 @@ var fs = require('fs');
 var HashMap = require('hashmap');
 
 
-var products =  new HashMap();
+var products = new HashMap();
 var product_availability = new HashMap();
 var orders = new HashMap();
 var customers = new HashMap();
@@ -27,7 +27,7 @@ function listProducts(call) {
 function checkAvailability(call, callback) {
   console.log('checking availability for id ' + call.request.id);
   if (products.has(call.request.id)) {
-    callback(null, {available:product_availability.get(call.request.id) > 0});
+    callback(null, { available: product_availability.get(call.request.id) > 0 });
   } else {
     callback({ code: grpc.status.NOT_FOUND, details: 'Product not found' });
   }
@@ -37,13 +37,13 @@ function checkAvailability(call, callback) {
 // storeOrderDetails(Order) returns (OrderId);
 function storeOrderDetails(call, callback) {
   var id = call.request.id;
-  if(id === '') {
+  if (id === '') {
     // maybe not very robust ..
     id = orders.count().toString();
     call.request.id = id;
   }
   var productsExist = call.request.products.every(productId => {
-    if(!products.has(productId.id)){
+    if (!products.has(productId.id)) {
       console.log('Product mentioned in order does not exist');
       callback({ code: grpc.status.NOT_FOUND, details: 'Product with id "' + productId.id + '" not found' });
       return false;
@@ -51,9 +51,9 @@ function storeOrderDetails(call, callback) {
     return true;
   });
   console.log(productsExist)
-  if(productsExist) {
+  if (productsExist) {
     orders.set(id, call.request);
-    callback(null, {id: id});
+    callback(null, { id: id });
     console.log('stored order details with id: \"' + id + "\"");
   }
 }
@@ -63,7 +63,7 @@ function storeOrderDetails(call, callback) {
 function getOrderDetails(call, callback) {
   console.log('retrieving order details');
   var id = call.request.id;
-  if(orders.has(id)){
+  if (orders.has(id)) {
     callback(null, orders.get(id));
   } else {
     callback({ code: grpc.status.NOT_FOUND, details: 'Order not found' });
@@ -75,7 +75,7 @@ function getOrderDetails(call, callback) {
 function cancelOrder(call, callback) {
   console.log('canceling order');
   var id = call.request.id;
-  if(orders.has(id)){
+  if (orders.has(id)) {
     var order = orders.get(id);
     order.status = "CANCELED";
     callback(null, order);
@@ -107,10 +107,10 @@ function _calcShipmentCosts(order) {
 function calcTransactionCosts(call, callback) {
   var id = call.request.id;
   console.log('calculating shipping costs for order ', id);
-  if(orders.has(id)){
+  if (orders.has(id)) {
     var order = orders.get(id);
-    console.log({costs: _calcTransactionCosts(order)})
-    callback(null, {costs: _calcTransactionCosts(order)});
+    console.log({ costs: _calcTransactionCosts(order) })
+    callback(null, { costs: _calcTransactionCosts(order) });
   } else {
     callback({ code: grpc.status.NOT_FOUND, details: 'Order not found' });
   }
@@ -121,11 +121,11 @@ function calcTransactionCosts(call, callback) {
 function conductPayment(call, callback) {
   console.log('conducting payment');
   var orderId = call.request.id;
-  if(orders.has(orderId.id)){
+  if (orders.has(orderId.id)) {
     var order = orders.get(orderId.id);
 
     var amountDue = _calcShipmentCosts(order) + _calcTransactionCosts(order);
-    if(call.request.amount < amountDue){
+    if (call.request.amount < amountDue) {
       callback({ code: grpc.status.FAILED_PRECONDITION, details: 'Amount does not match costs' });
     } else {
       order.status = "PAYED";
@@ -141,9 +141,9 @@ function conductPayment(call, callback) {
 function calcShipmentCosts(call, callback) {
   var id = call.request.id;
   console.log('calculating shipping costs');
-  if(orders.has(id)){
+  if (orders.has(id)) {
     var order = orders.get(id);
-    callback(null, {costs: _calcShipmentCosts(order)});
+    callback(null, { costs: _calcShipmentCosts(order) });
   } else {
     callback({ code: grpc.status.NOT_FOUND, details: 'Order not found' });
   }
@@ -152,11 +152,11 @@ function calcShipmentCosts(call, callback) {
 
 // shipProducts(OrderId) returns (Order);
 function shipProducts(call, callback) {
-var id = call.request.id;
+  var id = call.request.id;
   console.log('shipping products');
-  if(orders.has(id)){
+  if (orders.has(id)) {
     var order = orders.get(id);
-    if(order.status === 'PAYED'){
+    if (order.status === 'PAYED') {
       order.products.forEach(productId => {
         product_availability.set(productId.id, product_availability.get(productId.id) - 1);
       });
@@ -172,14 +172,39 @@ var id = call.request.id;
   }
 }
 
+function testInStream(call, callback) {
+  var lim = 0;
+  call.on('data', function (limit) {
+    console.log('Retrieving something');
+    lim += Math.min(limit.limit, products.count());
+  });
+  call.on('end', function () {
+    callback(null, products.values()[0]);
+  });
+}
+
+function testBiStream(call) {
+  call.on('data', function (limit) {
+    var lim = limit.limit;
+    lim = Math.min(lim, products.count());
+    console.log('Retrieving ' + lim + ' products');
+    for (var i = 0; i < lim; i++) {
+      call.write(products.values()[i]);
+    }
+  });
+  call.on('end', function () {
+    call.end();
+  });
+}
+
 
 function main() {
   var json_products = JSON.parse(fs.readFileSync(__dirname + '/products.json',
-                                                 'utf8'));
+    'utf8'));
   for (var i = 0; i < json_products.length; i++) {
     products.set(json_products[i].id, json_products[i]);
     product_availability.set(json_products[i].id,
-                             Math.floor(Math.random() * 50) + 25);
+      Math.floor(Math.random() * 50) + 25);
   }
   console.log('Starting server with ' + products.count() + ' products');
   var server = new grpc.Server();
@@ -193,6 +218,8 @@ function main() {
     conductPayment: conductPayment,
     calcShipmentCosts: calcShipmentCosts,
     shipProducts: shipProducts,
+    testInStream: testInStream,
+    testBiStream: testBiStream
   });
   server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure());
   server.start();

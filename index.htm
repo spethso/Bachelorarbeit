@@ -16,15 +16,15 @@
 			amount: 41.25799560546875 + 2
 		};
 		var start = 'true';
-		var input = { id: '1' };
-		//{limit: 10};
+		var input = //{ id: '1' };
+		{limit: 10};
 		//{
 		//id: '2'
 		// products: [{ id: "1" }, { id: "2" }],
 		// customer: customer,
 		// status: "NEW"
 		//};
-		xhr.open("POST", "http://localhost:8081/webshop/WebShop/checkAvailability/?start=" + start, true);
+		xhr.open("POST", "http://localhost:8081/webshop/WebShop/listProducts/?start=" + start, true);
 		xhr.setRequestHeader("Content-type", "application/json");
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState == 4) {
